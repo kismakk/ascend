@@ -2,7 +2,6 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ThemeProvider } from './hooks/ThemeContext';
-import { COLORS } from './constants/theme';
 import Habits from './screens/Habits';
 import Home from './screens/Home';
 import Settings from './screens/Settings';
