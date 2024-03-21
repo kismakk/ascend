@@ -31,6 +31,10 @@ const NavModal = ({ navigation, modalVisible, setModalVisible }) => {
             navigation.navigate('Settings');
             setModalVisible(false);
           }} />
+          <Button title="Sign in" onPress={() => {
+            navigation.navigate('Sign In');
+            setModalVisible(false);
+          }} />
 
           <Button title="Close" onPress={() => setModalVisible(!modalVisible)} />
         </View>
