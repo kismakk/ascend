@@ -6,6 +6,7 @@ import Habits from './screens/Habits';
 import Home from './screens/Home';
 import Settings from './screens/Settings';
 import ToDo from './screens/ToDo';
+import Profile from './screens/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -18,6 +19,7 @@ export default function App() {
         >
           <Stack.Screen name='Habits' component={Habits} />
           <Stack.Screen name='Home' component={Home} />
+          <Stack.Screen name='Profile' component={Profile} />
           <Stack.Screen name='Settings' component={Settings} />
           <Stack.Screen name='ToDo' component={ToDo} />
         </Stack.Navigator>
