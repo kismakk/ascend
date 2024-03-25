@@ -3,11 +3,8 @@ import {
   getAuth,
   signInWithEmailAndPassword,
   signOut,
-  signInWithPopup,
-  GoogleAuthProvider,
   createUserWithEmailAndPassword
 } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
 
 const firebaseConfig = {
     apiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
@@ -22,16 +19,12 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize different products
-const authorization = getAuth(app);
-
-const googleAuthProvider = new GoogleAuthProvider();
+// Get the Auth instance
+const auth = getAuth(app)
 
 export {
-  authorization,
+  auth,
   signInWithEmailAndPassword,
   signOut,
-  signInWithPopup,
-  googleAuthProvider,
   createUserWithEmailAndPassword
 };
