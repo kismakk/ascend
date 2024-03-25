@@ -10,63 +10,32 @@ import {
   Keyboard,
 } from "react-native";
 import React, { useState } from "react";
-import {
-  authorization,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  createUserWithEmailAndPassword,
-} from "../firebase/config";
+import useFirebaseAuth from "../hooks/useFirebaseAuth";
 
 const SignIn = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
 
-  const signIn = () => {
-    signInWithEmailAndPassword(authorization, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("Logged in as:", user.email);
-        setUser(user);
-        setLoggedIn(true);
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
+  const { user, signIn, signUp, signOut, error } = useFirebaseAuth()
+
+  const handleSignInButtonClick = () => {
+    signIn(email, password);
   };
 
-  const signOut = () => {
-    firebaseSignOut(authorization)
-      .then(() => {
-        console.log("Logged out");
-        setLoggedIn(false);
-        setUser(null);
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
+  const handleSignOutButtonClick = () => {
+    signOut();
   };
 
-  const signUp = () => {
-    createUserWithEmailAndPassword(authorization, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log("Signed up as:", user.email);
-        setUser(user);
-        setLoggedIn(true);
-      })
-      .catch((error) => {
-        console.log("Error:", error);
-      });
+  const handleSignUpButtonClick = () => {
+    signUp(email, password);
   };
 
-  if (loggedIn) {
+  if (user) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <Text>Welcome!</Text>
         <Text>{user.email}</Text>
-        <Button title={"Sign Out"} onPress={signOut} />
+        <Button title={"Sign Out"} onPress={handleSignOutButtonClick} />
       </View>
     );
   }
@@ -98,7 +67,7 @@ const SignIn = () => {
           onChangeText={(text) => setPassword(text)}
           style={styles.input}
         />
-        <Button title={"Sign In"} onPress={signIn} />
+        <Button title={"Sign In"} onPress={handleSignInButtonClick} />
         <Text style={styles.title}>Sign Up</Text>
         <Text>Email</Text>
         <TextInput
@@ -115,7 +84,8 @@ const SignIn = () => {
           onChangeText={(text) => setPassword(text)}
           style={styles.input}
         />
-        <Button title={"Sign Up"} onPress={signUp} />
+        <Button title={"Sign Up"} onPress={handleSignUpButtonClick} />
+        {error && <Text>{error}</Text>}
       </KeyboardAvoidingView>
     </TouchableWithoutFeedback>
   );
