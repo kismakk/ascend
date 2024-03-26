@@ -4,9 +4,11 @@ import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import BottomNav from '../components/BottomNav/BottomNav';
+import ToDoModal from '../components/ToDoModal/ToDoModal';
 
 const ToDo = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [todoModalVisible, setToDoModalVisible] = useState(false);
   const { theme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
@@ -20,8 +22,16 @@ const ToDo = ({ navigation }) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
-      <BottomNav 
-      navigation={navigation}
+      <BottomNav
+        navigation={navigation}
+      />
+      <Button
+        title="Add To Do"
+        onPress={() => setToDoModalVisible(true)}
+      />
+      <ToDoModal
+        todoModalVisible={todoModalVisible}
+        setToDoModalVisible={setToDoModalVisible}
       />
     </View>
   );
