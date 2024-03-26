@@ -3,9 +3,11 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
+import HabitModal from '../components/HabitModal/HabitModal';
 
 const Habits = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [habitModalVisible, setHabitModalVisible] = useState(false);
   const { theme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
@@ -21,6 +23,14 @@ const Habits = ({ navigation }) => {
         navigation={navigation}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+      />
+      <Button
+        title="Add Habit"
+        onPress={() => setHabitModalVisible(true)}
+      />
+      <HabitModal
+        habitModalVisible={habitModalVisible}
+        setHabitModalVisible={setHabitModalVisible}
       />
     </View>
   );
