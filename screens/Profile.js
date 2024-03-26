@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
 import { useTheme } from '../hooks/ThemeContext';
-import { View, Text, Button, StyleSheet, Image } from 'react-native';
+import { View, Text, Button, StyleSheet, Image, ScrollView } from 'react-native';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
+import {
+  LineChart,
+  BarChart,
+  PieChart,
+  ProgressChart,
+  ContributionGraph,
+  StackedBarChart
+} from "react-native-chart-kit";
 
 const Profile = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const { theme } = useTheme();
     const dynamicStyles = getDynamicStyles(theme);
+    const data = {
+      labels: ['Mon', 'Tu', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
+      datasets: [
+        {
+          data: [5, 8, -5, -3, 2, 5, 0],
+        },
+      ],
+    };
 
     return (
-    <View style={dynamicStyles.container}>
+    <ScrollView>
+      <View style={dynamicStyles.container}>
       <View style={dynamicStyles.avatarUsername}>
         <Image
               source={{
@@ -20,6 +37,20 @@ const Profile = ({ navigation }) => {
           />
         <Text style={dynamicStyles.text}>Mike</Text>
       </View>
+      <LineChart
+        data={data}
+        width={400}
+        height={250}
+        yAxisLabel=""
+        chartConfig={{
+          backgroundColor: '#e26a00',
+          backgroundGradientFrom: '#fb8c00',
+          backgroundGradientTo: '#ffa726',
+          decimalPlaces: 0,
+          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        }}
+        bezier
+      />
       <Button title="Nav" onPress={() => setModalVisible(true)} />
       <NavModal
         navigation={navigation}
@@ -27,7 +58,7 @@ const Profile = ({ navigation }) => {
         setModalVisible={setModalVisible}
       />
     </View>
-        
+    </ScrollView>
     );
 }
 
