@@ -11,13 +11,15 @@ const Profile = ({ navigation }) => {
 
     return (
     <View style={dynamicStyles.container}>
+      <View style={dynamicStyles.avatarUsername}>
         <Image
-            source={{
-            uri: "https://i.kym-cdn.com/entries/icons/facebook/000/031/003/cover3.jpg"
-            }}
-            style={dynamicStyles.image}
-        />
-      <Text style={dynamicStyles.text}>Username</Text>
+              source={{
+              uri: "https://i.kym-cdn.com/entries/icons/facebook/000/031/003/cover3.jpg"
+              }}
+              style={dynamicStyles.image}
+          />
+        <Text style={dynamicStyles.text}>Mike</Text>
+      </View>
       <Button title="Nav" onPress={() => setModalVisible(true)} />
       <NavModal
         navigation={navigation}
@@ -35,17 +37,26 @@ const getDynamicStyles = (theme) => {
         flex: 1,
         backgroundColor: COLORS[theme].background,
         alignItems: 'center',
-        justifyContent: 'flex-start',
-        marginTop: 150 ,
+        justifyContent: 'center',
+        
+      },
+      avatarUsername: {
+        marginBottom: 250,
+        alignItems: 'center'
+        
       },
       text: {
         fontSize: SIZES.medium,
         fontWeight: FONTWEIGHT.bold,
         color: COLORS[theme].text,
+        marginTop: 10
       },
       image: {
+        borderColor: 'black',
+        borderWidth: 0.5,
         width: 101, 
-        height: 101, 
+        height: 101,
+        
     },
     });
   };
