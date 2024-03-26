@@ -3,6 +3,7 @@ import { View, Text, Button, StyleSheet } from 'react-native';
 import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
+import BottomNav from '../components/BottomNav/BottomNav';
 
 const ToDo = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -18,6 +19,9 @@ const ToDo = ({ navigation }) => {
         navigation={navigation}
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+      />
+      <BottomNav 
+      navigation={navigation}
       />
     </View>
   );
