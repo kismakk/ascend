@@ -37,19 +37,17 @@ const Profile = ({ navigation }) => {
           />
         <Text style={dynamicStyles.text}>Mike</Text>
       </View>
-      <LineChart
+      <BarChart
         data={data}
         width={400}
         height={250}
         yAxisLabel=""
         chartConfig={{
-          backgroundColor: '#e26a00',
-          backgroundGradientFrom: '#fb8c00',
-          backgroundGradientTo: '#ffa726',
+          backgroundGradientFrom: 'white',
+          backgroundGradientTo: 'white',
           decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
         }}
-        bezier
       />
       <Button title="Nav" onPress={() => setModalVisible(true)} />
       <NavModal
