@@ -34,8 +34,11 @@ export default function useFirebaseAuth() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
+  /**
+   * Effect hook to listen for changes in the user's authentication state.
+   */
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(handleUser);
+    const unsubscribe = auth.onIdTokenChanged(handleUser);
 
     return unsubscribe;
   }, []);
