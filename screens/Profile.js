@@ -3,58 +3,36 @@ import { useTheme } from '../hooks/ThemeContext';
 import { View, Text, Button, StyleSheet, Image, ScrollView } from 'react-native';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart
-} from "react-native-chart-kit";
+import ToDoStat from '../components/ToDoStat/ToDoStat';
+
 
 const Profile = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const { theme } = useTheme();
     const dynamicStyles = getDynamicStyles(theme);
-    const data = {
-      labels: ['Mon', 'Tu', 'Wed', 'Thur', 'Fri', 'Sat', 'Sun'],
-      datasets: [
-        {
-          data: [5, 8, -5, -3, 2, 5, 0],
-        },
-      ],
-    };
 
     return (
     <ScrollView>
       <View style={dynamicStyles.container}>
-      <View style={dynamicStyles.avatarUsername}>
-        <Image
-              source={{
-              uri: "https://i.kym-cdn.com/entries/icons/facebook/000/031/003/cover3.jpg"
-              }}
-              style={dynamicStyles.image}
-          />
-        <Text style={dynamicStyles.text}>Mike</Text>
-      </View>
-      <BarChart
-        data={data}
-        width={400}
-        height={250}
-        yAxisLabel=""
-        chartConfig={{
-          backgroundGradientFrom: 'white',
-          backgroundGradientTo: 'white',
-          decimalPlaces: 0,
-          color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
-        }}
-      />
-      <Button title="Nav" onPress={() => setModalVisible(true)} />
-      <NavModal
-        navigation={navigation}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-      />
+        <View style={dynamicStyles.avatarUsername}>
+          <Image
+                source={{
+                uri: "https://i.kym-cdn.com/entries/icons/facebook/000/031/003/cover3.jpg"
+                }}
+                style={dynamicStyles.image}
+            />
+          <Text style={dynamicStyles.text}>Mike</Text>
+        </View>
+        <Text style= {dynamicStyles.chart}>Statistics</Text>
+        <View style={dynamicStyles.statistics}>
+          <ToDoStat/> 
+        </View>
+        <Button title="Nav" onPress={() => setModalVisible(true)} />
+        <NavModal
+          navigation={navigation}
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+        />
     </View>
     </ScrollView>
     );
@@ -70,7 +48,8 @@ const getDynamicStyles = (theme) => {
         
       },
       avatarUsername: {
-        marginBottom: 250,
+        paddingTop: 50,
+        paddingBottom: 100,
         alignItems: 'center'
         
       },
@@ -78,15 +57,17 @@ const getDynamicStyles = (theme) => {
         fontSize: SIZES.medium,
         fontWeight: FONTWEIGHT.bold,
         color: COLORS[theme].text,
-        marginTop: 10
+        paddingTop: 10
       },
       image: {
         borderColor: 'black',
         borderWidth: 0.5,
         width: 101, 
         height: 101,
-        
-    },
+      },
+      statistics: {
+        paddingRight: 80
+      }
     });
   };
 export default Profile;
