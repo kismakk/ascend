@@ -5,12 +5,12 @@ import { BarChart } from "react-native-gifted-charts";
 
 const ToDoStat = () => {
 
-  const barData = [
+  const data = [
     {
       stacks: [
-        {value: 4, color: '#4bb050', marginBottom: 2},
-        {value: 2, color: '#eba504', marginBottom: 2},
-        {value: 3, color: '#c23f3f', marginBottom: 2},
+        {value: 10, color: '#4bb050', marginBottom: 2},
+        {value: 0, color: '#eba504', marginBottom: 2},
+        {value: 0, color: '#c23f3f', marginBottom: 2},
       ],
       label: 'Mon'
     },
@@ -64,19 +64,13 @@ const ToDoStat = () => {
     },  
   ];
 
-  let barHeight= 0;
-  barData.forEach((data) => {
-    if(data.value > barHeight) {
-      barHeight = data.value;
-    };
-  });
-
   return (
     <View>
+      <Text style={{paddingLeft: 32, paddingBottom: 10}}>ToDo's</Text>
       <BarChart 
       width={350}
       noOfSections={4}
-      stackData={barData}
+      stackData={data}
       xAxisThickness={1}
       isAnimated
       />
@@ -84,18 +78,4 @@ const ToDoStat = () => {
   );
 };
 
-
 export default ToDoStat;
-
-{/* <View>
-        <BarChart 
-        frontColor={'#009900'}
-        barWidth={22}
-        noOfSections={4}
-        barBorderRadius={4}
-        data={barData}
-        maxValue={barHeight}
-        xAxisThickness={1}
-        isAnimated
-        />
-      </View> */}

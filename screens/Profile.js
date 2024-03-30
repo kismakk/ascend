@@ -4,6 +4,7 @@ import { View, Text, Button, StyleSheet, Image, ScrollView } from 'react-native'
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import ToDoStat from '../components/ToDoStat/ToDoStat';
+import HabitStat from '../components/HabitStat/HabitStat';
 
 
 const Profile = ({ navigation }) => {
@@ -17,15 +18,20 @@ const Profile = ({ navigation }) => {
         <View style={dynamicStyles.avatarUsername}>
           <Image
                 source={{
-                uri: "https://i.kym-cdn.com/entries/icons/facebook/000/031/003/cover3.jpg"
+                uri: "empty"
                 }}
                 style={dynamicStyles.image}
             />
-          <Text style={dynamicStyles.text}>Mike</Text>
+            <Text style={dynamicStyles.text}>Username</Text>
         </View>
-        <Text style= {dynamicStyles.chart}>Statistics</Text>
-        <View style={dynamicStyles.statistics}>
+        <View style={dynamicStyles.headerPosition}>
+          <Text style= {dynamicStyles.text}>Statistics:</Text>
+        </View>
+        <View style={dynamicStyles.todochart}>
           <ToDoStat/> 
+        </View>
+        <View style={dynamicStyles.habitchart}>
+          <HabitStat/>
         </View>
         <Button title="Nav" onPress={() => setModalVisible(true)} />
         <NavModal
@@ -49,7 +55,7 @@ const getDynamicStyles = (theme) => {
       },
       avatarUsername: {
         paddingTop: 50,
-        paddingBottom: 100,
+        paddingBottom: 70,
         alignItems: 'center'
         
       },
@@ -59,14 +65,24 @@ const getDynamicStyles = (theme) => {
         color: COLORS[theme].text,
         paddingTop: 10
       },
+      headerPosition: {
+        paddingRight: 305,
+        paddingBottom: 20
+      },
       image: {
         borderColor: 'black',
         borderWidth: 0.5,
         width: 101, 
         height: 101,
       },
-      statistics: {
+     todochart: {
+        paddingBottom: 70,
         paddingRight: 80
+      },
+      habitchart: {
+        paddingBottom: 70,
+        paddingRight: 80
+
       }
     });
   };
