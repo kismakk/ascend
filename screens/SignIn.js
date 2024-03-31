@@ -1,24 +1,15 @@
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-  TouchableWithoutFeedback,
-  Keyboard,
-} from "react-native";
-import React, { useState } from "react";
-import useFirebaseAuth from "../hooks/useFirebaseAuth";
+import { View, Text, Button, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import SignInModal from '../components/AuthModals/SignInModal/SignInModal';
 
 const SignIn = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [signInModalVisible, setSignInModalVisible] = useState(false);
 
-  const { user, signIn, signUp, signOut, error } = useFirebaseAuth()
+  const { user, signIn, signUp, signOut, error } = useFirebaseAuth();
 
-  const handleSignInButtonClick = () => {
+  const handleSignInButtonClick = (formData) => {
+    const { email, password } = formData;
     signIn(email, password);
   };
 
@@ -26,81 +17,47 @@ const SignIn = () => {
     signOut();
   };
 
-  const handleSignUpButtonClick = () => {
+  const handleSignUpButtonClick = (formData) => {
+    const { email, password } = formData;
     signUp(email, password);
   };
 
   if (user) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Welcome!</Text>
         <Text>{user.email}</Text>
-        <Button title={"Sign Out"} onPress={handleSignOutButtonClick} />
+        <Button title={'Sign Out'} onPress={handleSignOutButtonClick} />
       </View>
     );
   }
 
   return (
-    <TouchableWithoutFeedback
-      onPress={() => {
-        Keyboard.dismiss();
-      }}
-      accessible={false}
-    >
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.container}
-      >
-        <Text style={styles.title}>Sign In</Text>
-        <Text>Email</Text>
-        <TextInput
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize={"none"}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <Text>Password</Text>
-        <TextInput
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-          style={styles.input}
-        />
-        <Button title={"Sign In"} onPress={handleSignInButtonClick} />
-        <Text style={styles.title}>Sign Up</Text>
-        <Text>Email</Text>
-        <TextInput
-          placeholder="Email"
-          keyboardType="email-address"
-          autoCapitalize={"none"}
-          onChangeText={(text) => setEmail(text)}
-          style={styles.input}
-        />
-        <Text>Password</Text>
-        <TextInput
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-          style={styles.input}
-        />
-        <Button title={"Sign Up"} onPress={handleSignUpButtonClick} />
-        {error && <Text>{error}</Text>}
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+    <View style={styles.container}>
+      <Button
+        title="Open Modal"
+        onPress={() => setSignInModalVisible(!signInModalVisible)}
+      />
+      <SignInModal
+        signInModalVisible={signInModalVisible}
+        setSignInModalVisible={setSignInModalVisible}
+        handleSignIn={handleSignInButtonClick}
+        handleSignUp={handleSignUpButtonClick}
+      />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingHorizontal: 20,
   },
   title: {
     fontSize: 24,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     marginBottom: 20,
   },
   input: {

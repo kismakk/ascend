@@ -1,5 +1,9 @@
-import { useState } from "react";
-import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "../firebase/config";
+import { useEffect, useState } from 'react';
+import {
+  auth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from '../firebase/config';
 
 /**
  * @typedef {Object} FirebaseUser
@@ -17,18 +21,27 @@ import { auth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from
  * A custom React hook for handling user authentication using Firebase.
  * Provides functions for signing in, signing up, and signing out,
  * as well as the current user state and any authentication errors.
- * 
+ *
  * @returns {{
-*   user: FirebaseUser | null, // The current authenticated user, or null if no user is authenticated.
-*   error: string | null,        // Any authentication error message, or null if no error occurred.
-*   signIn: (email: string, password: string) => void, // Function to sign in a user with email and password.
-*   signUp: (email: string, password: string) => void, // Function to sign up a user with email and password.
-*   signOut: () => void           // Function to sign out the current user.
-* }}
-*/
+ *   user: FirebaseUser | null, // The current authenticated user, or null if no user is authenticated.
+ *   error: string | null,        // Any authentication error message, or null if no error occurred.
+ *   signIn: (email: string, password: string) => void, // Function to sign in a user with email and password.
+ *   signUp: (email: string, password: string) => void, // Function to sign up a user with email and password.
+ *   signOut: () => void           // Function to sign out the current user.
+ * }}
+ */
 export default function useFirebaseAuth() {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+
+  /**
+   * Effect hook to listen for changes in the user's authentication state.
+   */
+  useEffect(() => {
+    const unsubscribe = auth.onIdTokenChanged(handleUser);
+
+    return unsubscribe;
+  }, []);
 
   /**
    * Updates the user state with the provided user object.
@@ -65,11 +78,11 @@ export default function useFirebaseAuth() {
   const signIn = (email, password) => {
     clearError();
     signInWithEmailAndPassword(auth, email, password)
-      .then(userCredential => {
+      .then((userCredential) => {
         const user = userCredential.user;
-        handleUser(user)
+        handleUser(user);
       })
-      .catch((error) => handleError(error.message))
+      .catch((error) => handleError(error.message));
   };
 
   /**
@@ -92,7 +105,8 @@ export default function useFirebaseAuth() {
    */
   const signOut = () => {
     clearError();
-    auth.signOut()
+    auth
+      .signOut()
       .then(() => {
         handleUser(null);
       })
