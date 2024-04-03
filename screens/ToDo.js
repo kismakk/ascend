@@ -9,6 +9,7 @@ import ToDoModal from '../components/ToDoModal/ToDoModal';
 const ToDo = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [todoModalVisible, setToDoModalVisible] = useState(false);
+  const [habitModalVisible, setHabitModalVisible] = useState(false);
   const { theme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
@@ -24,6 +25,8 @@ const ToDo = ({ navigation }) => {
       />
       <BottomNav
         navigation={navigation}
+        setToDoModalVisible={setToDoModalVisible}
+        setHabitModalVisible={setHabitModalVisible}
       />
       <Button
         title="Add To Do"
