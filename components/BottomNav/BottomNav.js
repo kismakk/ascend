@@ -3,7 +3,10 @@ import React from "react";
 import { FontAwesome6, FontAwesome, AntDesign } from "@expo/vector-icons";
 import styles from "../BottomNav/BottomNav.styles";
 
-export default function BottomNav({ navigation }) {
+export default function BottomNav({ navigation, setToDoModalVisible, setHabitModalVisible }) {
+  
+  const currentScreen = navigation.getState().routes[navigation.getState().index].name
+  
   return (
     <View style={styles.bottomNav}>
       <Pressable
@@ -16,7 +19,15 @@ export default function BottomNav({ navigation }) {
           <Text>Habits</Text>
         </View>
       </Pressable>
-      <Pressable>
+      <Pressable
+      onPress={() => { 
+        if (currentScreen === "Habits") {
+        setHabitModalVisible(true)
+      } else {
+        setToDoModalVisible(true)
+      }
+   }}
+      >
         <View>
           <AntDesign name="pluscircleo" size={30} color="black" />
         </View>

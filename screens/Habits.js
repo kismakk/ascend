@@ -9,6 +9,7 @@ import BottomNav from "../components/BottomNav/BottomNav";
 const Habits = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [habitModalVisible, setHabitModalVisible] = useState(false);
+  const [todoModalVisible, setToDoModalVisible] = useState(false);
   const { theme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
@@ -30,7 +31,11 @@ const Habits = ({ navigation }) => {
         habitModalVisible={habitModalVisible}
         setHabitModalVisible={setHabitModalVisible}
       />
-      <BottomNav navigation={navigation} />
+      <BottomNav
+       navigation={navigation} 
+       setHabitModalVisible={setHabitModalVisible}
+       setToDoModalVisible={setToDoModalVisible}
+       />
     </View>
   );
 };
