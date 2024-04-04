@@ -20,14 +20,14 @@ const getDynamicStyles = (theme) => {
       width: width * 0.8,
     },
     cont: {
-      backgroundColor: COLORS[theme].secondary,
+      backgroundColor: COLORS[theme].primary,
       padding: 20,
       height: 100,
       borderRadius: 5,
       marginBottom: 20,
     },
-    circle: {
-      backgroundColor: COLORS[theme].secondary,
+    PosCircle: {
+      backgroundColor: COLORS[theme].green,
       height: 50,
       width: 50,
       borderRadius: 50,
@@ -35,8 +35,33 @@ const getDynamicStyles = (theme) => {
       alignItems: 'center',
       margin: 20,
     },
-    difficultyBox: {
-      backgroundColor: COLORS[theme].secondary,
+    NegCircle: {
+      backgroundColor: COLORS[theme].red,
+      height: 50,
+      width: 50,
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 20,
+    },
+    easyDifficultyBox: {
+      backgroundColor: COLORS[theme].green,
+      height: 70,
+      width: 70,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    mediumDifficultyBox: {
+      backgroundColor: COLORS[theme].orange,
+      height: 70,
+      width: 70,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    HardDifficultyBox: {
+      backgroundColor: COLORS[theme].red,
       height: 70,
       width: 70,
       borderRadius: 10,
@@ -64,6 +89,11 @@ const getDynamicStyles = (theme) => {
       fontSize: 15,
       fontWeight: 'bold',
     },
+    create: {
+      color: COLORS[theme].accent,
+      fontSize: 15,
+      fontWeight: 'bold',
+    },
     posNeg: {
       flexDirection: 'row',
       justifyContent: 'center',
@@ -74,9 +104,8 @@ const getDynamicStyles = (theme) => {
       flexDirection: 'row',
       justifyContent: 'center',
       justifyContent: 'space-between',
-      paddingBottom: 30,
+      paddingBottom: 40,
     }
-
   });
 }
 

@@ -20,7 +20,7 @@ const Settings = ({ navigation }) => {
               uri: 'https://reactnative.dev/img/tiny_logo.png',
             }}
           />
-          <Text>Modify Image</Text>
+          <Text style={dynamicStyles.text}>Modify Image</Text>
         </View>
         <View style={dynamicStyles.cont}>
           <Text style={dynamicStyles.text}>USERNAME</Text>
@@ -31,7 +31,7 @@ const Settings = ({ navigation }) => {
       </View>
       <View style={dynamicStyles.danger}>
         <View style={dynamicStyles.zone}>
-          <Text style={dynamicStyles.text}>Danger Zone</Text>
+          <Text style={dynamicStyles.dangerText}>Danger Zone</Text>
           <Text style={dynamicStyles.text}>Reset Stats</Text>
           <Text style={dynamicStyles.text}>Delete Account</Text>
         </View>
@@ -64,6 +64,12 @@ const getDynamicStyles = (theme) => {
       fontWeight: FONTWEIGHT.bold,
       color: COLORS[theme].text,
     },
+    dangerText: {
+      fontSize: SIZES.large,
+      fontWeight: FONTWEIGHT.bold,
+      color: 'red',
+      marginBottom: 20
+    },
     box: {
       flexDirection: 'row',
       justifyContent: 'space-around',
@@ -71,7 +77,7 @@ const getDynamicStyles = (theme) => {
       paddingBottom: 50
     },
     cont: {
-      backgroundColor: COLORS[theme].secondary,
+      backgroundColor: COLORS[theme].primary,
       padding: 20,
       height: 100,
       borderRadius: 5,
@@ -82,7 +88,7 @@ const getDynamicStyles = (theme) => {
       height: 101,
     },
     danger: {
-      backgroundColor: COLORS[theme].secondary,
+      backgroundColor: COLORS[theme].primary,
       width: width,
       justifyContent: 'center',
       alignItems: 'center',
