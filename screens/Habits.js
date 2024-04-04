@@ -5,11 +5,13 @@ import { useTheme } from "../hooks/ThemeContext";
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from "../constants/theme";
 import NavModal from "../components/NavModal/NavModal";
 import BottomNav from "../components/BottomNav/BottomNav";
+import ModifyHabitModal from '../components/ModifyHabit/ModifyHabitModal';
 
 const Habits = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [habitModalVisible, setHabitModalVisible] = useState(false);
   const [todoModalVisible, setToDoModalVisible] = useState(false);
+  const [modifyHabitModalVisible, setModifyHabitModalVisible] = useState(false);
   const { theme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
@@ -23,9 +25,18 @@ const Habits = ({ navigation }) => {
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
       />
+      <ModifyHabitModal
+        navigation={navigation}
+        modalVisible={modifyHabitModalVisible}
+        setModalVisible={setModifyHabitModalVisible}
+      />
       <Button
         title="Add Habit"
         onPress={() => setHabitModalVisible(true)}
+      />
+      <Button
+        title='Modify habit'
+        onPress={() => setModifyHabitModalVisible(true)}
       />
       <HabitModal
         habitModalVisible={habitModalVisible}
