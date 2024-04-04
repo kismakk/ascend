@@ -36,12 +36,14 @@ const getDynamicStyles = (theme) => {
     inputTitle: {
       fontSize: SIZES.medium,
       paddingBottom: 10,
+      color: COLORS[theme].text,
     },
     formInput: {
-      color: COLORS[theme].text,
       width: '100%',
       borderBottomWidth: 1,
+      borderBottomColor: COLORS[theme].text,
       padding: 10,
+      color: COLORS[theme].text,
     },
     optionButtons: {
       flexDirection: 'row',
@@ -55,10 +57,10 @@ const getDynamicStyles = (theme) => {
     },
     optionSelected: {
       fontWeight: FONTWEIGHT.bold,
-      color: 'blue', // Placeholder color, change to primary color once the palette is ready
+      color: COLORS[theme].accent,
     },
     optionNotSelected: {
-      color: 'grey',
+      color: COLORS[theme].text,
     },
     errorText: {
       color: 'red',

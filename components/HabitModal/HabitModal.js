@@ -23,7 +23,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
         </View>
         <View style={styles.top}>
           <Button title="Back" onPress={() => setHabitModalVisible(!habitModalVisible)} />
-          <Text style={styles.text}>CREATE</Text>
+          <Text style={styles.create}>CREATE</Text>
         </View>
         <View style={styles.main}>
           <View style={styles.cont}>
@@ -33,22 +33,22 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
             <Text style={styles.text}>NOTES</Text>
           </View>
           <View style={styles.posNeg}>
-            <View style={styles.circle}>
+            <View style={styles.PosCircle}>
               <Text style={styles.text}>+</Text>
             </View>
-            <View style={styles.circle}>
+            <View style={styles.NegCircle}>
               <Text style={styles.text}>-</Text>
             </View>
           </View>
           <Text style={styles.text}>DIFFICULTY</Text>
           <View style={styles.difficultyOption}>
-            <View style={styles.difficultyBox}>
+            <View style={styles.easyDifficultyBox}>
               <Text style={styles.text}>EASY</Text>
             </View>
-            <View style={styles.difficultyBox}>
+            <View style={styles.mediumDifficultyBox}>
               <Text style={styles.text}>MEDIUM</Text>
             </View>
-            <View style={styles.difficultyBox}>
+            <View style={styles.HardDifficultyBox}>
               <Text style={styles.text}>HARD</Text>
             </View>
           </View>
