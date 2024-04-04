@@ -13,7 +13,7 @@ const SignIn = () => {
   const [signInModalVisible, setSignInModalVisible] = useState(false);
   const [docId, setDocId] = useState('');
 
-  const { user, signIn, signUp, signOut, error } = useFirebaseAuth();
+  const { user, signIn, signUp, signOut, authError } = useFirebaseAuth();
 
   const { data, fetchData, addData, loading, dbError, updateData, deleteData } =
     useFirestore('Todos');

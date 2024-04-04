@@ -113,5 +113,5 @@ export default function useFirebaseAuth() {
       .catch((error) => handleError(error.message));
   };
 
-  return { user, error: authError, signIn, signOut, signUp };
+  return { user, authError, signIn, signOut, signUp };
 }
