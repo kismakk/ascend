@@ -6,6 +6,7 @@ import {
   signOut,
   createUserWithEmailAndPassword,
 } from 'firebase/auth';
+import { getFirestore, collection, query, where, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
@@ -26,9 +27,21 @@ const auth = initializeAuth(app, {
   persistence: getReactNativePersistence(ReactNativeAsyncStorage),
 });
 
+// Get the Firestore instance
+const firestore = getFirestore(app);
+
 export {
   auth,
   signInWithEmailAndPassword,
   signOut,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  firestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
 };

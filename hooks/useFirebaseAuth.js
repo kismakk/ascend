@@ -32,7 +32,7 @@ import {
  */
 export default function useFirebaseAuth() {
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+  const [authError, setAuthError] = useState(null);
 
   /**
    * Effect hook to listen for changes in the user's authentication state.
@@ -60,14 +60,14 @@ export default function useFirebaseAuth() {
    * @param {string | null} error The error message to set in the state, or null to clear the error state.
    */
   const handleError = (error) => {
-    setError(error);
+    setAuthError(error);
   };
 
   /**
    * Clears the error state.
    */
   const clearError = () => {
-    setError(null);
+    setAuthError(null);
   };
 
   /**
@@ -113,5 +113,5 @@ export default function useFirebaseAuth() {
       .catch((error) => handleError(error.message));
   };
 
-  return { user, error, signIn, signOut, signUp };
+  return { user, error: authError, signIn, signOut, signUp };
 }
