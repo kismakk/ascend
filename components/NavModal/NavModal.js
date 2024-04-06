@@ -19,14 +19,6 @@ const NavModal = ({ navigation, modalVisible, setModalVisible }) => {
             navigation.navigate('Home');
             setModalVisible(false);
           }} />
-          <Button title="Habits" onPress={() => {
-            navigation.navigate('Habits');
-            setModalVisible(false);
-          }} />
-          <Button title="ToDo" onPress={() => {
-            navigation.navigate('ToDo');
-            setModalVisible(false);
-          }} />
           <Button title="Profile" onPress={() => {
             navigation.navigate('Profile');
             setModalVisible(false);
