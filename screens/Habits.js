@@ -7,6 +7,7 @@ import BottomNav from "../components/BottomNav/BottomNav";
 import ModifyHabitModal from '../components/ModifyHabit/ModifyHabitModal';
 import HabitBar from "../components/HabitBar/HabitBar";
 import HabitModal from '../components/HabitModal/HabitModal';
+import TaskTop from "../components/TaskTop/TaskTop";
 
 const Habits = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -20,8 +21,10 @@ const Habits = ({ navigation }) => {
   return (
     <View style={dynamicStyles.container}>
       <ScrollView contentContainerStyle={dynamicStyles.container}>
-        <Text style={dynamicStyles.text}>Habits</Text>
-        <Button title="Nav" onPress={() => setModalVisible(true)} />
+        <View style={dynamicStyles.top}>
+          <Button title="Nav" onPress={() => setModalVisible(true)} />
+        </View>
+        <TaskTop />
         <NavModal
           navigation={navigation}
           modalVisible={modalVisible}
@@ -69,6 +72,10 @@ const getDynamicStyles = (theme) => {
       fontSize: SIZES.medium,
       fontWeight: FONTWEIGHT.bold,
       color: COLORS[theme].text,
+    },
+    top: {
+      alignSelf: "flex-start",
+      paddingTop: 20,
     },
   });
 };
