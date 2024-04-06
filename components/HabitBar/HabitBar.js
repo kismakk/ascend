@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { View, Text, Button } from "react-native";
-import styles from "./HabitBar.styles";
 import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from './HabitBar.styles';
 import ModifyHabitModal from '../ModifyHabit/ModifyHabitModal';

@@ -9,7 +9,7 @@ const getDynamicStyles = (theme) => {
       margin: 10,
       flexDirection: "row",
       backgroundColor: COLORS[theme].primary,
-      borderRadius: 40,
+      borderRadius: 30,
       alignItems: "center",
       justifyContent: "space-between",
       width: window.width * 0.8,
