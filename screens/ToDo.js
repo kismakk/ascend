@@ -6,6 +6,8 @@ import NavModal from '../components/NavModal/NavModal';
 import BottomNav from '../components/BottomNav/BottomNav';
 import ToDoModal from '../components/ToDoModal/ToDoModal';
 import ModifyTaskModal from '../components/ModifyTask/ModifyTaskModal';
+import TodoBar from '../components/ToDoBar/ToDoBar';
+
 
 const ToDo = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -19,7 +21,11 @@ const ToDo = ({ navigation }) => {
   return (
     <View style={dynamicStyles.container}>
       <Text style={dynamicStyles.text}>To Do's</Text>
-      <Button title="Nav" onPress={() => setModalVisible(true)} />
+      <TodoBar />
+      <TodoBar />
+      <TodoBar />
+      <TodoBar />
+      <TodoBar />
       <NavModal
         navigation={navigation}
         modalVisible={modalVisible}
@@ -34,14 +40,6 @@ const ToDo = ({ navigation }) => {
         navigation={navigation}
         modalVisible={modifyTaskModalVisible}
         setModalVisible={setModifyTaskModalVisible}
-      />
-      <Button
-        title="Add To Do"
-        onPress={() => setToDoModalVisible(true)}
-      />
-      <Button 
-        title='Modify Task'
-        onPress={() => setModifyTaskModalVisible(true)}
       />
       <ToDoModal
         todoModalVisible={todoModalVisible}
