@@ -29,7 +29,6 @@ const HabitBar = (navigation) => {
         title="-"
         style={styles.plus}
       />
-
     </View>
   );
 };
