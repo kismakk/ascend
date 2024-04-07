@@ -13,10 +13,11 @@ const HabitBar = (navigation) => {
 
   return (
     <View style={styles.container}>
-      <Button
-        title="+"
-        style={styles.posNeg}
-      />
+      <View style={styles.PosButton}>
+        <View style={styles.posNegBase}>
+          <Text style={styles.Pos}>+</Text>
+        </View>
+      </View>
       <Text style={styles.text}
         onPress={() => setModifyHabitModalVisible(true)}>Habit Bar Title fdfdsgads gdsaf asdf asdf dasd
         ffa fsdf fdf daf fadsfas afds fdsfsdf fsdfs dsf fsdf </Text>
@@ -25,10 +26,11 @@ const HabitBar = (navigation) => {
         modalVisible={modifyHabitModalVisible}
         setModalVisible={setModifyHabitModalVisible}
       />
-      <Button
-        title="-"
-        style={styles.plus}
-      />
+      <View style={styles.NegButton}>
+        <View style={styles.posNegBase}>
+          <Text style={styles.Neg}>-</Text>
+        </View>
+      </View>
     </View>
   );
 };

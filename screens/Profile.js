@@ -8,82 +8,81 @@ import HabitStat from '../components/HabitStat/HabitStat';
 
 
 const Profile = ({ navigation }) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const { theme } = useTheme();
-    const dynamicStyles = getDynamicStyles(theme);
+  const [modalVisible, setModalVisible] = useState(false);
+  const { theme } = useTheme();
+  const dynamicStyles = getDynamicStyles(theme);
 
-    return (
+  return (
     <ScrollView>
       <View style={dynamicStyles.container}>
         <View style={dynamicStyles.avatarUsername}>
           <Image
-                source={{
-                uri: "empty"
-                }}
-                style={dynamicStyles.image}
-            />
-            <Text style={dynamicStyles.text}>Username</Text>
+            source={{
+              uri: "empty"
+            }}
+            style={dynamicStyles.image}
+          />
+          <Text style={dynamicStyles.text}>Username</Text>
         </View>
         <View style={dynamicStyles.headerPosition}>
-          <Text style= {dynamicStyles.text}>Statistics:</Text>
+          <Text style={dynamicStyles.text}>Statistics:</Text>
         </View>
         <View style={dynamicStyles.todochart}>
-          <ToDoStat/> 
+          <ToDoStat />
         </View>
         <View style={dynamicStyles.habitchart}>
-          <HabitStat/>
+          <HabitStat />
         </View>
-        <Button title="Nav" onPress={() => setModalVisible(true)} />
         <NavModal
           navigation={navigation}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
-    </View>
+      </View>
     </ScrollView>
-    );
+  );
 }
 
 const getDynamicStyles = (theme) => {
-    return StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: COLORS[theme].background,
-        alignItems: 'center',
-        justifyContent: 'center',
-        
-      },
-      avatarUsername: {
-        paddingTop: 50,
-        paddingBottom: 70,
-        alignItems: 'center'
-        
-      },
-      text: {
-        fontSize: SIZES.medium,
-        fontWeight: FONTWEIGHT.bold,
-        color: COLORS[theme].text,
-        paddingTop: 10
-      },
-      headerPosition: {
-        paddingRight: 305,
-        paddingBottom: 20
-      },
-      image: {
-        borderColor: 'black',
-        borderWidth: 0.5,
-        width: 101, 
-        height: 101,
-      },
-     todochart: {
-        paddingBottom: 70,
-        paddingRight: 80
-      },
-      habitchart: {
-        paddingBottom: 70,
-        paddingRight: 80
+  return StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: COLORS[theme].background,
+      alignItems: 'center',
+      justifyContent: 'center',
 
-      }
-    });
-  };
+    },
+    avatarUsername: {
+      paddingTop: 50,
+      paddingBottom: 70,
+      alignItems: 'center'
+
+    },
+    text: {
+      fontSize: SIZES.medium,
+      fontWeight: FONTWEIGHT.bold,
+      color: COLORS[theme].text,
+      paddingTop: 10
+    },
+    headerPosition: {
+      paddingRight: 305,
+      paddingBottom: 20
+    },
+    image: {
+      borderColor: 'black',
+      borderWidth: 0.5,
+      width: 101,
+      height: 101,
+    },
+    todochart: {
+      paddingBottom: 70,
+      paddingRight: 80
+    },
+    habitchart: {
+      paddingBottom: 70,
+      paddingRight: 80
+
+    }
+  });
+};
 export default Profile;
