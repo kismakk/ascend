@@ -6,15 +6,24 @@ const getDynamicStyles = (theme) => {
   const window = Dimensions.get("window");
   return StyleSheet.create({
     container: {
-      marginTop: 30,
       marginBottom: 30,
       flexDirection: "row",
-      width: window.width * 0.5,
+      width: window.width * 0.6,
+      alignSelf: "center",
       height: 100,
     },
+    base: {
+      flexDirection: "column",
+      width: window.width,
+    },
+    nav: {
+      flexDirection: "row",
+      alignItems: "flex-end",
+      padding: 30,
+    },
     textContainer: {
-      padding: 15,
-      paddingLeft: 20,
+      padding: 5,
+      paddingLeft: 25,
       flexDirection: "column",
       justifyContent: "space-between",
     },
@@ -30,6 +39,11 @@ const getDynamicStyles = (theme) => {
       color: COLORS[theme].text,
       maxWidth: window.width * 0.5,
       maxHeight: 40,
+    },
+    username: {
+      color: COLORS[theme].text,
+      paddingLeft: 10,
+      color: COLORS[theme].secondary,
     },
   });
 }

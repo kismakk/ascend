@@ -21,9 +21,6 @@ const Habits = ({ navigation }) => {
   return (
     <View style={dynamicStyles.container}>
       <ScrollView contentContainerStyle={dynamicStyles.container}>
-        <View style={dynamicStyles.top}>
-          <Button title="Nav" onPress={() => setModalVisible(true)} />
-        </View>
         <TaskTop />
         <NavModal
           navigation={navigation}
@@ -47,7 +44,6 @@ const Habits = ({ navigation }) => {
           habitModalVisible={habitModalVisible}
           setHabitModalVisible={setHabitModalVisible}
         />
-
       </ScrollView>
       <BottomNav
         navigation={navigation}
@@ -66,7 +62,7 @@ const getDynamicStyles = (theme) => {
       flexGrow: 1,
       backgroundColor: COLORS[theme].background,
       alignItems: "center",
-      justifyContent: "center",
+      paddingBottom: 40,
     },
     text: {
       fontSize: SIZES.medium,
