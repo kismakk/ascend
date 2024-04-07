@@ -18,7 +18,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
   const toDoSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
     difficulty: yup.string().required('Difficulty is required'),
-    date: yup.string().required('Date is required'),
+    dueDate: yup.string().required('Date is required'),
   });
   const {
     control,
@@ -47,7 +47,8 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
       setValue('dueDate', choppedDate);
     }
   }
-    
+
+  //SAMILLE KOPPI TÄSTÄ
   const onSubmit = (data) => console.log(data)
   
   return (
@@ -93,7 +94,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
               name="title"
             />
           </View>
-          {/* <View style={styles.cont}>
+          <View style={styles.cont}>
             <Text style={styles.text}>NOTES</Text>
             <Controller
               control={control}
@@ -109,8 +110,8 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
               )}
               name="notes"
             />
-          </View> */}
-          {/* <Text style={styles.text}>DIFFICULTY</Text>
+          </View> 
+          <Text style={styles.text}>DIFFICULTY</Text>
           {errors.difficulty && (
                 <Text style={styles2.errorText}>{errors.difficulty.message}</Text>
               )}
@@ -148,8 +149,8 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                 </View>
                 )}
                 name="difficulty"
-              /> */}
-          {/* <View style={styles.cont} >
+              /> 
+          <View style={styles.cont} >
             <TouchableOpacity onPress={() => setCalendarVisible(true)}>
               <Text style={styles.text}>Due Date: </Text>
             </TouchableOpacity>
@@ -164,12 +165,12 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                 onChange={calendarAction}
               />
               )}
-              {errors.date && !dateText ? (
-                <Text style={styles2.errorText}>{errors.date.message}</Text>
+              {errors.dueDate && !dateText ? (
+                <Text style={styles2.errorText}>{errors.dueDate.message}</Text>
               ) : (
                 <Text style={styles.text}>{dateText}</Text>
               )}
-          </View> */}
+          </View>
         </View>
       </View>
     </Modal>
