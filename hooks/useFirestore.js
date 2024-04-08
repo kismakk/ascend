@@ -14,20 +14,39 @@ import {
 /**
  * Custom hook for interacting with Firestore.
  *
- * @param {string} collectionName - The name of the Firestore collection.
  * @returns {object} - An object containing the data, loading state, error, and functions for fetching and adding documents.
  */
-export default function useFirestore(collectionName) {
+export default function useFirestore() {
   const { user } = useFirebaseAuth();
 
   const [data, setData] = useState([]);
   const [dbError, setDbError] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const collectionProvided = (collectionName) => {
+    if (!collectionName) {
+      console.error('ERROR: Missing Firestore collection');
+      setDbError('Something went wrong');
+      return false;
+    }
+
+    return true;
+  };
+
+  const clearError = () => {
+    setDbError(null);
+  };
+
   /**
-   * Fetches data from Firestore collection and updates the component state.
+   * Fetches data from a Firestore collection.
+   * @param {string} collectionName - The name of the Firestore collection to fetch data from.
    */
-  const fetchData = async () => {
+  const fetchData = async (collectionName) => {
+    clearError();
+    if (!collectionProvided(collectionName)) {
+      return;
+    }
+
     setLoading(true);
     try {
       const dataQuery = query(collection(firestore, collectionName));
@@ -49,16 +68,23 @@ export default function useFirestore(collectionName) {
   };
 
   /**
-   * Adds data to the Firestore collection.
+   * Adds data to a Firestore collection.
    *
-   * @param {Object} data - The data object, containing the document fields, to be added to the collection.
+   * @param {string} collectionName - The name of the Firestore collection.
+   * @param {Object} data - The data to be added to the collection.
    */
-  const addData = async (data) => {
+  const addData = async (collectionName, data) => {
+    console.log(collectionName, data);
+    clearError();
+    if (!collectionProvided(collectionName)) {
+      return;
+    }
+
     setLoading(true);
     try {
       await addDoc(collection(firestore, collectionName), data);
 
-      await fetchData();
+      await fetchData(collectionName);
     } catch (error) {
       console.error(error);
       setDbError(error.message);
@@ -68,18 +94,24 @@ export default function useFirestore(collectionName) {
   };
 
   /**
-   * Updates data in Firestore for a specific document.
+   * Updates data in a Firestore collection.
    *
-   * @param {Object} data - The updated data to be saved.
+   * @param {string} collectionName - The name of the Firestore collection.
+   * @param {Object} data - The data to be updated.
    * @param {string} documentId - The ID of the document to be updated.
    */
-  const updateData = async (data, documentId) => {
+  const updateData = async (collectionName, data, documentId) => {
+    clearError();
+    if (!collectionProvided(collectionName)) {
+      return;
+    }
+
     setLoading(true);
     try {
       const docRef = doc(firestore, collectionName, documentId);
       await updateDoc(docRef, data);
 
-      await fetchData();
+      await fetchData(collectionName);
     } catch (error) {
       console.error(error);
       setDbError(error.message);
@@ -91,15 +123,21 @@ export default function useFirestore(collectionName) {
   /**
    * Deletes a document from Firestore.
    *
+   * @param {string} collectionName - The name of the Firestore collection.
    * @param {string} documentId - The ID of the document to be deleted.
    */
-  const deleteData = async (documentId) => {
+  const deleteData = async (collectionName, documentId) => {
+    clearError();
+    if (!collectionProvided(collectionName)) {
+      return;
+    }
+
     setLoading(true);
     try {
       const docRef = doc(firestore, collectionName, documentId);
       await deleteDoc(docRef);
 
-      await fetchData();
+      await fetchData(collectionName);
     } catch (error) {
       console.error(error);
       setDbError(error.message);
