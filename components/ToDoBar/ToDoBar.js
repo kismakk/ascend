@@ -4,6 +4,7 @@ import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from "./TodoBar.styles";
 import ModifyTaskModal from "../ModifyTask/ModifyTaskModal";
 import Checkbox from "expo-checkbox";
+import { COLORS } from "../../constants/theme";
 
 export default function ToDoBar(navigation) {
   const { theme } = useTheme();
@@ -12,25 +13,30 @@ export default function ToDoBar(navigation) {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   return (
-    <View style={styles.todobar}>
-      <Checkbox
-        disabled={false}
-        value={toggleCheckBox}
-        onValueChange={(newValue) => setToggleCheckBox(newValue)}
-      />
-      <Text
-        onPress={() => {
-          setModifyTaskModalVisible(true);
-        }}
-        style={styles.text}
-      >
-        Liirum Laarum
-      </Text>
-      <ModifyTaskModal
-        navigation={navigation}
-        modalVisible={modifyTaskModalVisible}
-        setModalVisible={setModifyTaskModalVisible}
-      />
+    <View style={styles.container}>
+      <View style={styles.todobar}>
+        <View style={styles.checkbox}>
+        <Checkbox
+          disabled={false}
+          value={toggleCheckBox}
+          onValueChange={(newValue) => setToggleCheckBox(newValue)}
+          
+        />
+        </View>
+        <Text
+          onPress={() => {
+            setModifyTaskModalVisible(true);
+          }}
+          style={styles.text}
+        >
+          Muista juoda vettä :D
+        </Text>
+        <ModifyTaskModal
+          navigation={navigation}
+          modalVisible={modifyTaskModalVisible}
+          setModalVisible={setModifyTaskModalVisible}
+        />
+      </View>
     </View>
   );
 }

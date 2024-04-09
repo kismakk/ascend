@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
@@ -7,6 +7,7 @@ import BottomNav from '../components/BottomNav/BottomNav';
 import ToDoModal from '../components/ToDoModal/ToDoModal';
 import ModifyTaskModal from '../components/ModifyTask/ModifyTaskModal';
 import TaskTop from "../components/TaskTop/TaskTop";
+import ToDoBar from '../components/ToDoBar/ToDoBar';
 
 
 const ToDo = ({ navigation }) => {
@@ -21,6 +22,11 @@ const ToDo = ({ navigation }) => {
   return (
     <View style={dynamicStyles.container}>
       <TaskTop />
+      <ScrollView>
+      <ToDoBar />
+      <ToDoBar />
+      <ToDoBar />
+      </ScrollView>
       <NavModal
         navigation={navigation}
         modalVisible={modalVisible}
@@ -35,14 +41,6 @@ const ToDo = ({ navigation }) => {
         navigation={navigation}
         modalVisible={modifyTaskModalVisible}
         setModalVisible={setModifyTaskModalVisible}
-      />
-      <Button
-        title="Add To Do"
-        onPress={() => setToDoModalVisible(true)}
-      />
-      <Button 
-        title='Modify Task'
-        onPress={() => setModifyTaskModalVisible(true)}
       />
       <ToDoModal
         todoModalVisible={todoModalVisible}
