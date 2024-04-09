@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, Button, StyleSheet, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
@@ -8,6 +8,7 @@ import ToDoModal from '../components/ToDoModal/ToDoModal';
 import ModifyTaskModal from '../components/ModifyTask/ModifyTaskModal';
 import TaskTop from "../components/TaskTop/TaskTop";
 import ToDoBar from '../components/ToDoBar/ToDoBar';
+import useFirestore from '../hooks/useFirestore';
 
 
 const ToDo = ({ navigation }) => {
@@ -18,15 +19,24 @@ const ToDo = ({ navigation }) => {
   const { theme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
+  const {data, loading, error, fetchData} = useFirestore()
+
+  useEffect(() => {
+    fetchData('Todos')
+  }, [])
 
   return (
     <View style={dynamicStyles.container}>
       <TaskTop />
-      <ScrollView>
-      <ToDoBar />
-      <ToDoBar />
-      <ToDoBar />
-      </ScrollView>
+      {error && <Text>{error}</Text>}
+      {loading && !data && <ActivityIndicator size={'large'} />}
+        {data && (
+          <FlatList 
+            data={data}
+            renderItem={(todo) => <ToDoBar data={todo.item}/>}
+            keyExtractor={(todo) => todo.id}
+          />
+        )}
       <NavModal
         navigation={navigation}
         modalVisible={modalVisible}

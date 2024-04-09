@@ -6,7 +6,7 @@ import ModifyTaskModal from "../ModifyTask/ModifyTaskModal";
 import Checkbox from "expo-checkbox";
 import { COLORS } from "../../constants/theme";
 
-export default function ToDoBar(navigation) {
+export default function ToDoBar({navigation, data}) {
   const { theme } = useTheme();
   const styles = getDynamicStyles(theme);
   const [modifyTaskModalVisible, setModifyTaskModalVisible] = useState(false);
@@ -29,7 +29,7 @@ export default function ToDoBar(navigation) {
           }}
           style={styles.text}
         >
-          Muista juoda vettä :D
+          {data.title}
         </Text>
         <ModifyTaskModal
           navigation={navigation}
