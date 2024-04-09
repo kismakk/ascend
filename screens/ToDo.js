@@ -6,7 +6,7 @@ import NavModal from '../components/NavModal/NavModal';
 import BottomNav from '../components/BottomNav/BottomNav';
 import ToDoModal from '../components/ToDoModal/ToDoModal';
 import ModifyTaskModal from '../components/ModifyTask/ModifyTaskModal';
-import TodoBar from '../components/ToDoBar/ToDoBar';
+import TaskTop from "../components/TaskTop/TaskTop";
 
 
 const ToDo = ({ navigation }) => {
@@ -20,12 +20,7 @@ const ToDo = ({ navigation }) => {
 
   return (
     <View style={dynamicStyles.container}>
-      <Text style={dynamicStyles.text}>To Do's</Text>
-      <TodoBar />
-      <TodoBar />
-      <TodoBar />
-      <TodoBar />
-      <TodoBar />
+      <TaskTop />
       <NavModal
         navigation={navigation}
         modalVisible={modalVisible}
@@ -40,6 +35,14 @@ const ToDo = ({ navigation }) => {
         navigation={navigation}
         modalVisible={modifyTaskModalVisible}
         setModalVisible={setModifyTaskModalVisible}
+      />
+      <Button
+        title="Add To Do"
+        onPress={() => setToDoModalVisible(true)}
+      />
+      <Button 
+        title='Modify Task'
+        onPress={() => setModifyTaskModalVisible(true)}
       />
       <ToDoModal
         todoModalVisible={todoModalVisible}
@@ -56,7 +59,7 @@ const getDynamicStyles = (theme) => {
       flex: 1,
       backgroundColor: COLORS[theme].background,
       alignItems: 'center',
-      justifyContent: 'center',
+      paddingBottom: 40,
     },
     text: {
       fontSize: SIZES.medium,

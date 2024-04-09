@@ -62,13 +62,13 @@ const SignIn = () => {
             <Text>{todo.title}</Text>
           </Pressable>
         ))}
-      <Button title="Get data from firestore" onPress={() => fetchData()} />
-      <Button title="Add document to firestore" onPress={() => addData(mockData)} />
+      <Button title="Get data from firestore" onPress={() => fetchData('Todos')} />
+      <Button title="Add document to firestore" onPress={() => addData('Todos', mockData)} />
       <Button
         title="Update document"
-        onPress={() => updateData({ title: 'Hello world!' }, docId)}
+        onPress={() => updateData('Todos', { title: 'Hello world!' }, docId)}
       />
-      <Button title="Delete document" onPress={() => deleteData(docId)} />
+      <Button title="Delete document" onPress={() => deleteData('Todos', docId)} />
     </View>
   );
 };
