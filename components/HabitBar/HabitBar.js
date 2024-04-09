@@ -5,32 +5,35 @@ import getDynamicStyles from './HabitBar.styles';
 import ModifyHabitModal from '../ModifyHabit/ModifyHabitModal';
 
 
-const HabitBar = (navigation) => {
+const HabitBar = ({ navigation, data }) => {
   const { theme } = useTheme();
   const styles = getDynamicStyles(theme);
   const [modifyHabitModalVisible, setModifyHabitModalVisible] = useState(false);
 
-
   return (
     <View style={styles.container}>
-      <View style={styles.PosButton}>
-        <View style={styles.posNegBase}>
-          <Text style={styles.Pos}>+</Text>
+      {!data.item.isBad && (
+        <View style={styles.PosButton}>
+          <View style={styles.posNegBase}>
+            <Text style={styles.Pos}>+</Text>
+          </View>
         </View>
-      </View>
-      <Text style={styles.text}
-        onPress={() => setModifyHabitModalVisible(true)}>Habit Bar Title fdfdsgads gdsaf asdf asdf dasd
-        ffa fsdf fdf daf fadsfas afds fdsfsdf fsdfs dsf fsdf </Text>
+      )}
+      <Text style={styles.text} onPress={() => setModifyHabitModalVisible(true)}>
+        {data.item.title}
+      </Text>
       <ModifyHabitModal
         navigation={navigation}
         modalVisible={modifyHabitModalVisible}
         setModalVisible={setModifyHabitModalVisible}
       />
-      <View style={styles.NegButton}>
-        <View style={styles.posNegBase}>
-          <Text style={styles.Neg}>-</Text>
+      {data.item.isBad && (
+        <View style={styles.NegButton}>
+          <View style={styles.posNegBase}>
+            <Text style={styles.Neg}>-</Text>
+          </View>
         </View>
-      </View>
+      )}
     </View>
   );
 };

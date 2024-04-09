@@ -1,13 +1,23 @@
-import React, { useState } from "react";
-import { ScrollView, Text, Button, StyleSheet, Dimensions, View } from "react-native";
-import { useTheme } from "../hooks/ThemeContext";
-import { COLORS, FONTWEIGHT, SIZES } from "../constants/theme";
-import NavModal from "../components/NavModal/NavModal";
-import BottomNav from "../components/BottomNav/BottomNav";
+import React, { useState, useEffect } from 'react';
+import {
+  ScrollView,
+  Text,
+  Button,
+  StyleSheet,
+  Dimensions,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from 'react-native';
+import { useTheme } from '../hooks/ThemeContext';
+import { COLORS, FONTWEIGHT, SIZES } from '../constants/theme';
+import NavModal from '../components/NavModal/NavModal';
+import BottomNav from '../components/BottomNav/BottomNav';
 import ModifyHabitModal from '../components/ModifyHabit/ModifyHabitModal';
-import HabitBar from "../components/HabitBar/HabitBar";
+import HabitBar from '../components/HabitBar/HabitBar';
 import HabitModal from '../components/HabitModal/HabitModal';
-import TaskTop from "../components/TaskTop/TaskTop";
+import TaskTop from '../components/TaskTop/TaskTop';
+import useFirestore from '../hooks/useFirestore';
 
 const Habits = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -16,11 +26,17 @@ const Habits = ({ navigation }) => {
   const [modifyHabitModalVisible, setModifyHabitModalVisible] = useState(false);
   const { theme } = useTheme();
 
+  const { data, fetchData, loading, error } = useFirestore();
+
+  useEffect(() => {
+    fetchData('Habits');
+  }, []);
+
   const dynamicStyles = getDynamicStyles(theme);
 
   return (
     <View style={dynamicStyles.container}>
-      <ScrollView contentContainerStyle={dynamicStyles.container}>
+      <View style={dynamicStyles.container}>
         <TaskTop />
         <NavModal
           navigation={navigation}
@@ -32,19 +48,20 @@ const Habits = ({ navigation }) => {
           modalVisible={modifyHabitModalVisible}
           setModalVisible={setModifyHabitModalVisible}
         />
-        <HabitBar />
-        <HabitBar />
-        <HabitBar />
-        <HabitBar />
-        <HabitBar />
-        <HabitBar />
-        <HabitBar />
-        <HabitBar />
+        {error && <Text>{error}</Text>}
+        {loading && !data && <ActivityIndicator size={'large'} />}
+        {data && (
+          <FlatList
+            data={data}
+            renderItem={(habit) => <HabitBar data={habit} />}
+            keyExtractor={(habit) => habit.id}
+          />
+        )}
         <HabitModal
           habitModalVisible={habitModalVisible}
           setHabitModalVisible={setHabitModalVisible}
         />
-      </ScrollView>
+      </View>
       <BottomNav
         navigation={navigation}
         setHabitModalVisible={setHabitModalVisible}
@@ -55,13 +72,13 @@ const Habits = ({ navigation }) => {
 };
 
 const getDynamicStyles = (theme) => {
-  const window = Dimensions.get("window");
+  const window = Dimensions.get('window');
 
   return StyleSheet.create({
     container: {
       flexGrow: 1,
       backgroundColor: COLORS[theme].background,
-      alignItems: "center",
+      alignItems: 'center',
       paddingBottom: 40,
     },
     text: {
@@ -70,7 +87,7 @@ const getDynamicStyles = (theme) => {
       color: COLORS[theme].text,
     },
     top: {
-      alignSelf: "flex-start",
+      alignSelf: 'flex-start',
       paddingTop: 20,
     },
   });
