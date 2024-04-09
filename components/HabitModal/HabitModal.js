@@ -19,6 +19,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
   const {
     control,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(habitSchema),
@@ -26,6 +27,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
       title: '',
       notes: '',
       taskType: '',
+      points: '',
       difficulty: '',
     },
   });
@@ -136,6 +138,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
               style={styles.easyDifficultyBox}
               onPress={() => {
                 onChange('easy')
+                setValue('points', 1);
               }}
               >
               <Text style={styles.text}>EASY</Text>
@@ -144,6 +147,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                 style={styles.mediumDifficultyBox}
                 onPress={() => {
                   onChange('medium')
+                  setValue('points', 3);
                 }}
               >
               <Text style={styles.text}>MEDIUM</Text>
@@ -152,6 +156,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                 style={styles.HardDifficultyBox}
                 onPress={() => {
                   onChange('hard')
+                  setValue('points', 5);
                 }}
               >
               <Text style={styles.text}>HARD</Text>

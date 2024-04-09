@@ -31,6 +31,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
       title: '',
       notes: '',
       difficulty: '',
+      points: '',
       dueDate: ''
     },
   });
@@ -44,7 +45,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
       let tempDate = new Date(selectedDate);
       let choppedDate = tempDate.getDate() + '/' + (tempDate.getMonth() +1) + '/' + tempDate.getFullYear();
       setDateText(choppedDate);
-      setValue('dueDate', choppedDate);
+      setValue('dueDate', selectedDate.toISOString());
     }
   }
 
@@ -126,6 +127,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                     style={styles.easyDifficultyBox}
                     onPress={() => {
                       onChange('easy')
+                      setValue('points', 1);
                     }}
                     >
                     <Text style={styles.text}>EASY</Text>
@@ -134,6 +136,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                       style={styles.mediumDifficultyBox}
                       onPress={() => {
                         onChange('medium')
+                        setValue('points', 3);
                       }}
                     >
                     <Text style={styles.text}>MEDIUM</Text>
@@ -142,6 +145,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                       style={styles.HardDifficultyBox}
                       onPress={() => {
                         onChange('hard')
+                        setValue('points', 5);
                       }}
                     >
                     <Text style={styles.text}>HARD</Text>
