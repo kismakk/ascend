@@ -3,8 +3,7 @@ import React, { useState } from "react";
 import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from "./TodoBar.styles";
 import ModifyTaskModal from "../ModifyTask/ModifyTaskModal";
-import Checkbox from "expo-checkbox";
-import { COLORS } from "../../constants/theme";
+import CheckBox from "./CheckBox";
 
 export default function ToDoBar({navigation, data}) {
   const { theme } = useTheme();
@@ -16,11 +15,9 @@ export default function ToDoBar({navigation, data}) {
     <View style={styles.container}>
       <View style={styles.todobar}>
         <View style={styles.checkbox}>
-        <Checkbox
-          disabled={false}
-          value={toggleCheckBox}
-          onValueChange={(newValue) => setToggleCheckBox(newValue)}
-          
+        <CheckBox 
+        isChecked={toggleCheckBox}
+        onPress={() => {setToggleCheckBox(!toggleCheckBox)}}
         />
         </View>
         <Text
