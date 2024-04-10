@@ -69,10 +69,9 @@ const getDynamicStyles = (theme) => {
       paddingBottom: 20
     },
     image: {
-      borderColor: 'black',
-      borderWidth: 0.5,
-      width: 101,
-      height: 101,
+      backgroundColor: COLORS[theme].secondary,
+      width: 100,
+      height: 100,
     },
     todochart: {
       paddingBottom: 70,

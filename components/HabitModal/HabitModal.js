@@ -8,6 +8,7 @@ import { useForm, Controller } from 'react-hook-form';
 import useFirestore from '../../hooks/useFirestore';
 import { COLLECTION } from '../../constants/collections';
 import { DIFFICULTY } from '../../constants/difficulty';
+import { POINTS } from '../../constants/points';
 
 const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
   const { addData } = useFirestore();
@@ -71,7 +72,11 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
               }}
               render={({ field: { onChange, value } }) => (
                 <View>
-                  <TextInput placeholder="" onChangeText={onChange} value={value} />
+                  <TextInput 
+                    color={styles.text.color}
+                    placeholder="" 
+                    onChangeText={onChange} 
+                    value={value} />
                   {errors.title && <Text style={styles2.errorText}>{errors.title.message}</Text>}
                 </View>
               )}
@@ -86,7 +91,11 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                 required: false,
               }}
               render={({ field: { onChange, value } }) => (
-                <TextInput placeholder="" onChangeText={onChange} value={value} />
+                <TextInput 
+                  color={styles.text.color}
+                  placeholder="" 
+                  onChangeText={onChange} 
+                  value={value} />
               )}
               name="notes"
             />
@@ -132,7 +141,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                   style={styles.easyDifficultyBox}
                   onPress={() => {
                     onChange(DIFFICULTY.EASY);
-                    setValue('points', 1);
+                    setValue('points', POINTS.EASY);
                   }}
                 >
                   <Text style={styles.text}>EASY</Text>
@@ -141,7 +150,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                   style={styles.mediumDifficultyBox}
                   onPress={() => {
                     onChange(DIFFICULTY.MEDIUM);
-                    setValue('points', 3);
+                    setValue('points', POINTS.MEDIUM);
                   }}
                 >
                   <Text style={styles.text}>MEDIUM</Text>
@@ -150,7 +159,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                   style={styles.HardDifficultyBox}
                   onPress={() => {
                     onChange(DIFFICULTY.HARD);
-                    setValue('points', 5);
+                    setValue('points', POINTS.HARD);
                   }}
                 >
                   <Text style={styles.text}>HARD</Text>

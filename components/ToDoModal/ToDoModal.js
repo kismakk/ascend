@@ -7,6 +7,7 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
 import { DIFFICULTY } from '../../constants/difficulty';
+import { POINTS } from '../../constants/points';
 
 const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
 
@@ -84,6 +85,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
               render={({ field: { onChange, value } }) => (
                 <View>
                   <TextInput
+                  color={styles.text.color}
                   placeholder=''
                   onChangeText={onChange}
                   value={value}
@@ -105,6 +107,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
               }}
               render={({ field: { onChange, value } }) => (
               <TextInput
+                color={styles.text.color}
                 placeholder=''
                 onChangeText={onChange}
                 value={value}
@@ -124,33 +127,33 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                 }}
                 render={({ field: { onChange, value } }) => (
                 <View style={styles.difficultyOption}>
-                    <TouchableOpacity
-                    style={styles.easyDifficultyBox}
+                  <TouchableOpacity
+                  style={styles.easyDifficultyBox}
+                  onPress={() => {
+                    onChange(DIFFICULTY.EASY);
+                    setValue('points', POINTS.EASY);
+                  }}
+                  >
+                  <Text style={styles.text}>EASY</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.mediumDifficultyBox}
                     onPress={() => {
-                      onChange(DIFFICULTY.EASY);
-                      setValue('points', 1);
+                      onChange(DIFFICULTY.MEDIUM);
+                      setValue('points', POINTS.MEDIUM);
                     }}
-                    >
-                    <Text style={styles.text}>EASY</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.mediumDifficultyBox}
-                      onPress={() => {
-                        onChange(DIFFICULTY.MEDIUM);
-                        setValue('points', 3);
-                      }}
-                    >
-                    <Text style={styles.text}>MEDIUM</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={styles.HardDifficultyBox}
-                      onPress={() => {
-                        onChange(DIFFICULTY.HARD);
-                        setValue('points', 5);
-                      }}
-                    >
-                    <Text style={styles.text}>HARD</Text>
-                    </TouchableOpacity>
+                  >
+                  <Text style={styles.text}>MEDIUM</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.HardDifficultyBox}
+                    onPress={() => {
+                      onChange(DIFFICULTY.HARD);
+                      setValue('points', POINTS.HARD);
+                    }}
+                  >
+                  <Text style={styles.text}>HARD</Text>
+                  </TouchableOpacity>
                 </View>
                 )}
                 name="difficulty"
