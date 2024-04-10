@@ -84,6 +84,12 @@ const getDynamicStyles = (theme) => {
       fontSize: 16,
       color: COLORS[theme].text,
     },
+    authError: {
+      justifyContent: 'center',
+      alignSelf: 'center',
+      fontSize: 16,
+      color: COLORS[theme].red,
+    },
   });
 };
 
