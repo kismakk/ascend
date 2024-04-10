@@ -74,7 +74,6 @@ export default function useFirestore() {
    * @param {Object} data - The data to be added to the collection.
    */
   const addData = async (collectionName, data) => {
-    console.log(collectionName, data);
     clearError();
     if (!collectionProvided(collectionName)) {
       return;

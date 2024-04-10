@@ -5,15 +5,19 @@ import getDynamicStyles from './HabitModal.styles';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
+import useFirestore from '../../hooks/useFirestore';
+import { COLLECTION } from '../../constants/collections';
+import { DIFFICULTY } from '../../constants/difficulty';
 
 const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
+  const { addData } = useFirestore();
 
   const { theme } = useTheme();
   const styles = getDynamicStyles(theme);
 
   const habitSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
-    taskType: yup.string().required('Task type is required'),
+    isBad: yup.boolean().required('Task type is required'),
     difficulty: yup.string().required('Difficulty is required'),
   });
   const {
@@ -21,19 +25,23 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
     handleSubmit,
     setValue,
     formState: { errors },
+    reset,
   } = useForm({
     resolver: yupResolver(habitSchema),
     defaultValues: {
       title: '',
       notes: '',
-      taskType: '',
+      isBad: false,
       points: '',
       difficulty: '',
     },
   });
 
-  //SAMILLE KOPPI TÄSTÄ
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => {
+    addData(COLLECTION.HABITS, data);
+    setHabitModalVisible(false);
+    reset();
+  };
 
   return (
     <Modal
@@ -46,12 +54,10 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
     >
       <View style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setHabitModalVisible(false)} />
-        <View style={styles.modalView}>
-        </View>
+        <View style={styles.modalView}></View>
         <View style={styles.top}>
           <Button title="Back" onPress={() => setHabitModalVisible(!habitModalVisible)} />
-          <TouchableOpacity
-            onPress={handleSubmit(onSubmit)}>
+          <TouchableOpacity onPress={handleSubmit(onSubmit)}>
             <Text style={styles.create}>CREATE</Text>
           </TouchableOpacity>
         </View>
@@ -65,14 +71,8 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
               }}
               render={({ field: { onChange, value } }) => (
                 <View>
-                  <TextInput
-                  placeholder=''
-                  onChangeText={onChange}
-                  value={value}
-                />
-                {errors.title && (
-                  <Text style={styles2.errorText}>{errors.title.message}</Text>
-                )}
+                  <TextInput placeholder="" onChangeText={onChange} value={value} />
+                  {errors.title && <Text style={styles2.errorText}>{errors.title.message}</Text>}
                 </View>
               )}
               name="title"
@@ -86,89 +86,81 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                 required: false,
               }}
               render={({ field: { onChange, value } }) => (
-              <TextInput
-                placeholder=''
-                onChangeText={onChange}
-                value={value}
-              />
+                <TextInput placeholder="" onChangeText={onChange} value={value} />
               )}
               name="notes"
             />
           </View>
-          {errors.taskType && (
-            <Text style={styles2.errorText}>{errors.taskType.message}</Text>
-          )}
+          {errors.taskType && <Text style={styles2.errorText}>{errors.taskType.message}</Text>}
           <Controller
-              control={control}
-              rules={{
-                required: false,
-              }}
-              render={({ field: { onChange, value } }) => (
+            control={control}
+            rules={{
+              required: false,
+            }}
+            render={({ field: { onChange, value } }) => (
               <View style={styles.posNeg}>
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.PosCircle}
                   onPress={() => {
-                    onChange('positive')
-                  }}>
+                    onChange(false);
+                  }}
+                >
                   <Text style={styles.text}>+</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.NegCircle}
                   onPress={() => {
-                    onChange('negative')
-                  }}>
+                    onChange(true);
+                  }}
+                >
                   <Text style={styles.text}>-</Text>
                 </TouchableOpacity>
               </View>
-              )}
-              name="taskType"
-            />
+            )}
+            name="isBad"
+          />
           <Text style={styles.text}>DIFFICULTY</Text>
-          {errors.difficulty && (
-            <Text style={styles2.errorText}>{errors.difficulty.message}</Text>
-          )}
-        <Controller
-          control={control}
-          rules={{
-            required: true,
-          }}
-          render={({ field: { onChange, value } }) => (
-          <View style={styles.difficultyOption}>
-              <TouchableOpacity
-              style={styles.easyDifficultyBox}
-              onPress={() => {
-                onChange('easy')
-                setValue('points', 1);
-              }}
-              >
-              <Text style={styles.text}>EASY</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.mediumDifficultyBox}
-                onPress={() => {
-                  onChange('medium')
-                  setValue('points', 3);
-                }}
-              >
-              <Text style={styles.text}>MEDIUM</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.HardDifficultyBox}
-                onPress={() => {
-                  onChange('hard')
-                  setValue('points', 5);
-                }}
-              >
-              <Text style={styles.text}>HARD</Text>
-              </TouchableOpacity>
-          </View>
-          )}
-          name="difficulty"
-        /> 
+          {errors.difficulty && <Text style={styles2.errorText}>{errors.difficulty.message}</Text>}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, value } }) => (
+              <View style={styles.difficultyOption}>
+                <TouchableOpacity
+                  style={styles.easyDifficultyBox}
+                  onPress={() => {
+                    onChange(DIFFICULTY.EASY);
+                    setValue('points', 1);
+                  }}
+                >
+                  <Text style={styles.text}>EASY</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.mediumDifficultyBox}
+                  onPress={() => {
+                    onChange(DIFFICULTY.MEDIUM);
+                    setValue('points', 3);
+                  }}
+                >
+                  <Text style={styles.text}>MEDIUM</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.HardDifficultyBox}
+                  onPress={() => {
+                    onChange(DIFFICULTY.HARD);
+                    setValue('points', 5);
+                  }}
+                >
+                  <Text style={styles.text}>HARD</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            name="difficulty"
+          />
         </View>
-
       </View>
-
     </Modal>
   );
 };

@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
+import { DIFFICULTY } from '../../constants/difficulty';
 
 const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
 
@@ -126,7 +127,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                     <TouchableOpacity
                     style={styles.easyDifficultyBox}
                     onPress={() => {
-                      onChange('easy')
+                      onChange(DIFFICULTY.EASY);
                       setValue('points', 1);
                     }}
                     >
@@ -135,7 +136,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                     <TouchableOpacity
                       style={styles.mediumDifficultyBox}
                       onPress={() => {
-                        onChange('medium')
+                        onChange(DIFFICULTY.MEDIUM);
                         setValue('points', 3);
                       }}
                     >
@@ -144,7 +145,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                     <TouchableOpacity
                       style={styles.HardDifficultyBox}
                       onPress={() => {
-                        onChange('hard')
+                        onChange(DIFFICULTY.HARD);
                         setValue('points', 5);
                       }}
                     >
