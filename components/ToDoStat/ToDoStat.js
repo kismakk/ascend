@@ -1,9 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { View, Button, StyleSheet, Text } from 'react-native';
 import { BarChart } from "react-native-gifted-charts";
+import { useTheme } from '../../hooks/ThemeContext';
+import getDynamicStyles from '../ToDoModal/ToDoModal.styles';
 
 const ToDoStat = () => {
+
+  const { theme } = useTheme();
+  const dynamicStyles = getDynamicStyles(theme);
 
   const data = [
     {
@@ -66,14 +70,17 @@ const ToDoStat = () => {
 
   return (
     <View>
-      <Text style={{paddingLeft: 32, paddingBottom: 10}}>ToDo's</Text>
-      <BarChart 
-      width={350}
-      noOfSections={4}
-      stackData={data}
-      xAxisThickness={1}
-      isAnimated
-      />
+      <Text style={[dynamicStyles.text, {paddingLeft: 32, paddingBottom: 10}]}>ToDo's</Text>
+      <View style={dynamicStyles.text.color}>
+        <BarChart 
+        width={350}
+        noOfSections={4}
+        stackData={data}
+        isAnimated
+        yAxisTextStyle={{color: dynamicStyles.text.color}}
+        xAxisLabelTextStyle={{color: dynamicStyles.text.color}}
+        />
+      </View>
     </View>
   );
 };
