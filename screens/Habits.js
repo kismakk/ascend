@@ -18,6 +18,7 @@ import HabitBar from '../components/HabitBar/HabitBar';
 import HabitModal from '../components/HabitModal/HabitModal';
 import TaskTop from '../components/TaskTop/TaskTop';
 import useFirestore from '../hooks/useFirestore';
+import { COLLECTION } from '../constants/collections';
 
 const Habits = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -29,8 +30,8 @@ const Habits = ({ navigation }) => {
   const { data, fetchData, loading, error } = useFirestore();
 
   useEffect(() => {
-    fetchData('Habits');
-  }, []);
+    fetchData(COLLECTION.HABITS);
+  }, [data]);
 
   const dynamicStyles = getDynamicStyles(theme);
 
@@ -53,7 +54,7 @@ const Habits = ({ navigation }) => {
         {data && (
           <FlatList
             data={data}
-            renderItem={(habit) => <HabitBar data={habit} />}
+            renderItem={(habit) => <HabitBar data={habit.item} />}
             keyExtractor={(habit) => habit.id}
           />
         )}

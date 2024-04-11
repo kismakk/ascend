@@ -26,6 +26,10 @@ const getDynamicStyles = (theme) => {
       borderRadius: 5,
       marginBottom: 20,
     },
+    topButtons: {
+      flexDirection: 'column',
+      gap: 5,
+    },
     PosCircle: {
       backgroundColor: COLORS[theme].green,
       height: 50,
@@ -104,7 +108,10 @@ const getDynamicStyles = (theme) => {
       flexDirection: 'row',
       justifyContent: 'center',
       justifyContent: 'space-between',
-    }
+    },
+    errorText: {
+      color: '#AE0000',
+    },
   });
 }
 

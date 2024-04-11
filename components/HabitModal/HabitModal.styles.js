@@ -89,6 +89,9 @@ const getDynamicStyles = (theme) => {
       fontSize: 15,
       fontWeight: 'bold',
     },
+    errorText: {
+      color: '#AE0000',
+    },
     create: {
       color: COLORS[theme].accent,
       fontSize: 15,
@@ -104,7 +107,7 @@ const getDynamicStyles = (theme) => {
       flexDirection: 'row',
       justifyContent: 'center',
       justifyContent: 'space-between',
-    }
+    },
   });
 }
 
