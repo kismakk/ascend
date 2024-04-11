@@ -12,7 +12,7 @@ const HabitBar = ({ navigation, data }) => {
 
   return (
     <View style={styles.container}>
-      {!data.item.isBad && (
+      {!data.isBad && (
         <View style={styles.PosButton}>
           <View style={styles.posNegBase}>
             <Text style={styles.Pos}>+</Text>
@@ -20,14 +20,15 @@ const HabitBar = ({ navigation, data }) => {
         </View>
       )}
       <Text style={styles.text} onPress={() => setModifyHabitModalVisible(true)}>
-        {data.item.title}
+        {data.title}
       </Text>
       <ModifyHabitModal
         navigation={navigation}
         modalVisible={modifyHabitModalVisible}
         setModalVisible={setModifyHabitModalVisible}
+        data={data}
       />
-      {data.item.isBad && (
+      {data.isBad && (
         <View style={styles.NegButton}>
           <View style={styles.posNegBase}>
             <Text style={styles.Neg}>-</Text>

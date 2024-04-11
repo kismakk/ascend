@@ -32,7 +32,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
     defaultValues: {
       title: '',
       notes: '',
-      isBad: false,
+      isBad: null,
       points: '',
       difficulty: '',
     },
@@ -57,7 +57,13 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
         <View style={styles.backdrop} onTouchEnd={() => setHabitModalVisible(false)} />
         <View style={styles.modalView}></View>
         <View style={styles.top}>
-          <Button title="Back" onPress={() => setHabitModalVisible(!habitModalVisible)} />
+          <Button
+            title="Back"
+            onPress={() => {
+              setHabitModalVisible(!habitModalVisible);
+              reset();
+            }}
+          />
           <TouchableOpacity onPress={handleSubmit(onSubmit)}>
             <Text style={styles.create}>CREATE</Text>
           </TouchableOpacity>
@@ -72,12 +78,13 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
               }}
               render={({ field: { onChange, value } }) => (
                 <View>
-                  <TextInput 
+                  <TextInput
                     color={styles.text.color}
-                    placeholder="" 
-                    onChangeText={onChange} 
-                    value={value} />
-                  {errors.title && <Text style={styles2.errorText}>{errors.title.message}</Text>}
+                    placeholder=""
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  {errors.title && <Text style={styles.errorText}>{errors.title.message}</Text>}
                 </View>
               )}
               name="title"
@@ -91,16 +98,17 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                 required: false,
               }}
               render={({ field: { onChange, value } }) => (
-                <TextInput 
+                <TextInput
                   color={styles.text.color}
-                  placeholder="" 
-                  onChangeText={onChange} 
-                  value={value} />
+                  placeholder=""
+                  onChangeText={onChange}
+                  value={value}
+                />
               )}
               name="notes"
             />
           </View>
-          {errors.taskType && <Text style={styles2.errorText}>{errors.taskType.message}</Text>}
+          {errors.isBad && <Text style={styles.errorText}>{errors.isBad.message}</Text>}
           <Controller
             control={control}
             rules={{
@@ -129,7 +137,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
             name="isBad"
           />
           <Text style={styles.text}>DIFFICULTY</Text>
-          {errors.difficulty && <Text style={styles2.errorText}>{errors.difficulty.message}</Text>}
+          {errors.difficulty && <Text style={styles.errorText}>{errors.difficulty.message}</Text>}
           <Controller
             control={control}
             rules={{
@@ -173,11 +181,5 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
     </Modal>
   );
 };
-
-const styles2 =  StyleSheet.create ({
-  errorText: {
-    color: '#AE0000'
-  }
-});
 
 export default HabitModal;
