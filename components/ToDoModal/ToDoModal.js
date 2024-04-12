@@ -67,7 +67,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
         setToDoModalVisible(!todoModalVisible);
       }}
     >
-      <View style={styles.centeredView}>
+      <SafeAreaView style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setHabitModalVisible(false)} />
         <View style={styles.modalView}>
         </View>
@@ -188,7 +188,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
             )}
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

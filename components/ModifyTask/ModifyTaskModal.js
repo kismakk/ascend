@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Modal, Text } from 'react-native';
+import { View, Button, Modal, SafeAreaView, Text } from 'react-native';
 import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from './ModifyTaskModal.styles';
 import styles from './ModifyTaskModal.styles';
@@ -21,7 +21,7 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible }) => {
         setModalVisible(!modalVisible);
       }}
     >
-      <View style={styles.centeredView}>
+      <SafeAreaView style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setModalVisible(false)} />
         <View style={styles.modalView}>
         </View>
@@ -65,7 +65,7 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible }) => {
           </View>
         </View>
 
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };
