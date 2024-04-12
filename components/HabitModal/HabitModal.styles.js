@@ -89,6 +89,11 @@ const getDynamicStyles = (theme) => {
       fontSize: 15,
       fontWeight: 'bold',
     },
+    difficultyText: {
+      color: COLORS[theme].background,
+      fontSize: 15,
+      fontWeight: 'bold',
+    },
     errorText: {
       color: '#AE0000',
     },
