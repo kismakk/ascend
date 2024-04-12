@@ -93,6 +93,12 @@ const getDynamicStyles = (theme) => {
       fontSize: 15,
       fontWeight: 'bold',
     },
+    delete: {
+      color: COLORS[theme].red,
+      fontSize: 15,
+      fontWeight: 'bold',
+      paddingTop: 10,
+    },
     accent: {
       color: COLORS[theme].accent,
       fontSize: 15,

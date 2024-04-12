@@ -9,12 +9,14 @@ import useFirestore from '../../hooks/useFirestore';
 import { COLLECTION } from '../../constants/collections';
 import { DIFFICULTY } from '../../constants/difficulty';
 import { POINTS } from '../../constants/points';
+import { AntDesign } from "@expo/vector-icons";
+import { COLORS } from '../../constants/theme';
 
 const ModifyHabitModal = ({ modalVisible, setModalVisible, data }) => {
   const { updateData, deleteData, dbError } = useFirestore();
   const habitId = data?.id;
-
   const { theme } = useTheme();
+  const IconColor = COLORS[theme].secondary;
   const styles = getDynamicStyles(theme);
 
   const habitSchema = yup.object().shape({
@@ -65,13 +67,14 @@ const ModifyHabitModal = ({ modalVisible, setModalVisible, data }) => {
         <View style={styles.backdrop} onTouchEnd={() => setModalVisible(false)} />
         <View style={styles.modalView}></View>
         <View style={styles.top}>
-          <Button title="Back" onPress={() => setModalVisible(!modalVisible)} />
+          <AntDesign name="arrowleft" size={24} color={IconColor}
+            onPress={() => setModalVisible(!modalVisible)} />
           <View style={styles.topButtons}>
             <Pressable onPress={handleSubmit(onSubmit)}>
               <Text style={styles.accent}>MODIFY</Text>
             </Pressable>
             <Pressable onPress={() => onDelete()}>
-              <Text style={styles.accent}>DELETE</Text>
+              <Text style={styles.delete}>DELETE</Text>
             </Pressable>
           </View>
         </View>

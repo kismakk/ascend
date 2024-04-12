@@ -3,10 +3,13 @@ import { View, Button, Modal, Text } from 'react-native';
 import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from './ModifyTaskModal.styles';
 import styles from './ModifyTaskModal.styles';
+import { AntDesign } from "@expo/vector-icons";
+import { COLORS } from '../../constants/theme';
 
 const ModifyTaskModal = ({ modalVisible, setModalVisible }) => {
 
   const { theme } = useTheme();
+  const IconColor = COLORS[theme].secondary;
   const styles = getDynamicStyles(theme);
 
   return (
@@ -23,10 +26,11 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible }) => {
         <View style={styles.modalView}>
         </View>
         <View style={styles.top}>
-          <Button title="Back" onPress={() => setModalVisible(!modalVisible)} />
+          <AntDesign name="arrowleft" size={24} color={IconColor}
+            onPress={() => setModalVisible(!modalVisible)} />
           <View style={styles.topButtons}>
-            <Text style={styles.text}>MODIFY</Text>
-            <Text style={styles.text}>DELETE</Text>
+            <Text style={styles.modify}>MODIFY</Text>
+            <Text style={styles.delete}>DELETE</Text>
           </View>
         </View>
         <View style={styles.main}>
@@ -37,22 +41,22 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible }) => {
             <Text style={styles.text}>NOTES</Text>
           </View>
           <View style={styles.posNeg}>
-            <View style={styles.circle}>
+            <View style={styles.PosCircle}>
               <Text style={styles.text}>+</Text>
             </View>
-            <View style={styles.circle}>
+            <View style={styles.NegCircle}>
               <Text style={styles.text}>-</Text>
             </View>
           </View>
           <Text style={styles.text}>DIFFICULTY</Text>
           <View style={styles.difficultyOption}>
-            <View style={styles.difficultyBox}>
+            <View style={styles.easyDifficultyBox}>
               <Text style={styles.text}>EASY</Text>
             </View>
-            <View style={styles.difficultyBox}>
+            <View style={styles.mediumDifficultyBox}>
               <Text style={styles.text}>MEDIUM</Text>
             </View>
-            <View style={styles.difficultyBox}>
+            <View style={styles.hardDifficultyBox}>
               <Text style={styles.text}>HARD</Text>
             </View>
           </View>
