@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, Modal, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, Button, Modal, Text, TouchableOpacity, SafeAreaView, TextInput, StyleSheet } from 'react-native';
 import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from './HabitModal.styles';
 import * as yup from 'yup';
@@ -55,7 +55,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
         setHabitModalVisible(!habitModalVisible);
       }}
     >
-      <View style={styles.centeredView}>
+      <SafeAreaView style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setHabitModalVisible(false)} />
         <View style={styles.modalView}></View>
         <View style={styles.top}>
@@ -178,7 +178,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
             name="difficulty"
           />
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

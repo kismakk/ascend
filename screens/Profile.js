@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTheme } from '../hooks/ThemeContext';
-import { View, Text, Button, StyleSheet, Image, ScrollView } from 'react-native';
+import { View, Text, Button, StyleSheet, Image, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import ToDoStat from '../components/ToDoStat/ToDoStat';
@@ -14,7 +14,7 @@ const Profile = ({ navigation }) => {
 
   return (
     <ScrollView>
-      <View style={dynamicStyles.container}>
+      <SafeAreaView style={dynamicStyles.container}>
         <View style={dynamicStyles.avatarUsername}>
           <Image
             source={{
@@ -38,12 +38,13 @@ const Profile = ({ navigation }) => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
-      </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }
 
 const getDynamicStyles = (theme) => {
+  const { height, width } = Dimensions.get('window');
   return StyleSheet.create({
     container: {
       flex: 1,
@@ -74,13 +75,12 @@ const getDynamicStyles = (theme) => {
       height: 100,
     },
     todochart: {
-      paddingBottom: 70,
-      paddingRight: 80
+      paddingRight: 40,
+      paddingBottom: 20
     },
     habitchart: {
-      paddingBottom: 70,
-      paddingRight: 80
-
+      paddingRight: 40,
+      paddingBottom: 20
     }
   });
 };
