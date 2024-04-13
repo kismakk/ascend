@@ -6,10 +6,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
+import { COLLECTION } from '../../constants/collections';
 import { DIFFICULTY } from '../../constants/difficulty';
 import { POINTS } from '../../constants/points';
+import useFirestore from '../../hooks/useFirestore';
 
 const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
+
+  const { addData } = useFirestore();
 
   const { theme } = useTheme();
   const styles = getDynamicStyles(theme);
@@ -26,7 +30,8 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
+    reset
   } = useForm({
     resolver: yupResolver(toDoSchema),
     defaultValues: {
@@ -51,8 +56,11 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
     }
   }
 
-  //SAMILLE KOPPI TÄSTÄ
-  const onSubmit = (data) => console.log(data)
+  const onSubmit = (data) => {
+    addData(COLLECTION.TODOS, data);
+    setToDoModalVisible(false);
+    reset();
+  };
   
   return (
     <Modal
@@ -91,7 +99,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                   value={value}
                 />
                 {errors.title && (
-                  <Text style={styles2.errorText}>{errors.title.message}</Text>
+                  <Text style={styles.errorText}>{errors.title.message}</Text>
                 )}
                 </View>
               )}
@@ -118,7 +126,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
           </View> 
           <Text style={styles.text}>DIFFICULTY</Text>
           {errors.difficulty && (
-                <Text style={styles2.errorText}>{errors.difficulty.message}</Text>
+                <Text style={styles.errorText}>{errors.difficulty.message}</Text>
               )}
               <Controller
                 control={control}
@@ -160,7 +168,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
               /> 
           <View style={styles.cont} >
             <TouchableOpacity onPress={() => setCalendarVisible(true)}>
-              <Text style={styles.text}>Due Date: </Text>
+            <Text style={styles.text}>Due Date: </Text>
             </TouchableOpacity>
             {calendarVisible && (
               <DateTimePicker 
@@ -174,7 +182,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
               />
               )}
               {errors.dueDate && !dateText ? (
-                <Text style={styles2.errorText}>{errors.dueDate.message}</Text>
+                <Text style={styles.errorText}>{errors.dueDate.message}</Text>
               ) : (
                 <Text style={styles.text}>{dateText}</Text>
               )}
@@ -184,11 +192,5 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
     </Modal>
   );
 };
-
-const styles2 =  StyleSheet.create ({
-  errorText: {
-    color: '#AE0000'
-  }
-});
 
 export default ToDoModal;

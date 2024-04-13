@@ -31,10 +31,9 @@ const Habits = ({ navigation }) => {
 
   useEffect(() => {
     fetchData(COLLECTION.HABITS);
-  }, [data]);
+  }, []); 
 
   const dynamicStyles = getDynamicStyles(theme);
-
   return (
     <View style={dynamicStyles.container}>
       <View style={dynamicStyles.container}>
@@ -43,11 +42,6 @@ const Habits = ({ navigation }) => {
           navigation={navigation}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-        />
-        <ModifyHabitModal
-          navigation={navigation}
-          modalVisible={modifyHabitModalVisible}
-          setModalVisible={setModifyHabitModalVisible}
         />
         {error && <Text>{error}</Text>}
         {loading && !data && <ActivityIndicator size={'large'} />}

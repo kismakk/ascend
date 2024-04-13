@@ -9,6 +9,7 @@ import ModifyTaskModal from '../components/ModifyTask/ModifyTaskModal';
 import TaskTop from "../components/TaskTop/TaskTop";
 import ToDoBar from '../components/ToDoBar/ToDoBar';
 import useFirestore from '../hooks/useFirestore';
+import { COLLECTION } from '../constants/collections';
 
 
 const ToDo = ({ navigation }) => {
@@ -22,9 +23,8 @@ const ToDo = ({ navigation }) => {
   const {data, loading, error, fetchData} = useFirestore()
 
   useEffect(() => {
-    fetchData('Todos')
-  }, [])
-
+    fetchData(COLLECTION.TODOS)
+  }, []) 
   return (
     <View style={dynamicStyles.container}>
       <TaskTop />
@@ -46,11 +46,6 @@ const ToDo = ({ navigation }) => {
         navigation={navigation}
         setToDoModalVisible={setToDoModalVisible}
         setHabitModalVisible={setHabitModalVisible}
-      />
-      <ModifyTaskModal
-        navigation={navigation}
-        modalVisible={modifyTaskModalVisible}
-        setModalVisible={setModifyTaskModalVisible}
       />
       <ToDoModal
         todoModalVisible={todoModalVisible}
