@@ -1,5 +1,5 @@
 import React, { useState, useEffect} from 'react';
-import { View, Button, Modal, Text, Pressable, TextInput, TouchableOpacity } from 'react-native';
+import { View, Button, Modal, Text, Pressable, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from './ModifyTaskModal.styles';
 import useFirestore from '../../hooks/useFirestore';
@@ -10,11 +10,14 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { COLLECTION } from '../../constants/collections';
+import { AntDesign } from "@expo/vector-icons";
+import { COLORS } from '../../constants/theme';
 
 const ModifyTaskModal = ({ modalVisible, setModalVisible, data }) => {
   const { updateData, deleteData, dbError } = useFirestore();
   const todoId = data?.id;
   const { theme } = useTheme();
+  const IconColor = COLORS[theme].secondary;
   const styles = getDynamicStyles(theme);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -81,18 +84,19 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible, data }) => {
         setModalVisible(!modalVisible);
       }}
     >
-      <View style={styles.centeredView}>
+      <SafeAreaView style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setModalVisible(false)} />
         <View style={styles.modalView}>
         </View>
         <View style={styles.top}>
-          <Button title="Back" onPress={() => setModalVisible(!modalVisible)} />
+          <AntDesign name="arrowleft" size={24} color={IconColor}
+            onPress={() => setModalVisible(!modalVisible)} />
           <View style={styles.topButtons}>
             <Pressable onPress={handleSubmit(onSubmit)}>
-              <Text style={styles.accent}>MODIFY</Text>
+              <Text style={styles.modify}>MODIFY</Text>
             </Pressable>
             <Pressable onPress={() => onDelete()}>
-              <Text style={styles.accent}>DELETE</Text>
+              <Text style={styles.delete}>DELETE</Text>
             </Pressable>
           </View>
         </View>
@@ -201,10 +205,8 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible, data }) => {
               )}
           </View>
         </View>
-
-      </View>
+      </SafeAreaView>
     </Modal>
   );
-};
-
+}
 export default ModifyTaskModal;

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Button, Modal, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { View, Button, Modal, Text, TouchableOpacity, SafeAreaView, TextInput, StyleSheet } from 'react-native';
 import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from './HabitModal.styles';
 import * as yup from 'yup';
@@ -9,11 +9,13 @@ import useFirestore from '../../hooks/useFirestore';
 import { COLLECTION } from '../../constants/collections';
 import { DIFFICULTY } from '../../constants/difficulty';
 import { POINTS } from '../../constants/points';
+import { AntDesign } from "@expo/vector-icons";
+import { COLORS } from '../../constants/theme';
 
 const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
   const { addData } = useFirestore();
-
   const { theme } = useTheme();
+  const IconColor = COLORS[theme].secondary;
   const styles = getDynamicStyles(theme);
   const habitSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
@@ -52,19 +54,18 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
         setHabitModalVisible(!habitModalVisible);
       }}
     >
-      <View style={styles.centeredView}>
+      <SafeAreaView style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setHabitModalVisible(false)} />
         <View style={styles.modalView}></View>
         <View style={styles.top}>
-          <Button
-            title="Back"
+          <AntDesign name="arrowleft" size={24} color={IconColor}
             onPress={() => {
               setHabitModalVisible(!habitModalVisible);
               reset();
-            }}
-          />
+            }
+            } />
           <TouchableOpacity onPress={handleSubmit(onSubmit)}>
-            <Text style={styles.create}>CREATE</Text>
+            <Text style={styles.create}>CREATE HABIT</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.main}>
@@ -151,7 +152,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                     setValue('points', POINTS.EASY);
                   }}
                 >
-                  <Text style={styles.text}>EASY</Text>
+                  <Text style={styles.difficultyText}>EASY</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.mediumDifficultyBox}
@@ -160,7 +161,7 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                     setValue('points', POINTS.MEDIUM);
                   }}
                 >
-                  <Text style={styles.text}>MEDIUM</Text>
+                  <Text style={styles.difficultyText}>MEDIUM</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.HardDifficultyBox}
@@ -169,14 +170,14 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
                     setValue('points', POINTS.HARD);
                   }}
                 >
-                  <Text style={styles.text}>HARD</Text>
+                  <Text style={styles.difficultyText}>HARD</Text>
                 </TouchableOpacity>
               </View>
             )}
             name="difficulty"
           />
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

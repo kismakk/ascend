@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Button, Modal, Text } from 'react-native';
+import { View, Button, Modal, Text, SafeAreaView } from 'react-native';
 import getDynamicStyles from './NavModal.styles';
 import { useTheme } from "../../hooks/ThemeContext";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,7 +23,7 @@ const NavModal = ({ modalVisible, setModalVisible }) => {
         setModalVisible(!modalVisible);
       }}
     >
-      <View style={styles.centeredView}>
+      <SafeAreaView style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setModalVisible(false)} />
         <View style={styles.modalView}>
           <View style={styles.navTop}>
@@ -62,7 +62,7 @@ const NavModal = ({ modalVisible, setModalVisible }) => {
             >Sign In</Text>
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

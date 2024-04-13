@@ -110,15 +110,16 @@ const getDynamicStyles = (theme) => {
       fontSize: 15,
       fontWeight: 'bold',
     },
-    accent: {
+    delete: {
+      color: COLORS[theme].red,
+      fontSize: 15,
+      fontWeight: 'bold',
+      paddingTop: 10,
+    },
+    modify: {
       color: COLORS[theme].accent,
       fontSize: 15,
       fontWeight: 'bold',
-    },
-    posNeg: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      padding: 20,
     },
     difficultyOption: {
       paddingTop: 20,

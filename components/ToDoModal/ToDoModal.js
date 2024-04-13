@@ -10,16 +10,17 @@ import { COLLECTION } from '../../constants/collections';
 import { DIFFICULTY } from '../../constants/difficulty';
 import { POINTS } from '../../constants/points';
 import useFirestore from '../../hooks/useFirestore';
+import { AntDesign } from "@expo/vector-icons";
+import { COLORS } from '../../constants/theme';
 
 const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
-
   const { addData } = useFirestore();
-
   const { theme } = useTheme();
   const styles = getDynamicStyles(theme);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dateText, setDateText] = useState('');
+  const IconColor = COLORS[theme].secondary;
 
   const toDoSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
@@ -42,15 +43,15 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
       dueDate: ''
     },
   });
-  
+
   const calendarAction = (e, selectedDate) => {
-    if (e.type === "dismissed") { 
-      setCalendarVisible(false); 
+    if (e.type === "dismissed") {
+      setCalendarVisible(false);
     } else {
       setCalendarVisible(false);
       setSelectedDate(selectedDate);
       let tempDate = new Date(selectedDate);
-      let choppedDate = tempDate.getDate() + '/' + (tempDate.getMonth() +1) + '/' + tempDate.getFullYear();
+      let choppedDate = tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
       setDateText(choppedDate);
       setValue('dueDate', selectedDate.toISOString());
     }
@@ -71,15 +72,19 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
         setToDoModalVisible(!todoModalVisible);
       }}
     >
-      <View style={styles.centeredView}>
+      <SafeAreaView style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setHabitModalVisible(false)} />
         <View style={styles.modalView}>
         </View>
         <View style={styles.top}>
-          <Button title="Back" onPress={() => setToDoModalVisible(!todoModalVisible)} />
+          <AntDesign name="arrowleft" size={24} color={IconColor}
+            onPress={() => {
+              setToDoModalVisible(!todoModalVisible);
+            }
+            } />
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}>
-            <Text style={styles.create}>CREATE</Text>
+            <Text style={styles.create}>CREATE TASK</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.main}>
@@ -114,16 +119,16 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                 required: false,
               }}
               render={({ field: { onChange, value } }) => (
-              <TextInput
-                color={styles.text.color}
-                placeholder=''
-                onChangeText={onChange}
-                value={value}
-              />
+                <TextInput
+                  color={styles.text.color}
+                  placeholder=''
+                  onChangeText={onChange}
+                  value={value}
+                />
               )}
               name="notes"
             />
-          </View> 
+          </View>
           <Text style={styles.text}>DIFFICULTY</Text>
           {errors.difficulty && (
                 <Text style={styles.errorText}>{errors.difficulty.message}</Text>
@@ -141,37 +146,37 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                     onChange(DIFFICULTY.EASY);
                     setValue('points', POINTS.EASY);
                   }}
-                  >
+                >
                   <Text style={styles.text}>EASY</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.mediumDifficultyBox}
-                    onPress={() => {
-                      onChange(DIFFICULTY.MEDIUM);
-                      setValue('points', POINTS.MEDIUM);
-                    }}
-                  >
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.mediumDifficultyBox}
+                  onPress={() => {
+                    onChange(DIFFICULTY.MEDIUM);
+                    setValue('points', POINTS.MEDIUM);
+                  }}
+                >
                   <Text style={styles.text}>MEDIUM</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={styles.HardDifficultyBox}
-                    onPress={() => {
-                      onChange(DIFFICULTY.HARD);
-                      setValue('points', POINTS.HARD);
-                    }}
-                  >
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.HardDifficultyBox}
+                  onPress={() => {
+                    onChange(DIFFICULTY.HARD);
+                    setValue('points', POINTS.HARD);
+                  }}
+                >
                   <Text style={styles.text}>HARD</Text>
-                  </TouchableOpacity>
-                </View>
-                )}
-                name="difficulty"
-              /> 
+                </TouchableOpacity>
+              </View>
+            )}
+            name="difficulty"
+          />
           <View style={styles.cont} >
             <TouchableOpacity onPress={() => setCalendarVisible(true)}>
             <Text style={styles.text}>Due Date: </Text>
             </TouchableOpacity>
             {calendarVisible && (
-              <DateTimePicker 
+              <DateTimePicker
                 value={selectedDate}
                 mode='date'
                 is24Hour={true}
@@ -188,7 +193,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
               )}
           </View>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

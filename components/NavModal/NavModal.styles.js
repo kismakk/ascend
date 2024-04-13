@@ -28,6 +28,7 @@ const getDynamicStyles = (theme) => {
     navTop: {
       flexDirection: 'row',
       paddingBottom: 50,
+      paddingTop: 35
     },
     image: {
       width: 80,
