@@ -98,14 +98,14 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
               render={({ field: { onChange, value } }) => (
                 <View>
                   <TextInput
-                  color={styles.text.color}
-                  placeholder=''
-                  onChangeText={onChange}
-                  value={value}
-                />
-                {errors.title && (
-                  <Text style={styles.errorText}>{errors.title.message}</Text>
-                )}
+                    color={styles.text.color}
+                    placeholder=''
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                  {errors.title && (
+                    <Text style={styles.errorText}>{errors.title.message}</Text>
+                  )}
                 </View>
               )}
               name="title"
@@ -131,49 +131,49 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
           </View>
           <Text style={styles.text}>DIFFICULTY</Text>
           {errors.difficulty && (
-                <Text style={styles.errorText}>{errors.difficulty.message}</Text>
-              )}
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
+            <Text style={styles.errorText}>{errors.difficulty.message}</Text>
+          )}
+          <Controller
+            control={control}
+            rules={{
+              required: true,
+            }}
+            render={({ field: { onChange, value } }) => (
+              <View style={styles.difficultyOption}>
+                <TouchableOpacity
+                style={styles.easyDifficultyBox}
+                onPress={() => {
+                  onChange(DIFFICULTY.EASY);
+                  setValue('points', POINTS.EASY);
                 }}
-                render={({ field: { onChange, value } }) => (
-                <View style={styles.difficultyOption}>
-                  <TouchableOpacity
-                  style={styles.easyDifficultyBox}
-                  onPress={() => {
-                    onChange(DIFFICULTY.EASY);
-                    setValue('points', POINTS.EASY);
-                  }}
-                >
-                  <Text style={styles.text}>EASY</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.mediumDifficultyBox}
-                  onPress={() => {
-                    onChange(DIFFICULTY.MEDIUM);
-                    setValue('points', POINTS.MEDIUM);
-                  }}
-                >
-                  <Text style={styles.text}>MEDIUM</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.HardDifficultyBox}
-                  onPress={() => {
-                    onChange(DIFFICULTY.HARD);
-                    setValue('points', POINTS.HARD);
-                  }}
-                >
-                  <Text style={styles.text}>HARD</Text>
-                </TouchableOpacity>
-              </View>
+              >
+                <Text style={styles.text}>EASY</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.mediumDifficultyBox}
+                onPress={() => {
+                  onChange(DIFFICULTY.MEDIUM);
+                  setValue('points', POINTS.MEDIUM);
+                }}
+              >
+                <Text style={styles.text}>MEDIUM</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.HardDifficultyBox}
+                onPress={() => {
+                  onChange(DIFFICULTY.HARD);
+                  setValue('points', POINTS.HARD);
+                }}
+              >
+                <Text style={styles.text}>HARD</Text>
+              </TouchableOpacity>
+            </View>
             )}
             name="difficulty"
           />
           <View style={styles.cont} >
             <TouchableOpacity onPress={() => setCalendarVisible(true)}>
-            <Text style={styles.text}>Due Date: </Text>
+              <Text style={styles.text}>Due Date: </Text>
             </TouchableOpacity>
             {calendarVisible && (
               <DateTimePicker
