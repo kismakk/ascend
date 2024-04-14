@@ -31,7 +31,7 @@ const Habits = ({ navigation }) => {
 
   useEffect(() => {
     fetchData(COLLECTION.HABITS);
-  }, [data]);
+  }, []);
 
   const dynamicStyles = getDynamicStyles(theme);
 
