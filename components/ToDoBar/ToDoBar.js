@@ -28,11 +28,15 @@ export default function ToDoBar({navigation, data}) {
         >
           {data.title}
         </Text>
-        <ModifyTaskModal
+        {modifyTaskModalVisible && 
+          <ModifyTaskModal
           navigation={navigation}
           modalVisible={modifyTaskModalVisible}
           setModalVisible={setModifyTaskModalVisible}
+          data={data}
         />
+        }
+        
       </View>
     </View>
   );

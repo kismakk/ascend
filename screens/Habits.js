@@ -13,7 +13,6 @@ import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import BottomNav from '../components/BottomNav/BottomNav';
-import ModifyHabitModal from '../components/ModifyHabit/ModifyHabitModal';
 import HabitBar from '../components/HabitBar/HabitBar';
 import HabitModal from '../components/HabitModal/HabitModal';
 import TaskTop from '../components/TaskTop/TaskTop';
@@ -24,16 +23,14 @@ const Habits = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [habitModalVisible, setHabitModalVisible] = useState(false);
   const [todoModalVisible, setToDoModalVisible] = useState(false);
-  const [modifyHabitModalVisible, setModifyHabitModalVisible] = useState(false);
   const { theme } = useTheme();
 
+  const dynamicStyles = getDynamicStyles(theme);
   const { data, fetchData, loading, error } = useFirestore();
 
   useEffect(() => {
     fetchData(COLLECTION.HABITS);
-  }, []);
-
-  const dynamicStyles = getDynamicStyles(theme);
+  }, []); 
 
   return (
     <View style={dynamicStyles.container}>
@@ -43,11 +40,6 @@ const Habits = ({ navigation }) => {
           navigation={navigation}
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
-        />
-        <ModifyHabitModal
-          navigation={navigation}
-          modalVisible={modifyHabitModalVisible}
-          setModalVisible={setModifyHabitModalVisible}
         />
         {error && <Text>{error}</Text>}
         {loading && !data && <ActivityIndicator size={'large'} />}

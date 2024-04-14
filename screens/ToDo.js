@@ -5,25 +5,24 @@ import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import BottomNav from '../components/BottomNav/BottomNav';
 import ToDoModal from '../components/ToDoModal/ToDoModal';
-import ModifyTaskModal from '../components/ModifyTask/ModifyTaskModal';
 import TaskTop from "../components/TaskTop/TaskTop";
 import ToDoBar from '../components/ToDoBar/ToDoBar';
 import useFirestore from '../hooks/useFirestore';
+import { COLLECTION } from '../constants/collections';
 
 
 const ToDo = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [todoModalVisible, setToDoModalVisible] = useState(false);
   const [habitModalVisible, setHabitModalVisible] = useState(false);
-  const [modifyTaskModalVisible, setModifyTaskModalVisible] = useState(false);
   const { theme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
   const {data, loading, error, fetchData} = useFirestore()
 
   useEffect(() => {
-    fetchData('Todos')
-  }, [])
+    fetchData(COLLECTION.TODOS)
+  }, []) ;
 
   return (
     <View style={dynamicStyles.container}>
@@ -47,11 +46,6 @@ const ToDo = ({ navigation }) => {
         setToDoModalVisible={setToDoModalVisible}
         setHabitModalVisible={setHabitModalVisible}
       />
-      <ModifyTaskModal
-        navigation={navigation}
-        modalVisible={modifyTaskModalVisible}
-        setModalVisible={setModifyTaskModalVisible}
-      />
       <ToDoModal
         todoModalVisible={todoModalVisible}
         setToDoModalVisible={setToDoModalVisible}
@@ -59,7 +53,6 @@ const ToDo = ({ navigation }) => {
     </View>
   );
 };
-
 
 const getDynamicStyles = (theme) => {
   return StyleSheet.create({

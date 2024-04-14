@@ -24,7 +24,6 @@ const ModifyHabitModal = ({ modalVisible, setModalVisible, data }) => {
     isBad: yup.boolean().required('Task type is required'),
     difficulty: yup.string().required('Difficulty is required'),
   });
-
   const onSubmit = (formData) => {
     updateData(COLLECTION.HABITS, formData, habitId);
     setModalVisible(false);
@@ -36,7 +35,6 @@ const ModifyHabitModal = ({ modalVisible, setModalVisible, data }) => {
     setModalVisible(false);
     reset();
   };
-
   const {
     control,
     handleSubmit,
@@ -53,7 +51,7 @@ const ModifyHabitModal = ({ modalVisible, setModalVisible, data }) => {
       difficulty: data?.difficulty,
     },
   });
-
+  console.log(data)
   return (
     <Modal
       animationType="none"

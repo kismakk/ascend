@@ -6,20 +6,21 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, Controller } from 'react-hook-form';
+import { COLLECTION } from '../../constants/collections';
 import { DIFFICULTY } from '../../constants/difficulty';
 import { POINTS } from '../../constants/points';
+import useFirestore from '../../hooks/useFirestore';
 import { AntDesign } from "@expo/vector-icons";
 import { COLORS } from '../../constants/theme';
 
 const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
-
+  const { addData } = useFirestore();
   const { theme } = useTheme();
   const styles = getDynamicStyles(theme);
   const [calendarVisible, setCalendarVisible] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [dateText, setDateText] = useState('');
   const IconColor = COLORS[theme].secondary;
-
 
   const toDoSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
@@ -30,7 +31,8 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
     control,
     handleSubmit,
     formState: { errors },
-    setValue
+    setValue,
+    reset
   } = useForm({
     resolver: yupResolver(toDoSchema),
     defaultValues: {
@@ -55,9 +57,12 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
     }
   }
 
-  //SAMILLE KOPPI TÄSTÄ
-  const onSubmit = (data) => console.log(data)
-
+  const onSubmit = (data) => {
+    addData(COLLECTION.TODOS, data);
+    setToDoModalVisible(false);
+    reset();
+  };
+  
   return (
     <Modal
       animationType="none"
@@ -99,7 +104,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                     value={value}
                   />
                   {errors.title && (
-                    <Text style={styles2.errorText}>{errors.title.message}</Text>
+                    <Text style={styles.errorText}>{errors.title.message}</Text>
                   )}
                 </View>
               )}
@@ -126,7 +131,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
           </View>
           <Text style={styles.text}>DIFFICULTY</Text>
           {errors.difficulty && (
-            <Text style={styles2.errorText}>{errors.difficulty.message}</Text>
+            <Text style={styles.errorText}>{errors.difficulty.message}</Text>
           )}
           <Controller
             control={control}
@@ -136,33 +141,33 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
             render={({ field: { onChange, value } }) => (
               <View style={styles.difficultyOption}>
                 <TouchableOpacity
-                  style={styles.easyDifficultyBox}
-                  onPress={() => {
-                    onChange(DIFFICULTY.EASY);
-                    setValue('points', POINTS.EASY);
-                  }}
-                >
-                  <Text style={styles.text}>EASY</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.mediumDifficultyBox}
-                  onPress={() => {
-                    onChange(DIFFICULTY.MEDIUM);
-                    setValue('points', POINTS.MEDIUM);
-                  }}
-                >
-                  <Text style={styles.text}>MEDIUM</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={styles.HardDifficultyBox}
-                  onPress={() => {
-                    onChange(DIFFICULTY.HARD);
-                    setValue('points', POINTS.HARD);
-                  }}
-                >
-                  <Text style={styles.text}>HARD</Text>
-                </TouchableOpacity>
-              </View>
+                style={styles.easyDifficultyBox}
+                onPress={() => {
+                  onChange(DIFFICULTY.EASY);
+                  setValue('points', POINTS.EASY);
+                }}
+              >
+                <Text style={styles.text}>EASY</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.mediumDifficultyBox}
+                onPress={() => {
+                  onChange(DIFFICULTY.MEDIUM);
+                  setValue('points', POINTS.MEDIUM);
+                }}
+              >
+                <Text style={styles.text}>MEDIUM</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.HardDifficultyBox}
+                onPress={() => {
+                  onChange(DIFFICULTY.HARD);
+                  setValue('points', POINTS.HARD);
+                }}
+              >
+                <Text style={styles.text}>HARD</Text>
+              </TouchableOpacity>
+            </View>
             )}
             name="difficulty"
           />
@@ -180,23 +185,17 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
                 display='default'
                 onChange={calendarAction}
               />
-            )}
-            {errors.dueDate && !dateText ? (
-              <Text style={styles2.errorText}>{errors.dueDate.message}</Text>
-            ) : (
-              <Text style={styles.text}>{dateText}</Text>
-            )}
+              )}
+              {errors.dueDate && !dateText ? (
+                <Text style={styles.errorText}>{errors.dueDate.message}</Text>
+              ) : (
+                <Text style={styles.text}>{dateText}</Text>
+              )}
           </View>
         </View>
       </SafeAreaView>
     </Modal>
   );
 };
-
-const styles2 = StyleSheet.create({
-  errorText: {
-    color: '#AE0000'
-  }
-});
 
 export default ToDoModal;

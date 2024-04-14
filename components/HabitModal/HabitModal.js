@@ -17,7 +17,6 @@ const HabitModal = ({ habitModalVisible, setHabitModalVisible }) => {
   const { theme } = useTheme();
   const IconColor = COLORS[theme].secondary;
   const styles = getDynamicStyles(theme);
-
   const habitSchema = yup.object().shape({
     title: yup.string().required('Title is required'),
     isBad: yup.boolean().required('Task type is required'),

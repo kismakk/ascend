@@ -53,6 +53,48 @@ const getDynamicStyles = (theme) => {
       flexDirection: 'column',
       gap: 5
     },
+    PosCircle: {
+      backgroundColor: COLORS[theme].green,
+      height: 50,
+      width: 50,
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 20,
+    },
+    NegCircle: {
+      backgroundColor: COLORS[theme].red,
+      height: 50,
+      width: 50,
+      borderRadius: 50,
+      justifyContent: 'center',
+      alignItems: 'center',
+      margin: 20,
+    },
+    easyDifficultyBox: {
+      backgroundColor: COLORS[theme].green,
+      height: 70,
+      width: 70,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    mediumDifficultyBox: {
+      backgroundColor: COLORS[theme].orange,
+      height: 70,
+      width: 70,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    HardDifficultyBox: {
+      backgroundColor: COLORS[theme].red,
+      height: 70,
+      width: 70,
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     centeredView: {
       flex: 1,
       backgroundColor: COLORS[theme].background,
@@ -79,29 +121,6 @@ const getDynamicStyles = (theme) => {
       fontSize: 15,
       fontWeight: 'bold',
     },
-    PosCircle: {
-      backgroundColor: COLORS[theme].green,
-      height: 50,
-      width: 50,
-      borderRadius: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 20,
-    },
-    NegCircle: {
-      backgroundColor: COLORS[theme].red,
-      height: 50,
-      width: 50,
-      borderRadius: 50,
-      justifyContent: 'center',
-      alignItems: 'center',
-      margin: 20,
-    },
-    posNeg: {
-      flexDirection: 'row',
-      justifyContent: 'center',
-      padding: 20,
-    },
     difficultyOption: {
       paddingTop: 20,
       flexDirection: 'row',
@@ -109,30 +128,9 @@ const getDynamicStyles = (theme) => {
       justifyContent: 'space-between',
       paddingBottom: 30,
     },
-    easyDifficultyBox: {
-      backgroundColor: COLORS[theme].green,
-      height: 70,
-      width: 70,
-      borderRadius: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    mediumDifficultyBox: {
-      backgroundColor: COLORS[theme].orange,
-      height: 70,
-      width: 70,
-      borderRadius: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
-    hardDifficultyBox: {
-      backgroundColor: COLORS[theme].red,
-      height: 70,
-      width: 70,
-      borderRadius: 10,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
+    errorText: {
+      color: '#AE0000'
+    }
   });
 }
 

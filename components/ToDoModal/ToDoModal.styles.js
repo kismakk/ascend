@@ -105,6 +105,9 @@ const getDynamicStyles = (theme) => {
       justifyContent: 'center',
       justifyContent: 'space-between',
       paddingBottom: 40,
+    },
+    errorText: {
+      color: '#AE0000'
     }
   });
 }
