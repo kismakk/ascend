@@ -1,16 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from '../hooks/ThemeContext';
 import { View, Text, Button, StyleSheet, Image, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import ToDoStat from '../components/ToDoStat/ToDoStat';
 import HabitStat from '../components/HabitStat/HabitStat';
-
+import useFirestore from '../hooks/useFirestore';
+import { COLLECTION } from '../constants/collections';
 
 const Profile = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { theme } = useTheme();
   const dynamicStyles = getDynamicStyles(theme);
+
+  const {data, loading, error, fetchData} = useFirestore()
+  useEffect(() => {
+    fetchData(COLLECTION.TODOS)
+  }, []) ;
 
   return (
     <ScrollView>
@@ -28,7 +34,9 @@ const Profile = ({ navigation }) => {
           <Text style={dynamicStyles.text}>Statistics:</Text>
         </View>
         <View style={dynamicStyles.todochart}>
-          <ToDoStat />
+          {data && 
+            <ToDoStat data={data}/>
+          }
         </View>
         <View style={dynamicStyles.habitchart}>
           <HabitStat />

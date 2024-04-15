@@ -4,12 +4,14 @@ import { BarChart } from "react-native-gifted-charts";
 import { useTheme } from '../../hooks/ThemeContext';
 import getDynamicStyles from '../ToDoModal/ToDoModal.styles';
 
-const ToDoStat = () => {
+const ToDoStat = (data) => {
+  console.log('TodoStatissa')
+  console.log(data)
 
   const { theme } = useTheme();
   const dynamicStyles = getDynamicStyles(theme);
 
-  const data = [
+  const statisticFrame = [
     {
       stacks: [
         {value: 10, color: '#4bb050', marginBottom: 2},
@@ -75,7 +77,7 @@ const ToDoStat = () => {
         <BarChart 
         width={350}
         noOfSections={4}
-        stackData={data}
+        stackData={statisticFrame}
         isAnimated
         yAxisTextStyle={{color: dynamicStyles.text.color}}
         xAxisLabelTextStyle={{color: dynamicStyles.text.color}}
