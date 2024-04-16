@@ -24,8 +24,8 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible, data }) => {
 
   const chopDate = (dueDate) => {
     let tempDate = new Date(dueDate);
-    return tempDate.getDate() + '/' + (tempDate.getMonth() +1) + '/' + tempDate.getFullYear();
-  }; 
+    return tempDate.getDate() + '/' + (tempDate.getMonth() + 1) + '/' + tempDate.getFullYear();
+  };
   const [dateText, setDateText] = useState(chopDate(data?.dueDate));
 
   const onSubmit = (formData) => {
@@ -41,12 +41,12 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible, data }) => {
   };
 
   const calendarAction = (e, selectedDate) => {
-    if (e.type === "dismissed") { 
-      setCalendarVisible(false); 
+    if (e.type === 'dismissed') {
+      setCalendarVisible(false);
     } else {
       setCalendarVisible(false);
       setSelectedDate(selectedDate);
-      let choppedDate = chopDate(selectedDate)
+      let choppedDate = chopDate(selectedDate);
       setDateText(choppedDate);
       setValue('dueDate', selectedDate.toISOString());
     }
@@ -71,10 +71,10 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible, data }) => {
       notes: data?.notes,
       points: data?.points,
       difficulty: data?.difficulty,
-      dueDate: data?.dueDate
+      dueDate: data?.dueDate,
     },
   });
-  console.log(data)
+
   return (
     <Modal
       animationType="none"
@@ -86,11 +86,14 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible, data }) => {
     >
       <SafeAreaView style={styles.centeredView}>
         <View style={styles.backdrop} onTouchEnd={() => setModalVisible(false)} />
-        <View style={styles.modalView}>
-        </View>
+        <View style={styles.modalView}></View>
         <View style={styles.top}>
-          <AntDesign name="arrowleft" size={24} color={IconColor}
-            onPress={() => setModalVisible(!modalVisible)} />
+          <AntDesign
+            name="arrowleft"
+            size={24}
+            color={IconColor}
+            onPress={() => setModalVisible(!modalVisible)}
+          />
           <View style={styles.topButtons}>
             <Pressable onPress={handleSubmit(onSubmit)}>
               <Text style={styles.modify}>MODIFY</Text>
@@ -183,26 +186,26 @@ const ModifyTaskModal = ({ modalVisible, setModalVisible, data }) => {
             )}
             name="difficulty"
           />
-          <View style={styles.cont} >
+          <View style={styles.cont}>
             <TouchableOpacity onPress={() => setCalendarVisible(true)}>
-            <Text style={styles.text}>Due Date: </Text>
+              <Text style={styles.text}>Due Date: </Text>
             </TouchableOpacity>
             {calendarVisible && (
-              <DateTimePicker 
+              <DateTimePicker
                 value={selectedDate}
-                mode='date'
+                mode="date"
                 is24Hour={true}
                 locale="fi-FI"
                 timeZoneName={'Europe/Helsinki'}
-                display='default'
+                display="default"
                 onChange={calendarAction}
               />
-              )}
-              {errors.dueDate && !dateText ? (
-                <Text style={styles.errorText}>{errors.dueDate.message}</Text>
-              ) : (
-                <Text style={styles.text}>{dateText}</Text>
-              )}
+            )}
+            {errors.dueDate && !dateText ? (
+              <Text style={styles.errorText}>{errors.dueDate.message}</Text>
+            ) : (
+              <Text style={styles.text}>{dateText}</Text>
+            )}
           </View>
         </View>
       </SafeAreaView>

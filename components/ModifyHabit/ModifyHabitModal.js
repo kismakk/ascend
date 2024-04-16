@@ -51,7 +51,7 @@ const ModifyHabitModal = ({ modalVisible, setModalVisible, data }) => {
       difficulty: data?.difficulty,
     },
   });
-  console.log(data)
+
   return (
     <Modal
       animationType="none"

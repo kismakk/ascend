@@ -39,22 +39,14 @@ const Button = (props) => {
  *
  * @component
  * @param {Function} handleSignIn - The function to handle sign-in.
- * @param {Function} setSignInModalVisible - The function to set the visibility of the sign-in modal.
- * @param {boolean} signInModalVisible - The visibility of the sign-in modal.
  * @param {Object} styles - The styles for the component.
  * @returns {React.JSX.Element} The rendered sign-in form.
  */
-const SignInForm = ({
-  handleSignIn,
-  setSignInModalVisible,
-  signInModalVisible,
-  styles,
-}) => {
+const SignInForm = ({ handleSignIn, styles }) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(signInSchema),
     defaultValues: {
@@ -80,9 +72,7 @@ const SignInForm = ({
               autoCapitalize="none"
               style={styles.formInput}
             />
-            {errors.email && (
-              <Text style={styles.errorText}>{errors.email.message}</Text>
-            )}
+            {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
           </View>
         )}
         name="email"
@@ -103,22 +93,13 @@ const SignInForm = ({
               secureTextEntry
               style={styles.formInput}
             />
-            {errors.password && (
-              <Text style={styles.errorText}>{errors.password.message}</Text>
-            )}
+            {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
           </View>
         )}
         name="password"
       />
       <View style={styles.buttonContainer}>
         <Button title="Sign In" onPress={handleSubmit(handleSignIn)} />
-        <Button
-          title="Close"
-          onPress={() => {
-            setSignInModalVisible(!signInModalVisible);
-            reset();
-          }}
-        />
       </View>
     </>
   );
@@ -129,22 +110,14 @@ const SignInForm = ({
  *
  * @component
  * @param {Function} handleSignUp - The function to handle sign-up.
- * @param {Function} setSignInModalVisible - The function to set the visibility of the sign-in modal.
- * @param {boolean} signInModalVisible - The visibility state of the sign-in modal.
  * @param {Object} styles - The styles object for the component.
  * @returns {React.JSX.Element} The sign-up form component.
  */
-const SignUpForm = ({
-  handleSignUp,
-  setSignInModalVisible,
-  signInModalVisible,
-  styles,
-}) => {
+const SignUpForm = ({ handleSignUp, styles }) => {
   const {
     control,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     resolver: yupResolver(signUpSchema),
     defaultValues: {
@@ -171,9 +144,7 @@ const SignUpForm = ({
               autoCapitalize="none"
               style={styles.formInput}
             />
-            {errors.email && (
-              <Text style={styles.errorText}>{errors.email.message}</Text>
-            )}
+            {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
           </View>
         )}
         name="email"
@@ -194,9 +165,7 @@ const SignUpForm = ({
               secureTextEntry
               style={styles.formInput}
             />
-            {errors.password && (
-              <Text style={styles.errorText}>{errors.password.message}</Text>
-            )}
+            {errors.password && <Text style={styles.errorText}>{errors.password.message}</Text>}
           </View>
         )}
         name="password"
@@ -218,9 +187,7 @@ const SignUpForm = ({
               style={styles.formInput}
             />
             {errors.passwordConfirmation && (
-              <Text style={styles.errorText}>
-                {errors.passwordConfirmation.message}
-              </Text>
+              <Text style={styles.errorText}>{errors.passwordConfirmation.message}</Text>
             )}
           </View>
         )}
@@ -228,13 +195,6 @@ const SignUpForm = ({
       />
       <View style={styles.buttonContainer}>
         <Button title="Sign Up" onPress={handleSubmit(handleSignUp)} />
-        <Button
-          title="Close"
-          onPress={() => {
-            setSignInModalVisible(!signInModalVisible);
-            reset();
-          }}
-        />
       </View>
     </>
   );
@@ -250,25 +210,13 @@ const SignUpForm = ({
  * @param {function} handleSignUp - A function to handle the sign-up action.
  * @returns {JSX.Element} The JSX element representing the sign-in modal.
  */
-const SignInModal = ({
-  signInModalVisible,
-  setSignInModalVisible,
-  handleSignIn,
-  handleSignUp,
-}) => {
+const SignInModal = ({ handleSignIn, handleSignUp, modalVisible, authError }) => {
   const [isSignIn, setIsSignIn] = useState(true);
   const { theme } = useTheme();
   const styles = getDynamicStyles(theme);
 
   return (
-    <Modal
-      animationType="none"
-      transparent={true}
-      visible={signInModalVisible}
-      onRequestClose={() => {
-        setSignInModalVisible(!signInModalVisible);
-      }}
-    >
+    <Modal animationType="none" transparent={true} visible={modalVisible}>
       <View style={styles.centeredView}>
         <View style={styles.backdrop}>
           <View style={styles.modalView}>
@@ -296,21 +244,12 @@ const SignInModal = ({
             </View>
             <View style={styles.form}>
               {isSignIn ? (
-                <SignInForm
-                  handleSignIn={handleSignIn}
-                  setSignInModalVisible={setSignInModalVisible}
-                  signInModalVisible={signInModalVisible}
-                  styles={styles}
-                />
+                <SignInForm handleSignIn={handleSignIn} styles={styles} />
               ) : (
-                <SignUpForm
-                  handleSignUp={handleSignUp}
-                  setSignInModalVisible={setSignInModalVisible}
-                  signInModalVisible={signInModalVisible}
-                  styles={styles}
-                />
+                <SignUpForm handleSignUp={handleSignUp} styles={styles} />
               )}
             </View>
+            {authError && <Text style={styles.authError}>{authError}</Text>}
           </View>
         </View>
       </View>
