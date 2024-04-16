@@ -21,8 +21,10 @@ const ToDo = ({ navigation }) => {
   const {data, loading, error, fetchData} = useFirestore()
 
   useEffect(() => {
+    if (!todoModalVisible) {
     fetchData(COLLECTION.TODOS)
-  }, []) ;
+    }
+  }, [todoModalVisible]) ;
 
   return (
     <View style={dynamicStyles.container}>

@@ -3,6 +3,7 @@ import {
   auth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  deleteUser,
 } from '../firebase/config';
 
 /**
@@ -142,5 +143,18 @@ export default function useFirebaseAuth() {
       .catch((error) => handleError(error.code));
   };
 
-  return { user, authError, signIn, signOut, signUp };
+  const deleteUserData = () => {
+    const user = auth.currentUser
+
+    deleteUser(user)
+      .then(() => {
+        // User deleted.
+      })
+      .catch((error) => {
+        // An error ocurred
+        // ...
+      });
+  }
+
+  return { user, authError, signIn, signOut, signUp, deleteUserData };
 }

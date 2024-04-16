@@ -5,6 +5,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
   createUserWithEmailAndPassword,
+  deleteUser,
 } from 'firebase/auth';
 import { getFirestore, collection, query, where, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
@@ -44,4 +45,5 @@ export {
   doc,
   updateDoc,
   deleteDoc,
+  deleteUser,
 };
