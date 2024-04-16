@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import useFirebaseAuth from './useFirebaseAuth';
 import {
   firestore,
   collection,
@@ -9,6 +8,8 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  where,
+  auth,
 } from '../firebase/config';
 
 /**
@@ -17,11 +18,11 @@ import {
  * @returns {object} - An object containing the data, loading state, error, and functions for fetching and adding documents.
  */
 export default function useFirestore() {
-  const { user } = useFirebaseAuth();
-
   const [data, setData] = useState([]);
   const [dbError, setDbError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  const user = auth.currentUser;
 
   const collectionProvided = (collectionName) => {
     if (!collectionName) {
@@ -49,7 +50,10 @@ export default function useFirestore() {
 
     setLoading(true);
     try {
-      const dataQuery = query(collection(firestore, collectionName));
+      const dataQuery = query(
+        collection(firestore, collectionName),
+        where('userId', '==', user.uid)
+      );
 
       const querySnapshot = await getDocs(dataQuery);
 
@@ -80,6 +84,12 @@ export default function useFirestore() {
     }
 
     setLoading(true);
+
+    data = {
+      userId: user.uid,
+      ...data,
+    };
+
     try {
       await addDoc(collection(firestore, collectionName), data);
 
