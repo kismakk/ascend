@@ -40,7 +40,6 @@ const NavModal = ({ modalVisible, setModalVisible }) => {
             <Ionicons name="person" size={25}
               color={navIconColor}
             />
-
           </View>
           <View style={styles.navItem}>
             <Text style={styles.navText}

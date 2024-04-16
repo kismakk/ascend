@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import { View, Text, Button, StyleSheet, Image, Dimensions } from 'react-native';
+import { Picker } from '@react-native-picker/picker';
 import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 
 const Settings = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const { theme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
+
+  const handleThemeChange = (itemValue) => {
+    setTheme(itemValue);
+  };
 
   return (
     <View style={dynamicStyles.container}>
@@ -28,6 +33,24 @@ const Settings = ({ navigation }) => {
         <View style={dynamicStyles.cont}>
           <Text style={dynamicStyles.text}>EMAIL</Text>
         </View>
+      </View>
+      <View style={dynamicStyles.theme}>
+        <Text style={dynamicStyles.text}>Theme</Text>
+        <Picker
+          selectedValue={theme}
+          onValueChange={handleThemeChange}
+          style={{ width: 150, color: COLORS[theme].text }}
+          itemStyle={{
+            color: COLORS[theme].text,
+          }}
+        >
+          <Picker.Item label="Light" value="light" />
+          <Picker.Item label="Dark" value="dark" />
+          <Picker.Item label="Easter" value="easter" />
+          <Picker.Item label="Blue" value="blue" />
+          <Picker.Item label="Miami" value="miami" />
+          <Picker.Item label="Candy" value="candy" />
+        </Picker>
       </View>
       <View style={dynamicStyles.danger}>
         <View style={dynamicStyles.zone}>
@@ -58,6 +81,14 @@ const getDynamicStyles = (theme) => {
       flexDirection: 'column',
       justifyContent: 'space-between',
       width: width * 0.8,
+    },
+    theme: {
+      width: width,
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      width: width * 0.8,
+      padding: 20,
+      alignContent: 'center',
     },
     text: {
       fontSize: SIZES.medium,
