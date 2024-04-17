@@ -1,12 +1,24 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 import {
   initializeAuth,
   getReactNativePersistence,
   signInWithEmailAndPassword,
   signOut,
   createUserWithEmailAndPassword,
+  deleteUser,
 } from 'firebase/auth';
-import { getFirestore, collection, query, where, getDocs, addDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+} from 'firebase/firestore';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
 
 const firebaseConfig = {
@@ -44,4 +56,6 @@ export {
   doc,
   updateDoc,
   deleteDoc,
+  deleteUser,
+  onSnapshot,
 };
