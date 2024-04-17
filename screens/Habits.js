@@ -18,19 +18,45 @@ import HabitModal from '../components/HabitModal/HabitModal';
 import TaskTop from '../components/TaskTop/TaskTop';
 import useFirestore from '../hooks/useFirestore';
 import { COLLECTION } from '../constants/collections';
+import {
+  auth,
+  collection,
+  firestore,
+  onSnapshot,
+  query,
+  where,
+} from '../firebase/config';
 
 const Habits = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [habitModalVisible, setHabitModalVisible] = useState(false);
   const [todoModalVisible, setToDoModalVisible] = useState(false);
+  const [data, setData] = useState([]);
   const { theme } = useTheme();
 
   const dynamicStyles = getDynamicStyles(theme);
-  const { data, fetchData, loading, error } = useFirestore();
+  const { loading, error } = useFirestore();
 
   useEffect(() => {
-    fetchData(COLLECTION.HABITS);
-  }, []); 
+    const user = auth.currentUser;
+    const habitsQuery = query(
+      collection(firestore, COLLECTION.HABITS),
+      where('userId', '==', user.uid)
+    );
+    const unsubscribe = onSnapshot(habitsQuery, (querySnapshot) => {
+      const tempHabits = [];
+
+      querySnapshot.forEach((doc) => {
+        const habitObject = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        tempHabits.push(habitObject);
+      });
+      setData(tempHabits);
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <View style={dynamicStyles.container}>
