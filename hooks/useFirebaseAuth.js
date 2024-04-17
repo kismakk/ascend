@@ -143,18 +143,5 @@ export default function useFirebaseAuth() {
       .catch((error) => handleError(error.code));
   };
 
-  const deleteUserData = () => {
-    const user = auth.currentUser
-
-    deleteUser(user)
-      .then(() => {
-        // User deleted.
-      })
-      .catch((error) => {
-        // An error ocurred
-        // ...
-      });
-  }
-
-  return { user, authError, signIn, signOut, signUp, deleteUserData };
+  return { user, authError, signIn, signOut, signUp };
 }

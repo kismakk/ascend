@@ -13,11 +13,14 @@ import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import deleteUsersData from '../firebase/util/deleteUsersData';
+import { auth } from '../firebase/config';
 
 const Settings = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { theme, setTheme } = useTheme();
   const { deleteUserData } = useFirebaseAuth();
+  const user = auth.currentUser;
 
   const dynamicStyles = getDynamicStyles(theme);
 
@@ -78,7 +81,12 @@ const Settings = ({ navigation }) => {
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                   },
-                  { text: 'OK', onPress: () => deleteUserData() },
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      deleteUsersData(user.uid);
+                    },
+                  },
                 ]
               );
             }}
