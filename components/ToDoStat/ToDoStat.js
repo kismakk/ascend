@@ -7,7 +7,7 @@ import getDynamicStyles from '../ToDoModal/ToDoModal.styles';
 const ToDoStat = ({ data }) => {
   const { theme } = useTheme();
   const dynamicStyles = getDynamicStyles(theme);
-  const [statisticFrame, setStatisticFrame] = useState(initialStatisticFrame);
+  const [statisticFrame, setStatisticFrame] = useState('');
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true)
 
