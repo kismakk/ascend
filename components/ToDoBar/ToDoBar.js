@@ -51,7 +51,6 @@ export default function ToDoBar({navigation, data}) {
         <Text
           onPress={() => {
             setModifyTaskModalVisible(true)
-            console.log(JSON.stringify(data, null, 2));
           }}
           style={styles.text}
         >
