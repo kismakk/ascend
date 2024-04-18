@@ -8,24 +8,36 @@ import Settings from './screens/Settings';
 import ToDo from './screens/ToDo';
 import Profile from './screens/Profile';
 import SignIn from './screens/SignIn';
+import useFirebaseAuth from './hooks/useFirebaseAuth';
 
 const Stack = createNativeStackNavigator();
 
+const AuthStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Habits">
+      <Stack.Screen name="Habits" component={Habits} />
+      <Stack.Screen name="Home" component={Home} />
+      <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="ToDo" component={ToDo} />
+    </Stack.Navigator>
+  );
+};
+
+const SignInStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="SignIn">
+      <Stack.Screen name="Sign In" component={SignIn} />
+    </Stack.Navigator>
+  );
+};
+
 export default function App() {
+  const { user } = useFirebaseAuth();
+
   return (
     <ThemeProvider>
-      <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName='Habits'
-        >
-          <Stack.Screen name='Habits' component={Habits} />
-          <Stack.Screen name='Home' component={Home} />
-          <Stack.Screen name='Profile' component={Profile} />
-          <Stack.Screen name='Settings' component={Settings} />
-          <Stack.Screen name='ToDo' component={ToDo} />
-          <Stack.Screen name='Sign In' component={SignIn} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <NavigationContainer>{user ? <AuthStack /> : <SignInStack />}</NavigationContainer>
     </ThemeProvider>
   );
 }
