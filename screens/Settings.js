@@ -18,6 +18,8 @@ import { Picker } from '@react-native-picker/picker';
 import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import deleteUsersData from '../firebase/util/deleteUsersData';
+import { auth } from '../firebase/config';
 
 const userSchema = yup.object().shape({
   username: yup.string().max(15, 'Username cannot be longer than 15 characters'),
@@ -152,7 +154,12 @@ const Settings = ({ navigation }) => {
                     onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel',
                   },
-                  { text: 'OK', onPress: () => deleteUserData() },
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      deleteUsersData(user.uid);
+                    },
+                  },
                 ]);
               }}
             >
