@@ -16,7 +16,7 @@ const SignIn = () => {
   const handleSignUp = (data) => {
     const { email, password } = data;
     signUp(email, password);
-    setModalVisible;
+    setModalVisible(!modalVisible);
   };
 
   return (
