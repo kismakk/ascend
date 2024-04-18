@@ -6,6 +6,7 @@ import {
   signOut,
   createUserWithEmailAndPassword,
   deleteUser,
+  updateProfile,
 } from 'firebase/auth';
 import {
   getFirestore,
@@ -58,4 +59,5 @@ export {
   deleteDoc,
   deleteUser,
   onSnapshot,
+  updateProfile,
 };
