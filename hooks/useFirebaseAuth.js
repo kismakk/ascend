@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   deleteUser,
+  updateProfile,
 } from '../firebase/config';
 
 /**
@@ -33,6 +34,7 @@ import {
  */
 export default function useFirebaseAuth() {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [authError, setAuthError] = useState(null);
 
   /**
@@ -126,6 +128,9 @@ export default function useFirebaseAuth() {
       .then((userCredential) => {
         const user = userCredential.user;
         handleUser(user);
+        updateUserInformation({
+          username: email.split('@')[0],
+        });
       })
       .catch((error) => handleError(error.code));
   };
@@ -143,5 +148,46 @@ export default function useFirebaseAuth() {
       .catch((error) => handleError(error.code));
   };
 
-  return { user, authError, signIn, signOut, signUp };
+  const updateUserInformation = (data) => {
+    clearError();
+    setLoading(true);
+    const profileData = {
+      ...(data.username && { displayName: data.username }),
+      ...(data.avatarUrl && { photoURL: data.avatarUrl }),
+    };
+
+    updateProfile(auth.currentUser, profileData)
+      .then(() => {
+        console.log('Profile updated succesfully');
+        setLoading(false);
+      })
+      .catch((error) => {
+        handleError(error.code);
+        setLoading(false);
+      });
+  };
+
+  const deleteUserData = () => {
+    const user = auth.currentUser;
+
+    deleteUser(user)
+      .then(() => {
+        // User deleted.
+      })
+      .catch((error) => {
+        // An error ocurred
+        // ...
+      });
+  };
+
+  return {
+    user,
+    authError,
+    loading,
+    signIn,
+    signOut,
+    signUp,
+    deleteUserData,
+    updateUserInformation,
+  };
 }

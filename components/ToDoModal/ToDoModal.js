@@ -60,6 +60,7 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
   const onSubmit = (data) => {
     addData(COLLECTION.TODOS, data);
     setToDoModalVisible(false);
+    setDateText('');
     reset();
   };
   
