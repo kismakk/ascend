@@ -108,6 +108,12 @@ const getDynamicStyles = (theme) => {
     },
     errorText: {
       color: '#AE0000'
+    },
+    todoStatisticButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
+      paddingHorizontal: 50, 
     }
   });
 }
