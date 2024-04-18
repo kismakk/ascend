@@ -36,9 +36,6 @@ const deleteUsersData = async (userId) => {
       ...doc.data(),
     }));
 
-    console.log('Todo', todoData);
-    console.log('Habit', habitData);
-
     todoData.forEach((todo) => {
       const docRef = doc(firestore, COLLECTION.TODOS, todo.id);
       deleteDoc(docRef);
