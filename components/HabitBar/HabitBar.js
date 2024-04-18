@@ -32,7 +32,6 @@ const HabitBar = ({ navigation, data }) => {
                 isBad: false,
                 date: date,
               });
-              console.log(data);
             }}
           >
             <Text style={styles.Pos}>+</Text>
@@ -51,7 +50,6 @@ const HabitBar = ({ navigation, data }) => {
                 isBad: true,
                 date: date,
               });
-              console.log(data);
             }}
           >
             <Text style={styles.Neg}>-</Text>
