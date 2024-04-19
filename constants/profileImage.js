@@ -1,4 +1,4 @@
-const profileImages = [
+const profileImage = [
   { id: 'cat', name: 'Cat', source: require('../components/resources/Cat.jpg') },
   { id: 'cat2', name: 'Cat2', source: require('../components/resources/Cat2.jpg') },
   { id: 'cat3', name: 'Cat3', source: require('../components/resources/Cat3.jpg') },
@@ -13,4 +13,4 @@ const profileImages = [
   { id: 'monkey', name: 'Monkey', source: require('../components/resources/Monkey.jpg') },
 ];
 
-export default profileImages;
+export default profileImage;

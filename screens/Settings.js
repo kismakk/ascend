@@ -1,21 +1,50 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Image, Dimensions, TouchableOpacity, Modal, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Dimensions,
+  Alert,
+  ScrollView,
+  SafeAreaView,
+  TextInput,
+  Pressable,
+  TouchableOpacity,
+  Modal,
+  Button
+} from 'react-native';
+import { useForm, Controller } from 'react-hook-form';
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Picker } from '@react-native-picker/picker';
 import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
+import deleteUsersData from '../firebase/util/deleteUsersData';
+import { auth } from '../firebase/config';
 import profileImages from '../constants/profileImage';
 import { useProfile } from '../hooks/ProfileContext';
 
+const userSchema = yup.object().shape({
+  username: yup.string().max(15, 'Username cannot be longer than 15 characters'),
+});
+
 const Settings = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { user, loading, authError, deleteUserData, updateUserInformation } = useFirebaseAuth();
+  const dynamicStyles = getDynamicStyles(theme);
   const { profileImage, setProfileImage } = useProfile();
   const [imageModalVisible, setImageModalVisible] = useState(false);
 
-  const dynamicStyles = getDynamicStyles(theme);
-
   const handleThemeChange = (itemValue) => {
     setTheme(itemValue);
+  };
+
+  const handleProfileInfoChange = (formData) => {
+    updateUserInformation(formData);
+    setIsEditing(false);
   };
 
   const toggleImageModal = () => {
@@ -27,83 +56,174 @@ const Settings = ({ navigation }) => {
     toggleImageModal();
   };
 
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm({
+    resolver: yupResolver(userSchema),
+    defaultValues: {
+      username: user?.displayName,
+    },
+  });
+
   return (
-    <View style={dynamicStyles.container}>
-      <View style={dynamicStyles.main}>
-        <View style={dynamicStyles.box}>
-          <Image
-            style={dynamicStyles.Image}
-            source={profileImage}
-          />
-          <TouchableOpacity onPress={toggleImageModal}>
-            <Text style={dynamicStyles.text}>Modify Image</Text>
-          </TouchableOpacity>
+    <SafeAreaView style={dynamicStyles.safeAreaContainer}>
+      <ScrollView contentContainerStyle={dynamicStyles.container}>
+        <View style={dynamicStyles.main}>
+          <View style={dynamicStyles.box}>
+            <Image
+              style={dynamicStyles.Image}
+              source={profileImage}
+            />
+            <TouchableOpacity onPress={toggleImageModal}>
+              <Text style={dynamicStyles.text}>Modify Image</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={dynamicStyles.cont}>
+            <Text style={dynamicStyles.headerText}>USERNAME</Text>
+            {loading ? (
+              <Text style={dynamicStyles.text}>Loading...</Text>
+            ) : isEditing ? (
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <View style={{ paddingTop: 10 }}>
+                    <TextInput
+                      autoCapitalize="none"
+                      color={dynamicStyles.text.color}
+                      onChangeText={onChange}
+                      placeholder={user?.displayName}
+                      value={value}
+                    />
+                    {errors.username && (
+                      <Text style={dynamicStyles.errorText}>{errors.username.message}</Text>
+                    )}
+                  </View>
+                )}
+                name="username"
+              />
+            ) : (
+              <Text style={dynamicStyles.text}>{user?.displayName}</Text>
+            )}
+          </View>
+          <View style={dynamicStyles.cont}>
+            <Text style={dynamicStyles.headerText}>EMAIL</Text>
+            <Text style={dynamicStyles.text}>{user?.email}</Text>
+          </View>
         </View>
-        <View style={dynamicStyles.cont}>
-          <Text style={dynamicStyles.text}>USERNAME</Text>
+        {isEditing ? (
+          <View style={dynamicStyles.editButtonGroup}>
+            <Pressable onPress={handleSubmit(handleProfileInfoChange)} style={dynamicStyles.button}>
+              <Text style={dynamicStyles.buttonText}>Save</Text>
+            </Pressable>
+            <Pressable
+              onPress={() => {
+                reset();
+                setIsEditing(false);
+              }}
+              style={dynamicStyles.button}
+            >
+              <Text style={dynamicStyles.buttonText}>Cancel</Text>
+            </Pressable>
+          </View>
+        ) : (
+          <Pressable onPress={() => setIsEditing(true)} style={dynamicStyles.button}>
+            <Text style={dynamicStyles.buttonText}>Edit profile</Text>
+          </Pressable>
+        )}
+        {authError && <Text style={dynamicStyles.errorText}>{authError}</Text>}
+        <View style={dynamicStyles.theme}>
+          <Text style={dynamicStyles.headerText}>Theme</Text>
+          <Picker
+            selectedValue={theme}
+            onValueChange={handleThemeChange}
+            style={{ width: 150, color: COLORS[theme].text }}
+            itemStyle={{
+              color: COLORS[theme].text,
+            }}
+          >
+            <Picker.Item label="Light" value="light" />
+            <Picker.Item label="Dark" value="dark" />
+            <Picker.Item label="Easter" value="easter" />
+            <Picker.Item label="Blue" value="blue" />
+            <Picker.Item label="Miami" value="miami" />
+            <Picker.Item label="Candy" value="candy" />
+          </Picker>
         </View>
-        <View style={dynamicStyles.cont}>
-          <Text style={dynamicStyles.text}>EMAIL</Text>
-        </View>
-      </View>
-      <View style={dynamicStyles.theme}>
-        <Text style={dynamicStyles.text}>Theme</Text>
-        <Picker
-          selectedValue={theme}
-          onValueChange={handleThemeChange}
-          style={{ width: 150, color: COLORS[theme].text }}
-          itemStyle={{
-            color: COLORS[theme].text,
-          }}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={imageModalVisible}
+          onRequestClose={toggleImageModal}
         >
-          <Picker.Item label="Light" value="light" />
-          <Picker.Item label="Dark" value="dark" />
-          <Picker.Item label="Easter" value="easter" />
-          <Picker.Item label="Blue" value="blue" />
-          <Picker.Item label="Miami" value="miami" />
-          <Picker.Item label="Candy" value="candy" />
-        </Picker>
-      </View>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={imageModalVisible}
-        onRequestClose={toggleImageModal}
-      >
-        <View style={dynamicStyles.modalView}>
-          <ScrollView contentContainerStyle={dynamicStyles.scrollView}>
-            {profileImages.map((image) => (
-              <TouchableOpacity
-                key={image.id}
-                style={dynamicStyles.imageContainer}
-                onPress={() => onImageSelect(image)}
-              >
-                <Image
-                  source={image.source}
-                  style={dynamicStyles.modalImage}
-                />
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-          <Button title="Close" onPress={toggleImageModal} />
+          <View style={dynamicStyles.modalView}>
+            <ScrollView contentContainerStyle={dynamicStyles.scrollView}>
+              {profileImages.map((image) => (
+                <TouchableOpacity
+                  key={image.id}
+                  style={dynamicStyles.imageContainer}
+                  onPress={() => onImageSelect(image)}
+                >
+                  <Image
+                    source={image.source}
+                    style={dynamicStyles.modalImage}
+                  />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            <Button title="Close" onPress={toggleImageModal} />
+          </View>
+        </Modal>
+        <View style={dynamicStyles.danger}>
+          <View style={dynamicStyles.zone}>
+            <Text style={dynamicStyles.dangerText}>Danger Zone</Text>
+            <Text style={dynamicStyles.headerText}>Reset Stats</Text>
+            <Text
+              style={dynamicStyles.headerText}
+              onPress={() => {
+                Alert.alert('Delete account', 'This will permanently delete your account', [
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancel Pressed'),
+                    style: 'cancel',
+                  },
+                  {
+                    text: 'OK',
+                    onPress: () => {
+                      deleteUsersData(user.uid);
+                    },
+                  },
+                ]);
+              }}
+            >
+              Delete Account
+            </Text>
+          </View>
         </View>
-      </Modal>
-    </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
-
 
 const getDynamicStyles = (theme) => {
   const { height, width } = Dimensions.get('window');
   return StyleSheet.create({
-    container: {
+    safeAreaContainer: {
       flex: 1,
+      backgroundColor: COLORS[theme].background,
+    },
+    container: {
+      flexGrow: 1,
       backgroundColor: COLORS[theme].background,
       alignItems: 'center',
       width: width,
-      height: height,
-      justifyContent: 'space-between'
-
+      height: height * 1.05, // Multiplied by 1.05 to make bottom of the screen visible, very hacky atm
+      justifyContent: 'space-between',
     },
     main: {
       width: width,
@@ -119,27 +239,32 @@ const getDynamicStyles = (theme) => {
       padding: 20,
       alignContent: 'center',
     },
-    text: {
+    headerText: {
       fontSize: SIZES.medium,
       fontWeight: FONTWEIGHT.bold,
       color: COLORS[theme].text,
+    },
+    text: {
+      fontSize: 14,
+      color: COLORS[theme].text,
+      paddingTop: 10,
     },
     dangerText: {
       fontSize: SIZES.large,
       fontWeight: FONTWEIGHT.bold,
       color: 'red',
-      marginBottom: 20
+      marginBottom: 20,
     },
     box: {
       flexDirection: 'row',
       justifyContent: 'space-around',
       padding: 20,
-      paddingBottom: 50
+      paddingBottom: 50,
     },
     cont: {
       backgroundColor: COLORS[theme].primary,
       padding: 20,
-      height: 100,
+      height: 120,
       borderRadius: 5,
       marginBottom: 20,
     },
@@ -155,10 +280,31 @@ const getDynamicStyles = (theme) => {
       paddingBottom: 150,
       borderTopWidth: 2,
       borderColor: 'red',
-      paddingTop: 10
+      paddingTop: 10,
     },
     zone: {
       width: width * 0.6,
+    },
+    errorText: {
+      paddingTop: 5,
+      color: COLORS[theme].red,
+    },
+    editButtonGroup: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: 20,
+    },
+    button: {
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: 12,
+      borderRadius: 10,
+      backgroundColor: COLORS[theme].secondary,
+    },
+    buttonText: {
+      fontSize: 16,
+      color: COLORS[theme].text,
     },
     modalView: {
       margin: 20,

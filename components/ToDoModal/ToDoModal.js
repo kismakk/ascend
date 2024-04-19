@@ -40,6 +40,8 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
       notes: '',
       difficulty: '',
       points: '',
+      isDone: null,
+      doneDate: null,
       dueDate: ''
     },
   });
@@ -83,7 +85,11 @@ const ToDoModal = ({ todoModalVisible, setToDoModalVisible }) => {
             }
             } />
           <TouchableOpacity
-            onPress={handleSubmit(onSubmit)}>
+            onPress={() => {
+              handleSubmit(onSubmit)();
+              setDateText(null);
+            }}
+          >
             <Text style={styles.create}>CREATE TASK</Text>
           </TouchableOpacity>
         </View>
