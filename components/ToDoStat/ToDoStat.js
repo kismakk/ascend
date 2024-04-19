@@ -24,13 +24,14 @@ const ToDoStat = ({ data }) => {
   useEffect(() => {
     const updatedFrame = [...initialStatisticFrame];
     data.forEach(task => {
-      const dueDate = new Date(task.dueDate);
-      if (isSameWeek(dueDate, currentWeek)) {
-        const dayOfWeek = (dueDate.getDay() + 6) % 7;
-        const difficultyIndex = ['EASY', 'MEDIUM', 'HARD'].indexOf(task.difficulty);
-        updatedFrame[dayOfWeek].stacks[difficultyIndex].value += calculatePoints(task.difficulty);
+      if(task.isDone) {
+        const dueDate = new Date(task.doneDate);
+        if (isSameWeek(dueDate, currentWeek)) {
+          const dayOfWeek = (dueDate.getDay() + 6) % 7;
+          const difficultyIndex = ['EASY', 'MEDIUM', 'HARD'].indexOf(task.difficulty);
+          updatedFrame[dayOfWeek].stacks[difficultyIndex].value += calculatePoints(task.difficulty);
+        }
       }
-      
     });
     setStatisticFrame(updatedFrame);
     setIsLoading(false)
