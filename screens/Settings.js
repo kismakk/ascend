@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
-import { View, Text, Button, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, Text, Button, StyleSheet, Image, Dimensions, TouchableOpacity, Modal, ScrollView } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 import { useTheme } from '../hooks/ThemeContext';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
-import NavModal from '../components/NavModal/NavModal';
+import profileImages from '../constants/profileImage';
+import { useProfile } from '../hooks/ProfileContext';
 
 const Settings = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { theme, setTheme } = useTheme();
+  const { profileImage, setProfileImage } = useProfile();
+  const [imageModalVisible, setImageModalVisible] = useState(false);
 
   const dynamicStyles = getDynamicStyles(theme);
 
   const handleThemeChange = (itemValue) => {
     setTheme(itemValue);
+  };
+
+  const toggleImageModal = () => {
+    setImageModalVisible(!imageModalVisible);
+  };
+
+  const onImageSelect = (image) => {
+    setProfileImage(image.source);
+    toggleImageModal();
   };
 
   return (
@@ -21,11 +33,11 @@ const Settings = ({ navigation }) => {
         <View style={dynamicStyles.box}>
           <Image
             style={dynamicStyles.Image}
-            source={{
-              uri: 'https://reactnative.dev/img/tiny_logo.png',
-            }}
+            source={profileImage}
           />
-          <Text style={dynamicStyles.text}>Modify Image</Text>
+          <TouchableOpacity onPress={toggleImageModal}>
+            <Text style={dynamicStyles.text}>Modify Image</Text>
+          </TouchableOpacity>
         </View>
         <View style={dynamicStyles.cont}>
           <Text style={dynamicStyles.text}>USERNAME</Text>
@@ -52,13 +64,30 @@ const Settings = ({ navigation }) => {
           <Picker.Item label="Candy" value="candy" />
         </Picker>
       </View>
-      <View style={dynamicStyles.danger}>
-        <View style={dynamicStyles.zone}>
-          <Text style={dynamicStyles.dangerText}>Danger Zone</Text>
-          <Text style={dynamicStyles.text}>Reset Stats</Text>
-          <Text style={dynamicStyles.text}>Delete Account</Text>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={imageModalVisible}
+        onRequestClose={toggleImageModal}
+      >
+        <View style={dynamicStyles.modalView}>
+          <ScrollView contentContainerStyle={dynamicStyles.scrollView}>
+            {profileImages.map((image) => (
+              <TouchableOpacity
+                key={image.id}
+                style={dynamicStyles.imageContainer}
+                onPress={() => onImageSelect(image)}
+              >
+                <Image
+                  source={image.source}
+                  style={dynamicStyles.modalImage}
+                />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+          <Button title="Close" onPress={toggleImageModal} />
         </View>
-      </View>
+      </Modal>
     </View>
   );
 };
@@ -115,8 +144,8 @@ const getDynamicStyles = (theme) => {
       marginBottom: 20,
     },
     Image: {
-      width: 101,
-      height: 101,
+      width: 150,
+      height: 150,
     },
     danger: {
       backgroundColor: COLORS[theme].primary,
@@ -130,6 +159,36 @@ const getDynamicStyles = (theme) => {
     },
     zone: {
       width: width * 0.6,
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: COLORS[theme].background,
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5
+    },
+    scrollView: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center'
+    },
+    imageContainer: {
+      alignItems: 'center',
+      marginVertical: 10,
+    },
+    modalImage: {
+      width: 120,
+      height: 120,
+      margin: 8,
+      borderRadius: 75,
     }
   });
 };
