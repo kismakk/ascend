@@ -32,8 +32,10 @@ const userSchema = yup.object().shape({
 
 const Settings = ({ navigation }) => {
   const [isEditing, setIsEditing] = useState(false);
+
   const { theme, setTheme } = useTheme();
   const { user, loading, authError, deleteUserData, updateUserInformation } = useFirebaseAuth();
+
   const dynamicStyles = getDynamicStyles(theme);
   const { profileImage, setProfileImage } = useProfile();
   const [imageModalVisible, setImageModalVisible] = useState(false);
@@ -220,6 +222,10 @@ const getDynamicStyles = (theme) => {
     container: {
       flexGrow: 1,
       backgroundColor: COLORS[theme].background,
+    },
+    container: {
+      flexGrow: 1,
+      backgroundColor: COLORS[theme].background,
       alignItems: 'center',
       width: width,
       height: height * 1.05, // Multiplied by 1.05 to make bottom of the screen visible, very hacky atm
@@ -335,7 +341,7 @@ const getDynamicStyles = (theme) => {
       height: 120,
       margin: 8,
       borderRadius: 75,
-    }
+    },
   });
 };
 

@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Dimensions } from 'react-native';
+import { View, Text, Button, StyleSheet, Image, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import ToDoStat from '../components/ToDoStat/ToDoStat';
 import HabitStat from '../components/HabitStat/HabitStat';
-import useFirestore from '../hooks/useFirestore';
 import { COLLECTION } from '../constants/collections';
 import { useProfile } from '../hooks/ProfileContext';
 import { useTheme } from '../hooks/ThemeContext';
+import useFirestore from '../hooks/useFirestore';
 
 const Profile = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
