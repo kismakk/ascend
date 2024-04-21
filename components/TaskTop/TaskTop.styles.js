@@ -44,6 +44,7 @@ const getDynamicStyles = (theme) => {
       color: COLORS[theme].text,
       paddingLeft: 10,
       color: COLORS[theme].secondary,
+      fontSize: 20,
     },
   });
 }

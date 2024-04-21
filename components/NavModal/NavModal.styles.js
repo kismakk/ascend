@@ -39,7 +39,7 @@ const getDynamicStyles = (theme) => {
       color: COLORS[theme].text,
       fontWeight: 'bold',
       paddingLeft: 20,
-      fontSize: 15,
+      fontSize: 20,
     },
     backdrop: {
       position: 'absolute',
