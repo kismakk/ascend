@@ -24,7 +24,7 @@ const ToDoStat = ({ data }) => {
   useEffect(() => {
     const updatedFrame = [...initialStatisticFrame];
     data.forEach(task => {
-      if(task.isDone) {
+      if (task.isDone) {
         const dueDate = new Date(task.doneDate);
         if (isSameWeek(dueDate, currentWeek)) {
           const dayOfWeek = (dueDate.getDay() + 6) % 7;
@@ -42,9 +42,9 @@ const ToDoStat = ({ data }) => {
     const currentWeek = new Date(current);
     dueDateWeek.setHours(0, 0, 0, 0);
     currentWeek.setHours(0, 0, 0, 0);
-    dueDateWeek.setDate(dueDateWeek.getDate() - (dueDateWeek.getDay() + 6) % 7); 
-    currentWeek.setDate(currentWeek.getDate() - (currentWeek.getDay() + 6) % 7); 
-    if(dueDateWeek.getTime() === currentWeek.getTime()) {
+    dueDateWeek.setDate(dueDateWeek.getDate() - (dueDateWeek.getDay() + 6) % 7);
+    currentWeek.setDate(currentWeek.getDate() - (currentWeek.getDay() + 6) % 7);
+    if (dueDateWeek.getTime() === currentWeek.getTime()) {
       return true;
     };
   };
@@ -95,17 +95,17 @@ const ToDoStat = ({ data }) => {
         <Text style={dynamicStyles.text}>Week: {getWeekNumber(currentWeek)}</Text>
         <Button title=">" onPress={handleNextWeek} />
       </View>
-      
+
       <View style={dynamicStyles.text.color}>
-        {!isLoading && 
+        {!isLoading &&
           <BarChart
-          width={350}
-          noOfSections={4}
-          stackData={statisticFrame}
-          isAnimated
-          yAxisTextStyle={{ color: dynamicStyles.text.color }}
-          xAxisLabelTextStyle={{ color: dynamicStyles.text.color }}
-        />
+            width={350}
+            noOfSections={4}
+            stackData={statisticFrame}
+            isAnimated
+            yAxisTextStyle={{ color: dynamicStyles.text.color }}
+            xAxisLabelTextStyle={{ color: dynamicStyles.text.color }}
+          />
         }
       </View>
     </View>

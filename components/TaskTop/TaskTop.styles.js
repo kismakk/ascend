@@ -32,8 +32,8 @@ const getDynamicStyles = (theme) => {
     },
     image: {
       backgroundColor: COLORS[theme].secondary,
-      width: 100,
-      height: 100,
+      width: 110,
+      height: 110,
     },
     text: {
       color: COLORS[theme].text,

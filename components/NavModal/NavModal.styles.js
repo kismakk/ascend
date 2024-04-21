@@ -31,8 +31,8 @@ const getDynamicStyles = (theme) => {
       paddingTop: 35
     },
     image: {
-      width: 80,
-      height: 80,
+      width: 110,
+      height: 110,
       backgroundColor: COLORS[theme].secondary,
     },
     username: {
