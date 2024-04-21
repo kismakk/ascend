@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from '../../constants/theme';
 import { useNavigation } from '@react-navigation/native';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import useFirestore from '../../hooks/useFirestore';
 import { useProfile } from "../../hooks/ProfileContext";
 
 const NavModal = ({ modalVisible, setModalVisible }) => {
@@ -15,6 +16,7 @@ const NavModal = ({ modalVisible, setModalVisible }) => {
   const navigation = useNavigation();
   const { profileImage } = useProfile();
   const { signOut } = useFirebaseAuth();
+  const { user } = useFirebaseAuth();
 
   return (
     <Modal
@@ -33,7 +35,7 @@ const NavModal = ({ modalVisible, setModalVisible }) => {
               source={profileImage}
               style={styles.image}
             />
-            <Text style={styles.username}>USERNAME</Text>
+            <Text style={styles.username}>{user ? user.displayName : "Loading..."}</Text>
           </View>
           <View style={styles.navItem}>
             <Text

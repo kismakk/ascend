@@ -68,13 +68,16 @@ const Habits = ({ navigation }) => {
           setModalVisible={setModalVisible}
         />
         {error && <Text>{error}</Text>}
-        {loading && !data && <ActivityIndicator size={'large'} />}
-        {data && (
+        {loading ? (
+          <ActivityIndicator size={'large'} />
+        ) : data.length > 0 ? (
           <FlatList
             data={data}
             renderItem={(habit) => <HabitBar data={habit.item} />}
             keyExtractor={(habit) => habit.id}
           />
+        ) : (
+          <Text style={dynamicStyles.emptyText}>No Habits yet</Text>
         )}
         <HabitModal
           habitModalVisible={habitModalVisible}
@@ -104,6 +107,12 @@ const getDynamicStyles = (theme) => {
       fontSize: SIZES.medium,
       fontWeight: FONTWEIGHT.bold,
       color: COLORS[theme].text,
+    },
+    emptyText: {
+      fontSize: SIZES.medium,
+      fontWeight: FONTWEIGHT.bold,
+      color: COLORS[theme].text,
+      paddingTop: 20,
     },
     top: {
       alignSelf: 'flex-start',

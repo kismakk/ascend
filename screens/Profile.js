@@ -8,12 +8,14 @@ import { COLLECTION } from '../constants/collections';
 import { useProfile } from '../hooks/ProfileContext';
 import { useTheme } from '../hooks/ThemeContext';
 import useFirestore from '../hooks/useFirestore';
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
 
 const Profile = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { theme } = useTheme();
   const { profileImage } = useProfile();
   const dynamicStyles = getDynamicStyles(theme);
+  const { user } = useFirebaseAuth();
 
   const { data, loading, error, fetchData } = useFirestore()
   useEffect(() => {
@@ -28,7 +30,7 @@ const Profile = ({ navigation }) => {
             source={profileImage}
             style={dynamicStyles.image}
           />
-          <Text style={dynamicStyles.text}>Username</Text>
+          <Text style={dynamicStyles.text}>{user ? user.displayName : "Loading..."}</Text>
         </View>
         <View style={dynamicStyles.headerPosition}>
           <Text style={dynamicStyles.text}>Statistics:</Text>

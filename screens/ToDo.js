@@ -61,13 +61,16 @@ const ToDo = ({ navigation }) => {
     <View style={dynamicStyles.container}>
       <TaskTop />
       {error && <Text>{error}</Text>}
-      {loading && !data && <ActivityIndicator size={'large'} />}
-      {data && (
+      {loading ? (
+        <ActivityIndicator size={'large'} color={COLORS[theme].primary} />
+      ) : data.length > 0 ? (
         <FlatList
           data={data}
           renderItem={(todo) => <ToDoBar data={todo.item} />}
           keyExtractor={(todo) => todo.id}
         />
+      ) : (
+        <Text style={dynamicStyles.emptyText}>No ToDo's yet</Text>
       )}
       <NavModal
         navigation={navigation}
@@ -99,6 +102,12 @@ const getDynamicStyles = (theme) => {
       fontSize: SIZES.medium,
       fontWeight: FONTWEIGHT.bold,
       color: COLORS[theme].text,
+    },
+    emptyText: {
+      fontSize: SIZES.medium,
+      fontWeight: FONTWEIGHT.bold,
+      color: COLORS[theme].text,
+      paddingTop: 20,
     },
   });
 };
