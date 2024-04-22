@@ -113,6 +113,12 @@ const getDynamicStyles = (theme) => {
       justifyContent: 'center',
       justifyContent: 'space-between',
     },
+    habitStatisticButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
+      paddingHorizontal: 50, 
+    }
   });
 }
 
