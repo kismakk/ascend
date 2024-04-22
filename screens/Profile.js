@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useTheme } from '../hooks/ThemeContext';
 import { View, Text, Button, StyleSheet, Image, ScrollView, SafeAreaView, Dimensions } from 'react-native';
 import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import ToDoStat from '../components/ToDoStat/ToDoStat';
 import HabitStat from '../components/HabitStat/HabitStat';
-import useFirestore from '../hooks/useFirestore';
 import { COLLECTION } from '../constants/collections';
+import { useProfile } from '../hooks/ProfileContext';
+import { useTheme } from '../hooks/ThemeContext';
+import useFirestore from '../hooks/useFirestore';
+import useFirebaseAuth from '../hooks/useFirebaseAuth';
 
 const Profile = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { theme } = useTheme();
+  const { profileImage } = useProfile();
   const dynamicStyles = getDynamicStyles(theme);
   const [isLoading, setIsLoading] = useState(true);
 
   const {data, habitPointsData, fetchData} = useFirestore()
+  const { user } = useFirebaseAuth();
 
   useEffect(() => {
     const fetchDataAsync = async () => {
@@ -35,12 +39,10 @@ const Profile = ({ navigation }) => {
       <SafeAreaView style={dynamicStyles.container}>
         <View style={dynamicStyles.avatarUsername}>
           <Image
-            source={{
-              uri: "empty"
-            }}
+            source={profileImage}
             style={dynamicStyles.image}
           />
-          <Text style={dynamicStyles.text}>Username</Text>
+          <Text style={dynamicStyles.text}>{user ? user.displayName : "Loading..."}</Text>
         </View>
         <View style={dynamicStyles.headerPosition}>
           <Text style={dynamicStyles.text}>Statistics:</Text>
@@ -66,20 +68,18 @@ const Profile = ({ navigation }) => {
 }
 
 const getDynamicStyles = (theme) => {
-  const { height, width } = Dimensions.get('window');
+  const { width } = Dimensions.get('window');
   return StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: COLORS[theme].background,
       alignItems: 'center',
       justifyContent: 'center',
-
     },
     avatarUsername: {
       paddingTop: 50,
       paddingBottom: 70,
       alignItems: 'center'
-
     },
     text: {
       fontSize: SIZES.medium,
@@ -88,13 +88,14 @@ const getDynamicStyles = (theme) => {
       paddingTop: 10
     },
     headerPosition: {
-      paddingRight: 305,
+      width: '100%',
+      alignItems: 'center',
       paddingBottom: 20
     },
     image: {
       backgroundColor: COLORS[theme].secondary,
-      width: 100,
-      height: 100,
+      width: 150,
+      height: 150,
     },
     todochart: {
       paddingRight: 40,
@@ -106,4 +107,5 @@ const getDynamicStyles = (theme) => {
     }
   });
 };
+
 export default Profile;

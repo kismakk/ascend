@@ -100,7 +100,6 @@ const ToDoStat = ({ data }) => {
           width={350}
           noOfSections={4}
           stackData={statisticFrame}
-          /* isAnimated */
           yAxisTextStyle={{ color: dynamicStyles.text.color }}
           xAxisLabelTextStyle={{ color: dynamicStyles.text.color }}
         />

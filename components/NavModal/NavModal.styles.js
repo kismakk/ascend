@@ -31,15 +31,15 @@ const getDynamicStyles = (theme) => {
       paddingTop: 35
     },
     image: {
-      width: 80,
-      height: 80,
+      width: 110,
+      height: 110,
       backgroundColor: COLORS[theme].secondary,
     },
     username: {
       color: COLORS[theme].text,
       fontWeight: 'bold',
       paddingLeft: 20,
-      fontSize: 15,
+      fontSize: 20,
     },
     backdrop: {
       position: 'absolute',

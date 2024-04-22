@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, Image, TouchableOpacity } from "react-native";
 import { COLORS } from "../../constants/theme";
 import { useTheme } from "../../hooks/ThemeContext";
 import getDynamicStyles from './TaskTop.styles';
 import NavModal from "../NavModal/NavModal";
 import { FontAwesome } from "@expo/vector-icons";
+import { useProfile } from "../../hooks/ProfileContext";
+import useFirebaseAuth from '../../hooks/useFirebaseAuth';
 
 
 const TaskTop = (navigation) => {
@@ -12,6 +14,9 @@ const TaskTop = (navigation) => {
   const styles = getDynamicStyles(theme);
   const [modalVisible, setModalVisible] = useState(false);
   const navIconColor = COLORS[theme].secondary;
+  const { profileImage } = useProfile();
+  const { user } = useFirebaseAuth();
+
 
   return (
     <View style={styles.base}>
@@ -25,11 +30,13 @@ const TaskTop = (navigation) => {
           modalVisible={modalVisible}
           setModalVisible={setModalVisible}
         />
-        <Text style={styles.username}>USERNAME</Text>
+        <Text style={styles.username}>{user ? user.displayName : "Loading..."}</Text>
       </View>
       <View style={styles.container}>
-        <View style={styles.image}>
-        </View>
+        <Image
+          source={profileImage}
+          style={styles.image}
+        />
         <View style={styles.textContainer}>
           <View style={styles.header}>
             <Text style={styles.text}>THIS WEEK</Text>

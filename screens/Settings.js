@@ -10,6 +10,9 @@ import {
   SafeAreaView,
   TextInput,
   Pressable,
+  TouchableOpacity,
+  Modal,
+  Button
 } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
@@ -20,6 +23,8 @@ import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
 import deleteUsersData from '../firebase/util/deleteUsersData';
 import { auth } from '../firebase/config';
+import profileImages from '../constants/profileImage';
+import { useProfile } from '../hooks/ProfileContext';
 
 const userSchema = yup.object().shape({
   username: yup.string().max(15, 'Username cannot be longer than 15 characters'),
@@ -32,6 +37,8 @@ const Settings = ({ navigation }) => {
   const { user, loading, authError, deleteUserData, updateUserInformation } = useFirebaseAuth();
 
   const dynamicStyles = getDynamicStyles(theme);
+  const { profileImage, setProfileImage } = useProfile();
+  const [imageModalVisible, setImageModalVisible] = useState(false);
 
   const handleThemeChange = (itemValue) => {
     setTheme(itemValue);
@@ -40,6 +47,15 @@ const Settings = ({ navigation }) => {
   const handleProfileInfoChange = (formData) => {
     updateUserInformation(formData);
     setIsEditing(false);
+  };
+
+  const toggleImageModal = () => {
+    setImageModalVisible(!imageModalVisible);
+  };
+
+  const onImageSelect = (image) => {
+    setProfileImage(image.source);
+    toggleImageModal();
   };
 
   const {
@@ -61,11 +77,11 @@ const Settings = ({ navigation }) => {
           <View style={dynamicStyles.box}>
             <Image
               style={dynamicStyles.Image}
-              source={{
-                uri: 'https://reactnative.dev/img/tiny_logo.png',
-              }}
+              source={profileImage}
             />
-            <Text style={dynamicStyles.headerText}>Modify Image</Text>
+            <TouchableOpacity onPress={toggleImageModal}>
+              <Text style={dynamicStyles.text}>Modify Image</Text>
+            </TouchableOpacity>
           </View>
           <View style={dynamicStyles.cont}>
             <Text style={dynamicStyles.headerText}>USERNAME</Text>
@@ -141,6 +157,30 @@ const Settings = ({ navigation }) => {
             <Picker.Item label="Candy" value="candy" />
           </Picker>
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={imageModalVisible}
+          onRequestClose={toggleImageModal}
+        >
+          <View style={dynamicStyles.modalView}>
+            <ScrollView contentContainerStyle={dynamicStyles.scrollView}>
+              {profileImages.map((image) => (
+                <TouchableOpacity
+                  key={image.id}
+                  style={dynamicStyles.imageContainer}
+                  onPress={() => onImageSelect(image)}
+                >
+                  <Image
+                    source={image.source}
+                    style={dynamicStyles.modalImage}
+                  />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+            <Button title="Close" onPress={toggleImageModal} />
+          </View>
+        </Modal>
         <View style={dynamicStyles.danger}>
           <View style={dynamicStyles.zone}>
             <Text style={dynamicStyles.dangerText}>Danger Zone</Text>
@@ -177,6 +217,10 @@ const getDynamicStyles = (theme) => {
   return StyleSheet.create({
     safeAreaContainer: {
       flex: 1,
+      backgroundColor: COLORS[theme].background,
+    },
+    container: {
+      flexGrow: 1,
       backgroundColor: COLORS[theme].background,
     },
     container: {
@@ -231,8 +275,8 @@ const getDynamicStyles = (theme) => {
       marginBottom: 20,
     },
     Image: {
-      width: 101,
-      height: 101,
+      width: 150,
+      height: 150,
     },
     danger: {
       backgroundColor: COLORS[theme].primary,
@@ -267,6 +311,36 @@ const getDynamicStyles = (theme) => {
     buttonText: {
       fontSize: 16,
       color: COLORS[theme].text,
+    },
+    modalView: {
+      margin: 20,
+      backgroundColor: COLORS[theme].background,
+      borderRadius: 20,
+      padding: 35,
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+      elevation: 5
+    },
+    scrollView: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'center'
+    },
+    imageContainer: {
+      alignItems: 'center',
+      marginVertical: 10,
+    },
+    modalImage: {
+      width: 120,
+      height: 120,
+      margin: 8,
+      borderRadius: 75,
     },
   });
 };
