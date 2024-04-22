@@ -19,12 +19,11 @@ import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Picker } from '@react-native-picker/picker';
 import { useTheme } from '../hooks/ThemeContext';
-import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
+import { COLORS, FONTWEIGHT, SIZES } from '../constants/theme';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
 import deleteUsersData from '../firebase/util/deleteUsersData';
 import { auth } from '../firebase/config';
 import profileImages from '../constants/profileImage';
-import { useProfile } from '../hooks/ProfileContext';
 
 const userSchema = yup.object().shape({
   username: yup.string().max(15, 'Username cannot be longer than 15 characters'),
@@ -37,7 +36,6 @@ const Settings = ({ navigation }) => {
   const { user, loading, authError, deleteUserData, updateUserInformation } = useFirebaseAuth();
 
   const dynamicStyles = getDynamicStyles(theme);
-  const { profileImage, setProfileImage } = useProfile();
   const [imageModalVisible, setImageModalVisible] = useState(false);
 
   const handleThemeChange = (itemValue) => {
@@ -54,7 +52,9 @@ const Settings = ({ navigation }) => {
   };
 
   const onImageSelect = (image) => {
-    setProfileImage(image.source);
+    updateUserInformation({
+      avatarUrl: image.source,
+    });
     toggleImageModal();
   };
 
@@ -75,10 +75,7 @@ const Settings = ({ navigation }) => {
       <ScrollView contentContainerStyle={dynamicStyles.container}>
         <View style={dynamicStyles.main}>
           <View style={dynamicStyles.box}>
-            <Image
-              style={dynamicStyles.Image}
-              source={profileImage}
-            />
+            <Image style={dynamicStyles.Image} source={Number(user?.photoURL)} />
             <TouchableOpacity onPress={toggleImageModal}>
               <Text style={dynamicStyles.text}>Modify Image</Text>
             </TouchableOpacity>
@@ -171,10 +168,7 @@ const Settings = ({ navigation }) => {
                   style={dynamicStyles.imageContainer}
                   onPress={() => onImageSelect(image)}
                 >
-                  <Image
-                    source={image.source}
-                    style={dynamicStyles.modalImage}
-                  />
+                  <Image source={image.source} style={dynamicStyles.modalImage} />
                 </TouchableOpacity>
               ))}
             </ScrollView>

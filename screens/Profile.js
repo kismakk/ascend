@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, StyleSheet, Image, ScrollView, SafeAreaView, Dimensions } from 'react-native';
-import { COLORS, FONTWEIGHT, SIZES, BORDER } from '../constants/theme';
+import { View, Text, StyleSheet, Image, ScrollView, SafeAreaView, Dimensions } from 'react-native';
+import { COLORS, FONTWEIGHT, SIZES } from '../constants/theme';
 import NavModal from '../components/NavModal/NavModal';
 import ToDoStat from '../components/ToDoStat/ToDoStat';
 import HabitStat from '../components/HabitStat/HabitStat';
 import { COLLECTION } from '../constants/collections';
-import { useProfile } from '../hooks/ProfileContext';
 import { useTheme } from '../hooks/ThemeContext';
 import useFirestore from '../hooks/useFirestore';
 import useFirebaseAuth from '../hooks/useFirebaseAuth';
@@ -13,33 +12,26 @@ import useFirebaseAuth from '../hooks/useFirebaseAuth';
 const Profile = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { theme } = useTheme();
-  const { profileImage } = useProfile();
   const dynamicStyles = getDynamicStyles(theme);
   const { user } = useFirebaseAuth();
 
-  const { data, loading, error, fetchData } = useFirestore()
+  const { data, loading, error, fetchData } = useFirestore();
+
   useEffect(() => {
-    fetchData(COLLECTION.TODOS)
+    fetchData(COLLECTION.TODOS);
   }, []);
 
   return (
     <ScrollView>
       <SafeAreaView style={dynamicStyles.container}>
         <View style={dynamicStyles.avatarUsername}>
-          <Image
-            source={profileImage}
-            style={dynamicStyles.image}
-          />
-          <Text style={dynamicStyles.text}>{user ? user.displayName : "Loading..."}</Text>
+          <Image source={Number(user?.photoURL)} style={dynamicStyles.image} />
+          <Text style={dynamicStyles.text}>{user ? user.displayName : 'Loading...'}</Text>
         </View>
         <View style={dynamicStyles.headerPosition}>
           <Text style={dynamicStyles.text}>Statistics:</Text>
         </View>
-        <View style={dynamicStyles.todochart}>
-          {data &&
-            <ToDoStat data={data} />
-          }
-        </View>
+        <View style={dynamicStyles.todochart}>{data && <ToDoStat data={data} />}</View>
         <View style={dynamicStyles.habitchart}>
           <HabitStat />
         </View>
@@ -51,7 +43,7 @@ const Profile = ({ navigation }) => {
       </SafeAreaView>
     </ScrollView>
   );
-}
+};
 
 const getDynamicStyles = (theme) => {
   const { width } = Dimensions.get('window');
