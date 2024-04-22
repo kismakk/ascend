@@ -6,15 +6,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { COLORS } from '../../constants/theme';
 import { useNavigation } from '@react-navigation/native';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
-import useFirestore from '../../hooks/useFirestore';
-import { useProfile } from "../../hooks/ProfileContext";
 
 const NavModal = ({ modalVisible, setModalVisible }) => {
   const { theme } = useTheme();
   const styles = getDynamicStyles(theme);
   const navIconColor = COLORS[theme].text;
   const navigation = useNavigation();
-  const { profileImage } = useProfile();
   const { signOut } = useFirebaseAuth();
   const { user } = useFirebaseAuth();
 
@@ -31,11 +28,8 @@ const NavModal = ({ modalVisible, setModalVisible }) => {
         <View style={styles.backdrop} onTouchEnd={() => setModalVisible(false)} />
         <View style={styles.modalView}>
           <View style={styles.navTop}>
-            <Image
-              source={profileImage}
-              style={styles.image}
-            />
-            <Text style={styles.username}>{user ? user.displayName : "Loading..."}</Text>
+            <Image source={Number(user?.photoURL)} style={styles.image} />
+            <Text style={styles.username}>{user ? user.displayName : 'Loading...'}</Text>
           </View>
           <View style={styles.navItem}>
             <Text
@@ -44,10 +38,10 @@ const NavModal = ({ modalVisible, setModalVisible }) => {
                 navigation.navigate('Profile');
                 setModalVisible(false);
               }}
-            >Profile</Text>
-            <Ionicons name="person" size={25}
-              color={navIconColor}
-            />
+            >
+              Profile
+            </Text>
+            <Ionicons name="person" size={25} color={navIconColor} />
           </View>
           <View style={styles.navItem}>
             <Text
