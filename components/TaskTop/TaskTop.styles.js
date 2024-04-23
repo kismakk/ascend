@@ -34,6 +34,7 @@ const getDynamicStyles = (theme) => {
       backgroundColor: COLORS[theme].secondary,
       width: 110,
       height: 110,
+      borderRadius: 10,
     },
     text: {
       color: COLORS[theme].text,

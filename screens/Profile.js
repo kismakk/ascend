@@ -15,7 +15,7 @@ const Profile = ({ navigation }) => {
   const dynamicStyles = getDynamicStyles(theme);
   const [isLoading, setIsLoading] = useState(true);
 
-  const {data, habitPointsData, fetchData} = useFirestore()
+  const { data, habitPointsData, fetchData } = useFirestore()
   const { user } = useFirebaseAuth();
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const Profile = ({ navigation }) => {
     };
     fetchDataAsync();
   }, []);
-  
+
   return (
     <ScrollView>
       <SafeAreaView style={dynamicStyles.container}>
@@ -40,16 +40,16 @@ const Profile = ({ navigation }) => {
           <Text style={dynamicStyles.text}>{user ? user.displayName : 'Loading...'}</Text>
         </View>
         <View style={dynamicStyles.headerPosition}>
-          <Text style={dynamicStyles.text}>Statistics:</Text>
+          <Text style={dynamicStyles.header}>Statistics:</Text>
         </View>
         <View style={dynamicStyles.todochart}>
-          {!isLoading && 
-            <ToDoStat data={data}/>
+          {!isLoading &&
+            <ToDoStat data={data} />
           }
         </View>
         <View style={dynamicStyles.habitchart}>
           {!isLoading &&
-            <HabitStat data={habitPointsData}/>
+            <HabitStat data={habitPointsData} />
           }
         </View>
         <NavModal
@@ -73,14 +73,20 @@ const getDynamicStyles = (theme) => {
     },
     avatarUsername: {
       paddingTop: 50,
-      paddingBottom: 70,
+      paddingBottom: 20,
       alignItems: 'center'
     },
     text: {
-      fontSize: SIZES.medium,
+      fontSize: SIZES.large,
       fontWeight: FONTWEIGHT.bold,
       color: COLORS[theme].text,
       paddingTop: 10
+    },
+    header: {
+      fontSize: SIZES.medium,
+      fontWeight: FONTWEIGHT.bold,
+      color: COLORS[theme].text,
+      paddingTop: 30
     },
     headerPosition: {
       width: '100%',
@@ -91,10 +97,12 @@ const getDynamicStyles = (theme) => {
       backgroundColor: COLORS[theme].secondary,
       width: 150,
       height: 150,
+      borderRadius: 10,
+      overflow: 'hidden',
     },
     todochart: {
       paddingRight: 40,
-      paddingBottom: 20
+      paddingBottom: 40
     },
     habitchart: {
       paddingRight: 40,

@@ -243,6 +243,7 @@ const getDynamicStyles = (theme) => {
       fontSize: SIZES.medium,
       fontWeight: FONTWEIGHT.bold,
       color: COLORS[theme].text,
+      paddingBottom: 10,
     },
     text: {
       fontSize: 14,
@@ -254,6 +255,7 @@ const getDynamicStyles = (theme) => {
       fontWeight: FONTWEIGHT.bold,
       color: 'red',
       marginBottom: 20,
+      paddingTop: 15,
     },
     box: {
       flexDirection: 'row',
@@ -271,6 +273,7 @@ const getDynamicStyles = (theme) => {
     Image: {
       width: 150,
       height: 150,
+      borderRadius: 10,
     },
     danger: {
       backgroundColor: COLORS[theme].primary,
