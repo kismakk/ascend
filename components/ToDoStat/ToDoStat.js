@@ -24,10 +24,10 @@ const ToDoStat = ({ data }) => {
   useEffect(() => {
     const updatedFrame = [...initialStatisticFrame];
     data.forEach(task => {
-      if (task.isDone) {
-        const dueDate = new Date(task.doneDate);
-        if (isSameWeek(dueDate, currentWeek)) {
-          const dayOfWeek = (dueDate.getDay() + 6) % 7;
+      if(task.isDone) {
+        const doneDate = new Date(task.doneDate);
+        if (isSameWeek(doneDate, currentWeek)) {
+          const dayOfWeek = (doneDate.getDay() + 6) % 7;
           const difficultyIndex = ['EASY', 'MEDIUM', 'HARD'].indexOf(task.difficulty);
           updatedFrame[dayOfWeek].stacks[difficultyIndex].value += calculatePoints(task.difficulty);
         }
@@ -38,13 +38,13 @@ const ToDoStat = ({ data }) => {
   }, [data, currentWeek]);
 
   const isSameWeek = (dueDate, current) => {
-    const dueDateWeek = new Date(dueDate);
+    const doneDateWeek = new Date(dueDate);
     const currentWeek = new Date(current);
-    dueDateWeek.setHours(0, 0, 0, 0);
+    doneDateWeek.setHours(0, 0, 0, 0);
     currentWeek.setHours(0, 0, 0, 0);
-    dueDateWeek.setDate(dueDateWeek.getDate() - (dueDateWeek.getDay() + 6) % 7);
-    currentWeek.setDate(currentWeek.getDate() - (currentWeek.getDay() + 6) % 7);
-    if (dueDateWeek.getTime() === currentWeek.getTime()) {
+    doneDateWeek.setDate(doneDateWeek.getDate() - (doneDateWeek.getDay() + 6) % 7); 
+    currentWeek.setDate(currentWeek.getDate() - (currentWeek.getDay() + 6) % 7); 
+    if(doneDateWeek.getTime() === currentWeek.getTime()) {
       return true;
     };
   };
@@ -95,18 +95,14 @@ const ToDoStat = ({ data }) => {
         <Text style={dynamicStyles.text}>Week: {getWeekNumber(currentWeek)}</Text>
         <Button title=">" onPress={handleNextWeek} />
       </View>
-
       <View style={dynamicStyles.text.color}>
-        {!isLoading &&
-          <BarChart
-            width={350}
-            noOfSections={4}
-            stackData={statisticFrame}
-            isAnimated
-            yAxisTextStyle={{ color: dynamicStyles.text.color }}
-            xAxisLabelTextStyle={{ color: dynamicStyles.text.color }}
-          />
-        }
+        <BarChart
+          width={350}
+          noOfSections={4}
+          stackData={statisticFrame}
+          yAxisTextStyle={{ color: dynamicStyles.text.color }}
+          xAxisLabelTextStyle={{ color: dynamicStyles.text.color }}
+        />
       </View>
     </View>
   );
