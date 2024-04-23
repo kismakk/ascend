@@ -111,10 +111,18 @@ const getDynamicStyles = (theme) => {
     },
     todoStatisticButtons: {
       flexDirection: 'row',
-      justifyContent: 'space-between', 
-      alignItems: 'center', 
-      paddingHorizontal: 50, 
-    }
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: 50,
+    },
+    todoStatisticButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: 100,
+      paddingRight: 50,
+
+    },
   });
 }
 

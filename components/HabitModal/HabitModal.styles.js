@@ -115,10 +115,12 @@ const getDynamicStyles = (theme) => {
     },
     habitStatisticButtons: {
       flexDirection: 'row',
-      justifyContent: 'space-between', 
-      alignItems: 'center', 
-      paddingHorizontal: 50, 
-    }
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingHorizontal: 100,
+      paddingRight: 50,
+    },
+
   });
 }
 

@@ -27,6 +27,7 @@ const getDynamicStyles = (theme) => {
       color: COLORS[theme].text,
       fontSize: 25,
       fontWeight: "bold",
+      bottom: 1,
     },
     Neg: {
       color: COLORS[theme].text,

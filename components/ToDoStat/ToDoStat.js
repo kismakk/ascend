@@ -3,6 +3,9 @@ import { View, Button, StyleSheet, Text } from 'react-native';
 import { BarChart } from "react-native-gifted-charts";
 import { useTheme } from '../../hooks/ThemeContext';
 import getDynamicStyles from '../ToDoModal/ToDoModal.styles';
+import { AntDesign } from "@expo/vector-icons";
+import { COLORS } from '../../constants/theme';
+
 
 const ToDoStat = ({ data }) => {
   const { theme } = useTheme();
@@ -10,6 +13,8 @@ const ToDoStat = ({ data }) => {
   const [statisticFrame, setStatisticFrame] = useState('');
   const [currentWeek, setCurrentWeek] = useState(new Date());
   const [isLoading, setIsLoading] = useState(true)
+  const IconColor = COLORS[theme].secondary;
+
 
   const initialStatisticFrame = [
     { stacks: [{ value: 0, color: '#4bb050', marginBottom: 2 }, { value: 0, color: '#eba504', marginBottom: 2 }, { value: 0, color: '#c23f3f', marginBottom: 2 }], label: 'Mon' },
@@ -24,7 +29,7 @@ const ToDoStat = ({ data }) => {
   useEffect(() => {
     const updatedFrame = [...initialStatisticFrame];
     data.forEach(task => {
-      if(task.isDone) {
+      if (task.isDone) {
         const doneDate = new Date(task.doneDate);
         if (isSameWeek(doneDate, currentWeek)) {
           const dayOfWeek = (doneDate.getDay() + 6) % 7;
@@ -42,9 +47,9 @@ const ToDoStat = ({ data }) => {
     const currentWeek = new Date(current);
     doneDateWeek.setHours(0, 0, 0, 0);
     currentWeek.setHours(0, 0, 0, 0);
-    doneDateWeek.setDate(doneDateWeek.getDate() - (doneDateWeek.getDay() + 6) % 7); 
-    currentWeek.setDate(currentWeek.getDate() - (currentWeek.getDay() + 6) % 7); 
-    if(doneDateWeek.getTime() === currentWeek.getTime()) {
+    doneDateWeek.setDate(doneDateWeek.getDate() - (doneDateWeek.getDay() + 6) % 7);
+    currentWeek.setDate(currentWeek.getDate() - (currentWeek.getDay() + 6) % 7);
+    if (doneDateWeek.getTime() === currentWeek.getTime()) {
       return true;
     };
   };
@@ -91,13 +96,13 @@ const ToDoStat = ({ data }) => {
     <View>
       <Text style={[dynamicStyles.text, { paddingLeft: 32, paddingBottom: 10 }]}>ToDo's</Text>
       <View style={dynamicStyles.todoStatisticButtons}>
-        <Button title="<" onPress={handlePreviousWeek} />
+        <AntDesign name="arrowleft" size={28} color={IconColor} onPress={handlePreviousWeek} />
         <Text style={dynamicStyles.text}>Week: {getWeekNumber(currentWeek)}</Text>
-        <Button title=">" onPress={handleNextWeek} />
+        <AntDesign name="arrowright" size={28} color={IconColor} onPress={handleNextWeek} />
       </View>
       <View style={dynamicStyles.text.color}>
         <BarChart
-          width={350}
+          width={320}
           noOfSections={4}
           stackData={statisticFrame}
           yAxisTextStyle={{ color: dynamicStyles.text.color }}
@@ -107,5 +112,6 @@ const ToDoStat = ({ data }) => {
     </View>
   );
 };
+
 
 export default ToDoStat;
