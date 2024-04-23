@@ -23,11 +23,17 @@ const TaskTop = (navigation) => {
   const navIconColor = COLORS[theme].secondary;
   const { user } = useFirebaseAuth();
   const [habitData, setHabitData] = useState([])
+  const [todoData, setTodoData] = useState([])
+
   
   useEffect(() => {
     const user = auth.currentUser;
     const habitsQuery = query(
       collection(firestore, COLLECTION.HABITPOINTS),
+      where('userId', '==', user.uid)
+    );
+    const todosQuery = query(
+      collection(firestore, COLLECTION.TODOS),
       where('userId', '==', user.uid)
     );
     const unsubscribe = onSnapshot(habitsQuery, (querySnapshot) => {
@@ -43,7 +49,23 @@ const TaskTop = (navigation) => {
       const points = calculatePoints(tempHabits);
       setHabitData(points);
     });
-    return unsubscribe;
+    const unsubscribeTodos = onSnapshot(todosQuery, (querySnapshot) => {
+      const tempTodos = [];
+
+      querySnapshot.forEach((doc) => {
+        const todoObject = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        tempTodos.push(todoObject);
+      });
+      const points = calculateTodoPoints(tempTodos);
+      setTodoData(points);
+    });
+    return () => {
+      unsubscribe(),
+      unsubscribeTodos()
+    }
   }, []);
 
   const calculatePoints = (habits) => {
@@ -58,6 +80,17 @@ const TaskTop = (navigation) => {
     })
     return points;
   }
+
+    const calculateTodoPoints = (todos) => {
+      let points = 0;
+
+      todos.forEach((todos) => {
+        if (todos.isDone === true) {
+          points += parseInt(todos.points);
+        }
+      });
+      return points;
+    };
 
   return (
     <View style={styles.base}>
@@ -83,7 +116,7 @@ const TaskTop = (navigation) => {
           </View>
           <View style={styles.stats}>
             <Text style={styles.text}>Habits: {habitData}</Text>
-            <Text style={styles.text}>To Do's:</Text>
+            <Text style={styles.text}>To Do's:{todoData}</Text>
           </View>
         </View>
       </View>
