@@ -13,14 +13,25 @@ const Profile = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { theme } = useTheme();
   const dynamicStyles = getDynamicStyles(theme);
+  const [isLoading, setIsLoading] = useState(true);
+
+  const {data, habitPointsData, fetchData} = useFirestore()
   const { user } = useFirebaseAuth();
 
-  const { data, loading, error, fetchData } = useFirestore();
-
   useEffect(() => {
-    fetchData(COLLECTION.TODOS);
+    const fetchDataAsync = async () => {
+      try {
+        setIsLoading(true);
+        const habitPointsData = await fetchData(COLLECTION.HABITPOINTS);
+        const todosData = await fetchData(COLLECTION.TODOS);
+        setIsLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchDataAsync();
   }, []);
-
+  
   return (
     <ScrollView>
       <SafeAreaView style={dynamicStyles.container}>
@@ -31,9 +42,15 @@ const Profile = ({ navigation }) => {
         <View style={dynamicStyles.headerPosition}>
           <Text style={dynamicStyles.text}>Statistics:</Text>
         </View>
-        <View style={dynamicStyles.todochart}>{data && <ToDoStat data={data} />}</View>
+        <View style={dynamicStyles.todochart}>
+          {!isLoading && 
+            <ToDoStat data={data}/>
+          }
+        </View>
         <View style={dynamicStyles.habitchart}>
-          <HabitStat />
+          {!isLoading &&
+            <HabitStat data={habitPointsData}/>
+          }
         </View>
         <NavModal
           navigation={navigation}

@@ -11,6 +11,7 @@ import {
   where,
   auth,
 } from '../firebase/config';
+import { COLLECTION } from '../constants/collections';
 
 /**
  * Custom hook for interacting with Firestore.
@@ -19,6 +20,7 @@ import {
  */
 export default function useFirestore() {
   const [data, setData] = useState([]);
+  const [habitPointsData, setHabitPointsData] = useState([]);
   const [dbError, setDbError] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -61,8 +63,11 @@ export default function useFirestore() {
         id: doc.id,
         ...doc.data(),
       }));
-
-      setData(newData);
+      if(collectionName === COLLECTION.HABITPOINTS) {
+        setHabitPointsData(newData);
+      } else {
+        setData(newData);
+      }
     } catch (error) {
       console.error(error);
       setDbError(error.message);
@@ -155,5 +160,5 @@ export default function useFirestore() {
     }
   };
 
-  return { data, loading, dbError, fetchData, addData, updateData, deleteData };
+  return { data, habitPointsData, loading, dbError, fetchData, addData, updateData, deleteData };
 }
