@@ -70,12 +70,17 @@ const TaskTop = (navigation) => {
 
   const calculatePoints = (habits) => {
     let points = 0;
+    const today = new Date();
 
-    habits.forEach(habits => {
-      if (habits.isBad === false) {
-        points += parseInt(habits.points)
-      } else {
-        points -= parseInt(habits.points)
+    habits.forEach(habit => {
+      const habitDate = new Date(habit.date)
+
+      if (habitDate.getDate() === today.getDate()) {
+        if (habit.isBad === false) {
+          points += parseInt(habit.points);
+        } else {
+          points -= parseInt(habit.points);
+        }
       }
     })
     return points;
