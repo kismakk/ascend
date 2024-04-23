@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, Button, Image, TouchableOpacity } from "react-native";
 import { COLORS } from "../../constants/theme";
 import { useTheme } from "../../hooks/ThemeContext";
@@ -6,6 +6,15 @@ import getDynamicStyles from './TaskTop.styles';
 import NavModal from "../NavModal/NavModal";
 import { FontAwesome } from '@expo/vector-icons';
 import useFirebaseAuth from '../../hooks/useFirebaseAuth';
+import { COLLECTION } from "../../constants/collections";
+import {
+  auth,
+  collection,
+  firestore,
+  onSnapshot,
+  query,
+  where,
+} from '../../firebase/config'
 
 const TaskTop = (navigation) => {
   const { theme } = useTheme();
@@ -13,6 +22,42 @@ const TaskTop = (navigation) => {
   const [modalVisible, setModalVisible] = useState(false);
   const navIconColor = COLORS[theme].secondary;
   const { user } = useFirebaseAuth();
+  const [habitData, setHabitData] = useState([])
+  
+  useEffect(() => {
+    const user = auth.currentUser;
+    const habitsQuery = query(
+      collection(firestore, COLLECTION.HABITPOINTS),
+      where('userId', '==', user.uid)
+    );
+    const unsubscribe = onSnapshot(habitsQuery, (querySnapshot) => {
+      const tempHabits = [];
+
+      querySnapshot.forEach((doc) => {
+        const habitObject = {
+          id: doc.id,
+          ...doc.data(),
+        };
+        tempHabits.push(habitObject);
+      });
+      const points = calculatePoints(tempHabits);
+      setHabitData(points);
+    });
+    return unsubscribe;
+  }, []);
+
+  const calculatePoints = (habits) => {
+    let points = 0;
+
+    habits.forEach(habits => {
+      if (habits.isBad === false) {
+        points += parseInt(habits.points)
+      } else {
+        points -= parseInt(habits.points)
+      }
+    })
+    return points;
+  }
 
   return (
     <View style={styles.base}>
@@ -34,10 +79,10 @@ const TaskTop = (navigation) => {
         <Image source={Number(user?.photoURL)} style={styles.image} />
         <View style={styles.textContainer}>
           <View style={styles.header}>
-            <Text style={styles.text}>THIS WEEK</Text>
+            <Text style={styles.text}>TODAY</Text>
           </View>
           <View style={styles.stats}>
-            <Text style={styles.text}>Habits:</Text>
+            <Text style={styles.text}>Habits: {habitData}</Text>
             <Text style={styles.text}>To Do's:</Text>
           </View>
         </View>
