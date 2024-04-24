@@ -13,10 +13,20 @@ import {
 } from '../firebase/config';
 import { COLLECTION } from '../constants/collections';
 
+
 /**
  * Custom hook for interacting with Firestore.
- *
- * @returns {object} - An object containing the data, loading state, error, and functions for fetching and adding documents.
+ * 
+ * @returns {{
+ *  data: Array,
+ *  habitPointsData: Array,
+ *  loading: boolean,
+ *  dbError: string | null,
+ *  fetchData: (collectionName: string) => void,
+ *  addData: (collectionName: string, data: Object) => void,
+ *  updateData: (collectionName: string, data: Object, documentId: string) => void,
+ *  deleteData: (collectionName: string, documentId: string) => void
+ * }}
  */
 export default function useFirestore() {
   const [data, setData] = useState([]);
