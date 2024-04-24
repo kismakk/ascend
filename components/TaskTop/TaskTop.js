@@ -124,7 +124,7 @@ const TaskTop = (navigation) => {
           </View>
           <View style={styles.stats}>
             <Text style={styles.text}>Habits: {habitData}</Text>
-            <Text style={styles.text}>To Do's:{todoData}</Text>
+            <Text style={styles.text}>To Do's: {todoData}</Text>
           </View>
         </View>
       </View>
