@@ -88,9 +88,12 @@ const TaskTop = (navigation) => {
 
     const calculateTodoPoints = (todos) => {
       let points = 0;
+      const today = new Date();
+
 
       todos.forEach((todos) => {
-        if (todos.isDone === true) {
+        const todoDate = new Date(todos.doneDate)
+        if (todos.isDone === true && today.getDate() === todoDate.getDate()) {
           points += parseInt(todos.points);
         }
       });
