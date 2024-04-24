@@ -3,6 +3,8 @@ import { View, Text, Button } from 'react-native';
 import { BarChart } from "react-native-gifted-charts";
 import { useTheme } from '../../hooks/ThemeContext';
 import getDynamicStyles from '../HabitModal/HabitModal.styles';
+import { AntDesign } from "@expo/vector-icons";
+import { COLORS } from '../../constants/theme';
 
 const HabitStat = ({ data }) => {
   const { theme } = useTheme();
@@ -11,15 +13,17 @@ const HabitStat = ({ data }) => {
   const [statisticFrame, setStatisticFrame] = useState(initialStatisticFrame);
   const [isLoading, setIsLoading] = useState(true)
   const [maxValue, setMaxValue] = useState(0);
-  
+  const IconColor = COLORS[theme].secondary;
+
+
   const initialStatisticFrame = [
-      {value: 0, label: 'Mon'},
-      {value: 0, label: 'Tue'},
-      {value: 0, label: 'Wed'},
-      {value: 0, label: 'Thu'},
-      {value: 0, label: 'Fri'},
-      {value: 0, label: 'Sat'},
-      {value: 0, label: 'Sun'},
+    { value: 0, label: 'Mon' },
+    { value: 0, label: 'Tue' },
+    { value: 0, label: 'Wed' },
+    { value: 0, label: 'Thu' },
+    { value: 0, label: 'Fri' },
+    { value: 0, label: 'Sat' },
+    { value: 0, label: 'Sun' },
   ];
 
   useEffect(() => {
@@ -50,7 +54,7 @@ const HabitStat = ({ data }) => {
       setIsLoading(false);
     }
   }, [currentWeek]);
-  
+
   const calculateMaxValue = (frame) => {
     let maxValue = 0;
     frame.forEach((habit) => {
@@ -58,7 +62,7 @@ const HabitStat = ({ data }) => {
         maxValue = habit.value;
       }
     });
-    if(maxValue === 0) {
+    if (maxValue === 0) {
       return 10;
     };
     return maxValue;
@@ -71,7 +75,7 @@ const HabitStat = ({ data }) => {
         mostNegativeValue = habit.value;
       }
     });
-    if(mostNegativeValue === 0) {
+    if (mostNegativeValue === 0) {
       return -10;
     }
     return mostNegativeValue;
@@ -82,13 +86,13 @@ const HabitStat = ({ data }) => {
     const currentWeek = new Date(current);
     habitDateWeek.setHours(0, 0, 0, 0);
     currentWeek.setHours(0, 0, 0, 0);
-    habitDateWeek.setDate(habitDateWeek.getDate() - (habitDateWeek.getDay() + 6) % 7); 
-    currentWeek.setDate(currentWeek.getDate() - (currentWeek.getDay() + 6) % 7); 
-    if(habitDateWeek.getTime() === currentWeek.getTime()) {
+    habitDateWeek.setDate(habitDateWeek.getDate() - (habitDateWeek.getDay() + 6) % 7);
+    currentWeek.setDate(currentWeek.getDate() - (currentWeek.getDay() + 6) % 7);
+    if (habitDateWeek.getTime() === currentWeek.getTime()) {
       return true;
     };
   };
-  
+
   const calculatePoints = (task) => {
     let points = parseInt(task.points);
     if (task.isBad) {
@@ -96,7 +100,7 @@ const HabitStat = ({ data }) => {
     }
     return points;
   };
-  
+
   const handlePreviousWeek = () => {
     setIsLoading(true);
     setCurrentWeek(prevWeek => {
@@ -125,40 +129,40 @@ const HabitStat = ({ data }) => {
 
   return (
     <View>
-      <Text style={[dynamicStyles.text, {paddingLeft: 32, paddingBottom: 10}]}>Habits:</Text>
+      <Text style={[dynamicStyles.text, { paddingLeft: 32, paddingBottom: 10 }]}>Habits:</Text>
       <View style={dynamicStyles.habitStatisticButtons}>
-        <Button title="<" onPress={handlePreviousWeek} />
+        <AntDesign name="arrowleft" size={28} color={IconColor} onPress={handlePreviousWeek} />
         <Text style={dynamicStyles.text}>Week: {getWeekNumber(currentWeek)}</Text>
-        <Button title=">" onPress={handleNextWeek} />
+        <AntDesign name="arrowright" size={28} color={IconColor} onPress={handleNextWeek} />
       </View>
-       {!isLoading && data.length > 0 ? (
-        <BarChart 
+      {!isLoading && data.length > 0 ? (
+        <BarChart
           data={statisticFrame}
           frontColor={'#0066CC'}
-          width={350}
+          width={320}
           height={120}
           maxValue={maxValue}
-          autoShiftLabels 
+          autoShiftLabels
           noOfSections={4}
           noOfSectionsBelowXAxis={4}
-          yAxisTextStyle={{color: dynamicStyles.text.color}}
-          xAxisLabelTextStyle={{color: dynamicStyles.text.color}}
-        /> 
-       ) : (
-        <BarChart 
+          yAxisTextStyle={{ color: dynamicStyles.text.color }}
+          xAxisLabelTextStyle={{ color: dynamicStyles.text.color }}
+        />
+      ) : (
+        <BarChart
           frontColor={'#0066CC'}
           width={350}
           height={120}
           maxValue={10}
           data={0}
-          autoShiftLabels 
+          autoShiftLabels
           mostNegativeValue={-10}
           noOfSections={4}
-          yAxisTextStyle={{color: dynamicStyles.text.color}}
-          xAxisLabelTextStyle={{color: dynamicStyles.text.color}}
-        /> 
-       )
-      }  
+          yAxisTextStyle={{ color: dynamicStyles.text.color }}
+          xAxisLabelTextStyle={{ color: dynamicStyles.text.color }}
+        />
+      )
+      }
     </View>
   );
 };

@@ -34,6 +34,7 @@ const getDynamicStyles = (theme) => {
       width: 110,
       height: 110,
       backgroundColor: COLORS[theme].secondary,
+      borderRadius: 10,
     },
     username: {
       color: COLORS[theme].text,

@@ -163,6 +163,7 @@ export default function useFirebaseAuth() {
       })
       .catch((error) => {
         handleError(error.code);
+        console.log('Profile updated non-succesfully');
         setLoading(false);
       });
   };
