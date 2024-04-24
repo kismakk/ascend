@@ -19,18 +19,19 @@ import {
  * @property {function} getIdToken - Returns a JWT token used to identify the user to a Firebase service (async).
  */
 
+
 /**
- * A custom React hook for handling user authentication using Firebase.
- * Provides functions for signing in, signing up, and signing out,
- * as well as the current user state and any authentication errors.
- *
+ * Custom hook for handling Firebase authentication.
  * @returns {{
- *   user: FirebaseUser | null, // The current authenticated user, or null if no user is authenticated.
- *   error: string | null,        // Any authentication error message, or null if no error occurred.
- *   signIn: (email: string, password: string) => void, // Function to sign in a user with email and password.
- *   signUp: (email: string, password: string) => void, // Function to sign up a user with email and password.
- *   signOut: () => void           // Function to sign out the current user.
- * }}
+ *   user: FirebaseUser | null,
+ *   authError: string | null,
+ *   loading: boolean,
+ *   signIn: (email: string, password: string) => void,
+ *   signOut: () => void,
+ *   signUp: (email: string, password: string) => void,
+ *   deleteUserData: () => void,
+ *   updateUserInformation: (data: { username?: string, avatarUrl?: string }) => void
+ * }} The user authentication state and related functions.
  */
 export default function useFirebaseAuth() {
   const [user, setUser] = useState(null);
@@ -59,8 +60,9 @@ export default function useFirebaseAuth() {
   };
 
   /**
-   * Sets the error state with the provided error message.
-   * @param {string | null} error The error message to set in the state, or null to clear the error state.
+   * Handles the error returned by Firebase authentication.
+   *
+   * @param {string} error - The error code returned by Firebase authentication.
    */
   const handleError = (error) => {
     let errorMessage = '';
@@ -118,9 +120,12 @@ export default function useFirebaseAuth() {
   };
 
   /**
-   * Signs up a new user with the provided email and password.
-   * @param {string} email The user's email.
-   * @param {string} password The user's password.
+   * Sign up a new user with the provided email and password.
+   * When creating a new user, the start of the email address is used as a username
+   *
+   * @param {string} email - The email of the user.
+   * @param {string} password - The password of the user.
+   *
    */
   const signUp = (email, password) => {
     clearError();
@@ -148,6 +153,13 @@ export default function useFirebaseAuth() {
       .catch((error) => handleError(error.code));
   };
 
+  /**
+   * Updates the user information with the provided data.
+   *
+   * @param {Object} data - The data containing the user information to update.
+   * @param {string} data.username - The new username for the user.
+   * @param {string} data.avatarUrl - The new avatar URL for the user.
+   */
   const updateUserInformation = (data) => {
     clearError();
     setLoading(true);
@@ -168,16 +180,21 @@ export default function useFirebaseAuth() {
       });
   };
 
+  /**
+   * Deletes the user.
+   */
   const deleteUserData = () => {
     const user = auth.currentUser;
 
     deleteUser(user)
       .then(() => {
-        // User deleted.
+        console.log('User deleted succesfully');
+        setLoading(false);
       })
       .catch((error) => {
-        // An error ocurred
-        // ...
+        handleError(error.code);
+        console.log(`Error deleting user ${user.displayName}`);
+        setLoading(false);
       });
   };
 
