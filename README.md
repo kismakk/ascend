@@ -13,7 +13,10 @@
 
 ## Introduction
 
-Ascend is an React-Native application for tracking your tasks and daily habits all in one place with a clean UI. 
+Ascend is an React-Native application for tracking your tasks and daily habits all in one place with a clean UI.
+
+> [!NOTE]
+> [Link to demo video](https://www.youtube.com/watch?v=Wachvq6RUcQ)
 
 ## Features
 * Task and Habit Tracking: Add, modify and manage both positive and negative habits that need daily tracking, or add tasks with specific due dates.
